@@ -17,6 +17,14 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     use DateTrait;
+
+    const MAN = 'man';
+    const WOMAN = 'woman';
+
+    const SEXS = [
+        self::MAN => 'man',
+        self::WOMAN => 'woman',
+    ];
     const ROLE_USER = 'ROLE_USER';
     const ROLE_ADMIN = 'ROLE_ADMIN';
 
@@ -63,6 +71,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $status = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $sex = null;
 
     public function getId(): ?int
     {
@@ -182,8 +193,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getInformations(): array
+    public function getSex(): ?string
     {
+        return $this->sex;
+    }
 
+    public function setSex(string $sex): self
+    {
+        $this->sex = $sex;
+
+        return $this;
+    }
+
+    public function getData(): array
+    {
+        return [
+            "firstname" => $this->firstname,
+            "lastname" => $this->lastname,
+            "sex" => $this->sex,
+            "phoneNumber" => $this->phonenumber,
+            "email" => $this->email,
+            "roles" => $this->roles
+        ];
     }
 }

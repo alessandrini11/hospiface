@@ -13,8 +13,8 @@ class ApiController extends AbstractController
 {
     public function response(
         $data = null,
-        bool $success = true,
         int $status = 200,
+        bool $success = true,
         ?ApiException $exception = null
     ): JsonResponse
     {
