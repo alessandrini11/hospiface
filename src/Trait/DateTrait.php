@@ -7,10 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 trait DateTrait
 {
     #[ORM\Column(nullable: true)]
-    private ?DateTimeInterface $createdAt;
+    private ?\DateTime $createdAt;
 
     #[ORM\Column(nullable: true)]
-    private ?DateTimeInterface $updatedAt;
+    private ?\DateTime $updatedAt;
 
     /**
      * Get the date of creation
