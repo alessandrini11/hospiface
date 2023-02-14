@@ -12,6 +12,8 @@ class UserResponse
     public ?string $email;
     public ?string $sex;
     public ?string $password;
+    public ?array $roles;
+    public ?string $status;
 
     public function __construct(User $user)
     {
@@ -21,6 +23,8 @@ class UserResponse
         $this->email = $user->getEmail();
         $this->sex = $user->getSex();
         $this->password = $user->getPassword();
+        $this->roles = $user->getRoles();
+        $this->status = $user->getStatus();
 
     }
 }

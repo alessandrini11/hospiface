@@ -15,8 +15,8 @@ class ErrorController extends ApiController
         {
             return $this->response(
                 null,
-                false,
                 $exception->getStatusCode(),
+                false,
                 $exception
             );
         }
@@ -25,15 +25,15 @@ class ErrorController extends ApiController
         {
             return $this->response(
                 null,
-                false,
                 $exception->getStatusCode(),
+                false,
                 new ApiException($exception->getStatusCode(), $exception->getMessage())
             );
         }
         return $this->response(
             null,
-            false,
             Response::HTTP_INTERNAL_SERVER_ERROR,
+            false,
             new ApiException()
         );
     }

@@ -208,6 +208,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getData(): array
     {
         return [
+            "id" => $this->getId(),
             "firstname" => $this->firstname,
             "lastname" => $this->lastname,
             "sex" => $this->sex,
