@@ -13,7 +13,7 @@ class UserResponse
     public ?string $sex;
     public ?string $password;
     public ?array $roles;
-    public ?string $status;
+    public ?int $status;
 
     public function __construct(User $user)
     {
@@ -24,7 +24,7 @@ class UserResponse
         $this->sex = $user->getSex();
         $this->password = $user->getPassword();
         $this->roles = $user->getRoles();
-        $this->status = $user->getStatus();
+        $this->status = (int)$user->getStatus();
 
     }
 }

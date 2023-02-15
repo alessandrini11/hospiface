@@ -214,7 +214,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             "sex" => $this->sex,
             "phoneNumber" => $this->phonenumber,
             "email" => $this->email,
-            "roles" => $this->roles
+            "roles" => $this->roles,
+            "status" => (int)$this->status
         ];
     }
 }

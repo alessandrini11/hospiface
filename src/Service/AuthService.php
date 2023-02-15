@@ -2,11 +2,12 @@
 
 namespace App\Service;
 
+use App\DTO\UpdatePasswordRequest;
 use App\DTO\UserRequest;
 use App\DTO\UserResponse;
 use App\Entity\User;
 
-class RegistrationService
+class AuthService
 {
     private UserService $userService;
     public function __construct(
@@ -18,6 +19,10 @@ class RegistrationService
 
     public function register(UserRequest $userRequest): UserResponse
     {
+
         return $this->userService->create($userRequest);
     }
+
+
+
 }

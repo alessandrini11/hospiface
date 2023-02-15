@@ -2,10 +2,13 @@
 
 namespace App\Service;
 
+use App\DTO\UpdatePasswordRequest;
 use App\DTO\UserRequest;
 use App\DTO\UserResponse;
 use App\Entity\User;
 use App\Exceptions\NotFoundException;
+use App\Exceptions\OldPasswordAndNewPasswordNotMatchException;
+use App\Exceptions\PasswordNotMatchException;
 use App\Repository\UserRepository;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -25,8 +28,6 @@ class UserService
     public function create(UserRequest $userRequest): UserResponse
     {
         $user = $this->setFields($userRequest, new User());
-        $user->setRoles([User::ROLE_USER]);
-        $user->setStatus(User::STATUS_ENABLED);
         $this->userRepository->save($user, true);
         return new UserResponse($user);
     }
@@ -38,6 +39,21 @@ class UserService
         return new UserResponse($userUpdate);
     }
 
+    public function resetPassword(User $user, string $password): void
+    {
+        $this->userRepository->upgradePassword($user, $password);
+    }
+    public function updatePassword(UpdatePasswordRequest $updatePasswordRequest, User $user): void
+    {
+        if($updatePasswordRequest->newPassword !== $updatePasswordRequest->repeatedPassword){
+            throw new PasswordNotMatchException();
+        }
+        $isEqual = $this->hasher->isPasswordValid($user, $updatePasswordRequest->oldPassword);
+        if(!$isEqual){
+            throw new OldPasswordAndNewPasswordNotMatchException();
+        }
+        $this->userRepository->upgradePassword($user, $updatePasswordRequest->newPassword);
+    }
     public function delete(int $id): void
     {
         $user = $this->findOrFail($id);
@@ -74,7 +90,12 @@ class UserService
         if($userRequest->phonenumber){
             $user->setPhonenumber($userRequest->phonenumber);
         }
-
+        if($userRequest->status){
+            $user->setStatus($userRequest->status);
+        }
+        if($userRequest->roles){
+            $user->setRoles($userRequest->roles);
+        }
         return $user;
     }
 }

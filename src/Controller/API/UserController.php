@@ -8,6 +8,7 @@ use App\Repository\UserRepository;
 use App\Service\UserService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -59,6 +60,6 @@ class UserController extends ApiController
     public function delete($id): JsonResponse
     {
         $this->userService->delete($id);
-        return $this->response();
+        return $this->response(null, Response::HTTP_NO_CONTENT);
     }
 }
