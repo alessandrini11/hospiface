@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
+#[Route("/api/auth/")]
 class AuthController extends ApiController
 {
     public function __construct(
@@ -22,7 +23,12 @@ class AuthController extends ApiController
     {
     }
 
-    #[Route('/api/auth/register', name: 'api_auth_register', methods: 'POST')]
+    #[Route('login', 'api_login', methods: 'POST')]
+    public function login(): void
+    {
+
+    }
+    #[Route('register', name: 'api_auth_register', methods: 'POST')]
     public function register(Request $request, ValidatorInterface $validator): JsonResponse
     {
         $userRequest = new UserRequest($request);
@@ -32,7 +38,7 @@ class AuthController extends ApiController
         return $this->response($userResponse , Response::HTTP_CREATED);
     }
 
-    #[Route('/api/auth/update-password', name: 'api_auth_update_password', methods: 'PUT')]
+    #[Route('update-password', name: 'api_auth_update_password', methods: 'PUT')]
     public function updatePassword(Request $request, ValidatorInterface $validator): JsonResponse
     {
         $updatePasswordRequest = new UpdatePasswordRequest($request);
@@ -42,16 +48,16 @@ class AuthController extends ApiController
         return $this->response();
     }
 
-    #[Route('/api/auth/forget-password', name: 'api_auth_forget_password', methods: 'PUT')]
+    #[Route('forget-password', name: 'api_auth_forget_password', methods: 'PUT')]
     public function forgetPassword(Request $request, ValidatorInterface $validator): JsonResponse
     {
         $userBasicRequest = new UserBasicRequest($request);
         $validationError = $validator->validate($userBasicRequest);
         $this->checkValidationError($validationError);
         $this->userService->resetPassword($this->getUser(), $request->get('password'));
-        // TODO: implements forget password according to the use case
+        return $this->response(['message' => 'password updated']);
     }
-    #[Route('/api/auth/update', name: 'api_auth_update', methods: 'PATCH')]
+    #[Route('update', name: 'api_auth_update', methods: 'PATCH')]
     public function update(Request $request, ValidatorInterface $validator): JsonResponse
     {
         $userRequest = new UserRequest($request);
@@ -60,4 +66,7 @@ class AuthController extends ApiController
         $userResponse = $this->userService->update($userRequest, $this->getUser());
         return $this->response($userResponse);
     }
+    #[Route('logout', name: 'api_logout', methods: 'GET')]
+    public function logout(): void {}
+
 }
