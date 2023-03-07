@@ -16,18 +16,17 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 #[Route("/api/auth/")]
 class AuthController extends ApiController
 {
+    private AuthService $authService;
+    private UserService $userService;
     public function __construct(
-        private AuthService $authService,
-        private UserService $userService
+        AuthService $authService,
+        UserService $userService,
     )
     {
+        $this->authService = $authService;
+        $this->userService = $userService;
     }
 
-    #[Route('login', 'api_login', methods: 'POST')]
-    public function login(): void
-    {
-
-    }
     #[Route('register', name: 'api_auth_register', methods: 'POST')]
     public function register(Request $request, ValidatorInterface $validator): JsonResponse
     {
@@ -57,6 +56,7 @@ class AuthController extends ApiController
         $this->userService->resetPassword($this->getUser(), $request->get('password'));
         return $this->response(['message' => 'password updated']);
     }
+
     #[Route('update', name: 'api_auth_update', methods: 'PATCH')]
     public function update(Request $request, ValidatorInterface $validator): JsonResponse
     {
@@ -66,7 +66,11 @@ class AuthController extends ApiController
         $userResponse = $this->userService->update($userRequest, $this->getUser());
         return $this->response($userResponse);
     }
-    #[Route('logout', name: 'api_logout', methods: 'GET')]
-    public function logout(): void {}
+
+    #[Route(path: '/logout', name: 'api_logout')]
+    public function logout(): JsonResponse
+    {
+        return $this->response(['message' => 'logout']);
+    }
 
 }
