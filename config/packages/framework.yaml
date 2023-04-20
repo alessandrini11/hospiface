@@ -18,7 +18,8 @@ framework:
     php_errors:
         log: true
     error_controller: App\Controller\API\ErrorController::show
-
+    serializer:
+        circular_reference_handler: App\Serializer\CircularReferenceHandler
 when@test:
     framework:
         test: true

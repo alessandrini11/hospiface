@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use App\Trait\DateTrait;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -74,6 +76,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     private ?string $sex = null;
+
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Personnel::class)]
+    private Collection $createdPersonnels;
+
+    #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: Personnel::class)]
+    private Collection $updatedPersonnels;
+
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Speciality::class)]
+    private Collection $createdSpecialities;
+
+    #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: Speciality::class)]
+    private Collection $updatedSpecialities;
+
+    public function __construct()
+    {
+        $this->createdPersonnels = new ArrayCollection();
+        $this->updatedPersonnels = new ArrayCollection();
+        $this->createdSpecialities = new ArrayCollection();
+        $this->updatedSpecialities = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -217,5 +239,125 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             "roles" => $this->roles,
             "status" => (int)$this->status
         ];
+    }
+
+    /**
+     * @return Collection<int, Personnel>
+     */
+    public function getCreatedPersonnels(): Collection
+    {
+        return $this->createdPersonnels;
+    }
+
+    public function addCreatedPersonnel(Personnel $createdPersonnel): self
+    {
+        if (!$this->createdPersonnels->contains($createdPersonnel)) {
+            $this->createdPersonnels->add($createdPersonnel);
+            $createdPersonnel->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreatedPersonnel(Personnel $createdPersonnel): self
+    {
+        if ($this->createdPersonnels->removeElement($createdPersonnel)) {
+            // set the owning side to null (unless already changed)
+            if ($createdPersonnel->getCreatedBy() === $this) {
+                $createdPersonnel->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Personnel>
+     */
+    public function getUpdatedPersonnels(): Collection
+    {
+        return $this->updatedPersonnels;
+    }
+
+    public function addUpdatedPersonnel(Personnel $updatedPersonnel): self
+    {
+        if (!$this->updatedPersonnels->contains($updatedPersonnel)) {
+            $this->updatedPersonnels->add($updatedPersonnel);
+            $updatedPersonnel->setUpdatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUpdatedPersonnel(Personnel $updatedPersonnel): self
+    {
+        if ($this->updatedPersonnels->removeElement($updatedPersonnel)) {
+            // set the owning side to null (unless already changed)
+            if ($updatedPersonnel->getUpdatedBy() === $this) {
+                $updatedPersonnel->setUpdatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Speciality>
+     */
+    public function getCreatedSpecialities(): Collection
+    {
+        return $this->createdSpecialities;
+    }
+
+    public function addCreatedSpeciality(Speciality $createdSpeciality): self
+    {
+        if (!$this->createdSpecialities->contains($createdSpeciality)) {
+            $this->createdSpecialities->add($createdSpeciality);
+            $createdSpeciality->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreatedSpeciality(Speciality $createdSpeciality): self
+    {
+        if ($this->createdSpecialities->removeElement($createdSpeciality)) {
+            // set the owning side to null (unless already changed)
+            if ($createdSpeciality->getCreatedBy() === $this) {
+                $createdSpeciality->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Speciality>
+     */
+    public function getUpdatedSpecialities(): Collection
+    {
+        return $this->updatedSpecialities;
+    }
+
+    public function addUpdatedSpeciality(Speciality $updatedSpeciality): self
+    {
+        if (!$this->updatedSpecialities->contains($updatedSpeciality)) {
+            $this->updatedSpecialities->add($updatedSpeciality);
+            $updatedSpeciality->setUpdatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUpdatedSpeciality(Speciality $updatedSpeciality): self
+    {
+        if ($this->updatedSpecialities->removeElement($updatedSpeciality)) {
+            // set the owning side to null (unless already changed)
+            if ($updatedSpeciality->getUpdatedBy() === $this) {
+                $updatedSpeciality->setUpdatedBy(null);
+            }
+        }
+
+        return $this;
     }
 }
