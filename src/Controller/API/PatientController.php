@@ -7,6 +7,7 @@ use App\Repository\PatientRepository;
 use App\Service\PatientService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -26,7 +27,7 @@ class PatientController extends ApiController
         $validationError = $validator->validate($patientRequest);
         $this->checkValidationError($validationError);
         $patientResponse = $this->patientService->create($patientRequest, $this->getUser());
-        return $this->response($patientResponse);
+        return $this->response($patientResponse, Response::HTTP_CREATED);
     }
 
     #[Route('', name: 'api_get_all_patients', methods: 'GET')]
@@ -34,5 +35,12 @@ class PatientController extends ApiController
     {
         $patients = $patientRepository->findAll();
         return $this->response($patients);
+    }
+
+    #[Route('/{id}', name: 'api_get_one_patients', methods: 'GET')]
+    public function getOne(int $id,PatientRepository $patientRepository): JsonResponse
+    {
+        $patient = $this->patientService->findOrFail($id);
+        return $this->response($patient);
     }
 }
