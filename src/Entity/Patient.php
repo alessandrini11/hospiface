@@ -16,7 +16,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 #[ORM\Entity(repositoryClass: PatientRepository::class)]
 #[UniqueEntity(['email'], 'this email is already taken')]
 #[HasLifecycleCallbacks]
-class Patient implements EntityInterface
+class Patient
 {
     use PersonTrait;
     use DateTrait;
@@ -62,10 +62,10 @@ class Patient implements EntityInterface
     #[ORM\ManyToOne(inversedBy: 'updatedPatients')]
     private ?User $updatedBy = null;
 
-    #[ORM\OneToMany(mappedBy: 'patient', targetEntity: Consultation::class)]
+    #[ORM\OneToMany(mappedBy: 'patient', targetEntity: Consultation::class, fetch: 'EAGER')]
     private Collection $consultations;
 
-    #[ORM\OneToMany(mappedBy: 'patient', targetEntity: Hospitilization::class)]
+    #[ORM\OneToMany(mappedBy: 'patient', targetEntity: Hospitilization::class, fetch: 'EAGER')]
     private Collection $hospitilizations;
 
     public function __construct()
@@ -223,18 +223,18 @@ class Patient implements EntityInterface
         return $this;
     }
 
-    public function getData(): array
-    {
-        return [
-            'firstName' => $this->firstname,
-            'lastName' => $this->lastname,
-            'email' => $this->email,
-            'sex' => $this->sex,
-            'status' => $this->status,
-            'emergencyPerson' => $this->emergencyPersonne,
-            'emergencyContact' => $this->emergencyContact,
-            'bloodGroup' => $this->bloodGroup,
-            'birthDate' => $this->birthDate
-        ];
-    }
+//    public function getData(): array
+//    {
+//        return [
+//            'firstName' => $this->firstname,
+//            'lastName' => $this->lastname,
+//            'email' => $this->email,
+//            'sex' => $this->sex,
+//            'status' => $this->status,
+//            'emergencyPerson' => $this->emergencyPersonne,
+//            'emergencyContact' => $this->emergencyContact,
+//            'bloodGroup' => $this->bloodGroup,
+//            'birthDate' => $this->birthDate
+//        ];
+//    }
 }

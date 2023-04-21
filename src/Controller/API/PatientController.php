@@ -3,6 +3,7 @@
 namespace App\Controller\API;
 
 use App\DTO\PatientRequest;
+use App\Repository\PatientRepository;
 use App\Service\PatientService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,5 +27,12 @@ class PatientController extends ApiController
         $this->checkValidationError($validationError);
         $patientResponse = $this->patientService->create($patientRequest, $this->getUser());
         return $this->response($patientResponse);
+    }
+
+    #[Route('', name: 'api_get_all_patients', methods: 'GET')]
+    public function getAll(PatientRepository $patientRepository): JsonResponse
+    {
+        $patients = $patientRepository->findAll();
+        return $this->response($patients);
     }
 }
