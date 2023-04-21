@@ -89,12 +89,92 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: Speciality::class)]
     private Collection $updatedSpecialities;
 
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Patient::class)]
+    private Collection $createdPatients;
+
+    #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: Patient::class)]
+    private Collection $updatedPatients;
+
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Service::class)]
+    private Collection $createdServices;
+
+    #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: Service::class)]
+    private Collection $updatedServices;
+
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Parametre::class)]
+    private Collection $createdParameters;
+
+    #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: Parametre::class)]
+    private Collection $updatedParameters;
+
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Result::class)]
+    private Collection $createdResults;
+
+    #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: Result::class)]
+    private Collection $updatedResults;
+
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: MedicalOrder::class)]
+    private Collection $createdMedicalOrders;
+
+    #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: MedicalOrder::class)]
+    private Collection $updatedMedicalOrders;
+
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Drug::class)]
+    private Collection $createdDrugs;
+
+    #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: Drug::class)]
+    private Collection $updatedDrugs;
+
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: MedicalExams::class)]
+    private Collection $createdMedicalExams;
+
+    #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: MedicalExams::class)]
+    private Collection $updatedMedicalExams;
+
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Room::class)]
+    private Collection $createdRooms;
+
+    #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: Room::class)]
+    private Collection $updatedRooms;
+
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Hospitilization::class)]
+    private Collection $createdHospitilizations;
+
+    #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: Hospitilization::class)]
+    private Collection $updatedHospitilizations;
+
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: ConfigDesign::class)]
+    private Collection $createdConfigDesigns;
+
+    #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: ConfigDesign::class)]
+    private Collection $updatedConfigDesigns;
+
     public function __construct()
     {
         $this->createdPersonnels = new ArrayCollection();
         $this->updatedPersonnels = new ArrayCollection();
         $this->createdSpecialities = new ArrayCollection();
         $this->updatedSpecialities = new ArrayCollection();
+        $this->createdPatients = new ArrayCollection();
+        $this->updatedPatients = new ArrayCollection();
+        $this->createdServices = new ArrayCollection();
+        $this->updatedServices = new ArrayCollection();
+        $this->createdParameters = new ArrayCollection();
+        $this->updatedParameters = new ArrayCollection();
+        $this->createdResults = new ArrayCollection();
+        $this->updatedResults = new ArrayCollection();
+        $this->createdMedicalOrders = new ArrayCollection();
+        $this->updatedMedicalOrders = new ArrayCollection();
+        $this->createdDrugs = new ArrayCollection();
+        $this->updatedDrugs = new ArrayCollection();
+        $this->createdMedicalExams = new ArrayCollection();
+        $this->updatedMedicalExams = new ArrayCollection();
+        $this->createdRooms = new ArrayCollection();
+        $this->updatedRooms = new ArrayCollection();
+        $this->createdHospitilizations = new ArrayCollection();
+        $this->updatedHospitilizations = new ArrayCollection();
+        $this->createdConfigDesigns = new ArrayCollection();
+        $this->updatedConfigDesigns = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -355,6 +435,606 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($updatedSpeciality->getUpdatedBy() === $this) {
                 $updatedSpeciality->setUpdatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Patient>
+     */
+    public function getCreatedPatients(): Collection
+    {
+        return $this->createdPatients;
+    }
+
+    public function addCreatedPatient(Patient $createdPatient): self
+    {
+        if (!$this->createdPatients->contains($createdPatient)) {
+            $this->createdPatients->add($createdPatient);
+            $createdPatient->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreatedPatient(Patient $createdPatient): self
+    {
+        if ($this->createdPatients->removeElement($createdPatient)) {
+            // set the owning side to null (unless already changed)
+            if ($createdPatient->getCreatedBy() === $this) {
+                $createdPatient->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Patient>
+     */
+    public function getUpdatedPatients(): Collection
+    {
+        return $this->updatedPatients;
+    }
+
+    public function addUpdatedPatient(Patient $updatedPatient): self
+    {
+        if (!$this->updatedPatients->contains($updatedPatient)) {
+            $this->updatedPatients->add($updatedPatient);
+            $updatedPatient->setUpdatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUpdatedPatient(Patient $updatedPatient): self
+    {
+        if ($this->updatedPatients->removeElement($updatedPatient)) {
+            // set the owning side to null (unless already changed)
+            if ($updatedPatient->getUpdatedBy() === $this) {
+                $updatedPatient->setUpdatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Service>
+     */
+    public function getCreatedServices(): Collection
+    {
+        return $this->createdServices;
+    }
+
+    public function addCreatedService(Service $createdService): self
+    {
+        if (!$this->createdServices->contains($createdService)) {
+            $this->createdServices->add($createdService);
+            $createdService->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreatedService(Service $createdService): self
+    {
+        if ($this->createdServices->removeElement($createdService)) {
+            // set the owning side to null (unless already changed)
+            if ($createdService->getCreatedBy() === $this) {
+                $createdService->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Service>
+     */
+    public function getUpdatedServices(): Collection
+    {
+        return $this->updatedServices;
+    }
+
+    public function addUpdatedService(Service $updatedService): self
+    {
+        if (!$this->updatedServices->contains($updatedService)) {
+            $this->updatedServices->add($updatedService);
+            $updatedService->setUpdatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUpdatedService(Service $updatedService): self
+    {
+        if ($this->updatedServices->removeElement($updatedService)) {
+            // set the owning side to null (unless already changed)
+            if ($updatedService->getUpdatedBy() === $this) {
+                $updatedService->setUpdatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Parametre>
+     */
+    public function getCreatedParameters(): Collection
+    {
+        return $this->createdParameters;
+    }
+
+    public function addCreatedParameter(Parametre $createdParameter): self
+    {
+        if (!$this->createdParameters->contains($createdParameter)) {
+            $this->createdParameters->add($createdParameter);
+            $createdParameter->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreatedParameter(Parametre $createdParameter): self
+    {
+        if ($this->createdParameters->removeElement($createdParameter)) {
+            // set the owning side to null (unless already changed)
+            if ($createdParameter->getCreatedBy() === $this) {
+                $createdParameter->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Parametre>
+     */
+    public function getUpdatedParameters(): Collection
+    {
+        return $this->updatedParameters;
+    }
+
+    public function addUpdatedParameter(Parametre $updatedParameter): self
+    {
+        if (!$this->updatedParameters->contains($updatedParameter)) {
+            $this->updatedParameters->add($updatedParameter);
+            $updatedParameter->setUpdatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUpdatedParameter(Parametre $updatedParameter): self
+    {
+        if ($this->updatedParameters->removeElement($updatedParameter)) {
+            // set the owning side to null (unless already changed)
+            if ($updatedParameter->getUpdatedBy() === $this) {
+                $updatedParameter->setUpdatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Result>
+     */
+    public function getCreatedResults(): Collection
+    {
+        return $this->createdResults;
+    }
+
+    public function addCreatedResult(Result $createdResult): self
+    {
+        if (!$this->createdResults->contains($createdResult)) {
+            $this->createdResults->add($createdResult);
+            $createdResult->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreatedResult(Result $createdResult): self
+    {
+        if ($this->createdResults->removeElement($createdResult)) {
+            // set the owning side to null (unless already changed)
+            if ($createdResult->getCreatedBy() === $this) {
+                $createdResult->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Result>
+     */
+    public function getUpdatedResults(): Collection
+    {
+        return $this->updatedResults;
+    }
+
+    public function addUpdatedResult(Result $updatedResult): self
+    {
+        if (!$this->updatedResults->contains($updatedResult)) {
+            $this->updatedResults->add($updatedResult);
+            $updatedResult->setUpdatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUpdatedResult(Result $updatedResult): self
+    {
+        if ($this->updatedResults->removeElement($updatedResult)) {
+            // set the owning side to null (unless already changed)
+            if ($updatedResult->getUpdatedBy() === $this) {
+                $updatedResult->setUpdatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MedicalOrder>
+     */
+    public function getCreatedMedicalOrders(): Collection
+    {
+        return $this->createdMedicalOrders;
+    }
+
+    public function addCreatedMedicalOrder(MedicalOrder $createdMedicalOrder): self
+    {
+        if (!$this->createdMedicalOrders->contains($createdMedicalOrder)) {
+            $this->createdMedicalOrders->add($createdMedicalOrder);
+            $createdMedicalOrder->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreatedMedicalOrder(MedicalOrder $createdMedicalOrder): self
+    {
+        if ($this->createdMedicalOrders->removeElement($createdMedicalOrder)) {
+            // set the owning side to null (unless already changed)
+            if ($createdMedicalOrder->getCreatedBy() === $this) {
+                $createdMedicalOrder->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MedicalOrder>
+     */
+    public function getUpdatedMedicalOrders(): Collection
+    {
+        return $this->updatedMedicalOrders;
+    }
+
+    public function addUpdatedMedicalOrder(MedicalOrder $updatedMedicalOrder): self
+    {
+        if (!$this->updatedMedicalOrders->contains($updatedMedicalOrder)) {
+            $this->updatedMedicalOrders->add($updatedMedicalOrder);
+            $updatedMedicalOrder->setUpdatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUpdatedMedicalOrder(MedicalOrder $updatedMedicalOrder): self
+    {
+        if ($this->updatedMedicalOrders->removeElement($updatedMedicalOrder)) {
+            // set the owning side to null (unless already changed)
+            if ($updatedMedicalOrder->getUpdatedBy() === $this) {
+                $updatedMedicalOrder->setUpdatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Drug>
+     */
+    public function getCreatedDrugs(): Collection
+    {
+        return $this->createdDrugs;
+    }
+
+    public function addCreatedDrug(Drug $createdDrug): self
+    {
+        if (!$this->createdDrugs->contains($createdDrug)) {
+            $this->createdDrugs->add($createdDrug);
+            $createdDrug->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreatedDrug(Drug $createdDrug): self
+    {
+        if ($this->createdDrugs->removeElement($createdDrug)) {
+            // set the owning side to null (unless already changed)
+            if ($createdDrug->getCreatedBy() === $this) {
+                $createdDrug->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Drug>
+     */
+    public function getUpdatedDrugs(): Collection
+    {
+        return $this->updatedDrugs;
+    }
+
+    public function addUpdatedDrug(Drug $updatedDrug): self
+    {
+        if (!$this->updatedDrugs->contains($updatedDrug)) {
+            $this->updatedDrugs->add($updatedDrug);
+            $updatedDrug->setUpdatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUpdatedDrug(Drug $updatedDrug): self
+    {
+        if ($this->updatedDrugs->removeElement($updatedDrug)) {
+            // set the owning side to null (unless already changed)
+            if ($updatedDrug->getUpdatedBy() === $this) {
+                $updatedDrug->setUpdatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MedicalExams>
+     */
+    public function getCreatedMedicalExams(): Collection
+    {
+        return $this->createdMedicalExams;
+    }
+
+    public function addCreatedMedicalExam(MedicalExams $createdMedicalExam): self
+    {
+        if (!$this->createdMedicalExams->contains($createdMedicalExam)) {
+            $this->createdMedicalExams->add($createdMedicalExam);
+            $createdMedicalExam->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreatedMedicalExam(MedicalExams $createdMedicalExam): self
+    {
+        if ($this->createdMedicalExams->removeElement($createdMedicalExam)) {
+            // set the owning side to null (unless already changed)
+            if ($createdMedicalExam->getCreatedBy() === $this) {
+                $createdMedicalExam->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MedicalExams>
+     */
+    public function getUpdatedMedicalExams(): Collection
+    {
+        return $this->updatedMedicalExams;
+    }
+
+    public function addUpdatedMedicalExam(MedicalExams $updatedMedicalExam): self
+    {
+        if (!$this->updatedMedicalExams->contains($updatedMedicalExam)) {
+            $this->updatedMedicalExams->add($updatedMedicalExam);
+            $updatedMedicalExam->setUpdatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUpdatedMedicalExam(MedicalExams $updatedMedicalExam): self
+    {
+        if ($this->updatedMedicalExams->removeElement($updatedMedicalExam)) {
+            // set the owning side to null (unless already changed)
+            if ($updatedMedicalExam->getUpdatedBy() === $this) {
+                $updatedMedicalExam->setUpdatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Room>
+     */
+    public function getCreatedRooms(): Collection
+    {
+        return $this->createdRooms;
+    }
+
+    public function addCreatedRoom(Room $createdRoom): self
+    {
+        if (!$this->createdRooms->contains($createdRoom)) {
+            $this->createdRooms->add($createdRoom);
+            $createdRoom->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreatedRoom(Room $createdRoom): self
+    {
+        if ($this->createdRooms->removeElement($createdRoom)) {
+            // set the owning side to null (unless already changed)
+            if ($createdRoom->getCreatedBy() === $this) {
+                $createdRoom->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Room>
+     */
+    public function getUpdatedRooms(): Collection
+    {
+        return $this->updatedRooms;
+    }
+
+    public function addUpdatedRoom(Room $updatedRoom): self
+    {
+        if (!$this->updatedRooms->contains($updatedRoom)) {
+            $this->updatedRooms->add($updatedRoom);
+            $updatedRoom->setUpdatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUpdatedRoom(Room $updatedRoom): self
+    {
+        if ($this->updatedRooms->removeElement($updatedRoom)) {
+            // set the owning side to null (unless already changed)
+            if ($updatedRoom->getUpdatedBy() === $this) {
+                $updatedRoom->setUpdatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Hospitilization>
+     */
+    public function getCreatedHospitilizations(): Collection
+    {
+        return $this->createdHospitilizations;
+    }
+
+    public function addCreatedHospitilization(Hospitilization $createdHospitilization): self
+    {
+        if (!$this->createdHospitilizations->contains($createdHospitilization)) {
+            $this->createdHospitilizations->add($createdHospitilization);
+            $createdHospitilization->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreatedHospitilization(Hospitilization $createdHospitilization): self
+    {
+        if ($this->createdHospitilizations->removeElement($createdHospitilization)) {
+            // set the owning side to null (unless already changed)
+            if ($createdHospitilization->getCreatedBy() === $this) {
+                $createdHospitilization->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Hospitilization>
+     */
+    public function getUpdatedHospitilizations(): Collection
+    {
+        return $this->updatedHospitilizations;
+    }
+
+    public function addUpdatedHospitilization(Hospitilization $updatedHospitilization): self
+    {
+        if (!$this->updatedHospitilizations->contains($updatedHospitilization)) {
+            $this->updatedHospitilizations->add($updatedHospitilization);
+            $updatedHospitilization->setUpdatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUpdatedHospitilization(Hospitilization $updatedHospitilization): self
+    {
+        if ($this->updatedHospitilizations->removeElement($updatedHospitilization)) {
+            // set the owning side to null (unless already changed)
+            if ($updatedHospitilization->getUpdatedBy() === $this) {
+                $updatedHospitilization->setUpdatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ConfigDesign>
+     */
+    public function getCreatedConfigDesigns(): Collection
+    {
+        return $this->createdConfigDesigns;
+    }
+
+    public function addCreatedConfigDesign(ConfigDesign $createdConfigDesign): self
+    {
+        if (!$this->createdConfigDesigns->contains($createdConfigDesign)) {
+            $this->createdConfigDesigns->add($createdConfigDesign);
+            $createdConfigDesign->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreatedConfigDesign(ConfigDesign $createdConfigDesign): self
+    {
+        if ($this->createdConfigDesigns->removeElement($createdConfigDesign)) {
+            // set the owning side to null (unless already changed)
+            if ($createdConfigDesign->getCreatedBy() === $this) {
+                $createdConfigDesign->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ConfigDesign>
+     */
+    public function getUpdatedConfigDesigns(): Collection
+    {
+        return $this->updatedConfigDesigns;
+    }
+
+    public function addUpdatedConfigDesign(ConfigDesign $updatedConfigDesign): self
+    {
+        if (!$this->updatedConfigDesigns->contains($updatedConfigDesign)) {
+            $this->updatedConfigDesigns->add($updatedConfigDesign);
+            $updatedConfigDesign->setUpdatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUpdatedConfigDesign(ConfigDesign $updatedConfigDesign): self
+    {
+        if ($this->updatedConfigDesigns->removeElement($updatedConfigDesign)) {
+            // set the owning side to null (unless already changed)
+            if ($updatedConfigDesign->getUpdatedBy() === $this) {
+                $updatedConfigDesign->setUpdatedBy(null);
             }
         }
 

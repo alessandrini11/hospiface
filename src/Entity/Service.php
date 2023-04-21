@@ -1,0 +1,158 @@
+<?php
+
+namespace App\Entity;
+
+use App\Repository\ServiceRepository;
+use App\Trait\DateTrait;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
+
+#[ORM\Entity(repositoryClass: ServiceRepository::class)]
+#[HasLifecycleCallbacks]
+class Service
+{
+    use DateTrait;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $name = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $status = null;
+
+    #[ORM\OneToMany(mappedBy: 'service', targetEntity: PersonnelService::class, orphanRemoval: true)]
+    private Collection $personnelServices;
+
+    #[ORM\ManyToOne(inversedBy: 'createdServices')]
+    private ?User $createdBy = null;
+
+    #[ORM\ManyToOne(inversedBy: 'updatedServices')]
+    private ?User $updatedBy = null;
+
+    #[ORM\OneToMany(mappedBy: 'service', targetEntity: PersonnelGarde::class)]
+    private Collection $personnelGardes;
+
+    public function __construct()
+    {
+        $this->personnelServices = new ArrayCollection();
+        $this->personnelGardes = new ArrayCollection();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(?string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PersonnelService>
+     */
+    public function getPersonnelServices(): Collection
+    {
+        return $this->personnelServices;
+    }
+
+    public function addPersonnelService(PersonnelService $personnelService): self
+    {
+        if (!$this->personnelServices->contains($personnelService)) {
+            $this->personnelServices->add($personnelService);
+            $personnelService->setService($this);
+        }
+
+        return $this;
+    }
+
+    public function removePersonnelService(PersonnelService $personnelService): self
+    {
+        if ($this->personnelServices->removeElement($personnelService)) {
+            // set the owning side to null (unless already changed)
+            if ($personnelService->getService() === $this) {
+                $personnelService->setService(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCreatedBy(): ?User
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?User $createdBy): self
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    public function getUpdatedBy(): ?User
+    {
+        return $this->updatedBy;
+    }
+
+    public function setUpdatedBy(?User $updatedBy): self
+    {
+        $this->updatedBy = $updatedBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PersonnelGarde>
+     */
+    public function getPersonnelGardes(): Collection
+    {
+        return $this->personnelGardes;
+    }
+
+    public function addPersonnelGarde(PersonnelGarde $personnelGarde): self
+    {
+        if (!$this->personnelGardes->contains($personnelGarde)) {
+            $this->personnelGardes->add($personnelGarde);
+            $personnelGarde->setService($this);
+        }
+
+        return $this;
+    }
+
+    public function removePersonnelGarde(PersonnelGarde $personnelGarde): self
+    {
+        if ($this->personnelGardes->removeElement($personnelGarde)) {
+            // set the owning side to null (unless already changed)
+            if ($personnelGarde->getService() === $this) {
+                $personnelGarde->setService(null);
+            }
+        }
+
+        return $this;
+    }
+}

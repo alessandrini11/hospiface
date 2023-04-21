@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\PersonnelRepository;
 use App\Trait\DateTrait;
 use App\Trait\PersonTrait;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
@@ -23,6 +25,15 @@ class Personnel
         self::WOMAN => 'woman',
     ];
 
+    const STATUS_DISABLED = 0;
+    const STATUS_ENABLED = 1;
+    const STATUS_DELETED = 2;
+
+    const STATUSES = [
+        self::STATUS_DISABLED => 'Disabled',
+        self::STATUS_ENABLED => 'Enabled',
+        self::STATUS_DELETED => 'Deleted',
+    ];
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -51,6 +62,22 @@ class Personnel
 
     #[ORM\ManyToOne(inversedBy: 'personnels')]
     private ?Speciality $speciality = null;
+
+    #[ORM\OneToMany(mappedBy: 'personnel', targetEntity: PersonnelService::class)]
+    private Collection $personnelServices;
+
+    #[ORM\OneToMany(mappedBy: 'personnel', targetEntity: PersonnelGarde::class)]
+    private Collection $personnelGardes;
+
+    #[ORM\OneToMany(mappedBy: 'doctor', targetEntity: Consultation::class)]
+    private Collection $consultations;
+
+    public function __construct()
+    {
+        $this->personnelServices = new ArrayCollection();
+        $this->personnelGardes = new ArrayCollection();
+        $this->consultations = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -149,6 +176,96 @@ class Personnel
     public function setSpeciality(?Speciality $speciality): self
     {
         $this->speciality = $speciality;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PersonnelService>
+     */
+    public function getPersonnelServices(): Collection
+    {
+        return $this->personnelServices;
+    }
+
+    public function addPersonnelService(PersonnelService $personnelService): self
+    {
+        if (!$this->personnelServices->contains($personnelService)) {
+            $this->personnelServices->add($personnelService);
+            $personnelService->setPersonnel($this);
+        }
+
+        return $this;
+    }
+
+    public function removePersonnelService(PersonnelService $personnelService): self
+    {
+        if ($this->personnelServices->removeElement($personnelService)) {
+            // set the owning side to null (unless already changed)
+            if ($personnelService->getPersonnel() === $this) {
+                $personnelService->setPersonnel(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PersonnelGarde>
+     */
+    public function getPersonnelGardes(): Collection
+    {
+        return $this->personnelGardes;
+    }
+
+    public function addPersonnelGarde(PersonnelGarde $personnelGarde): self
+    {
+        if (!$this->personnelGardes->contains($personnelGarde)) {
+            $this->personnelGardes->add($personnelGarde);
+            $personnelGarde->setPersonnel($this);
+        }
+
+        return $this;
+    }
+
+    public function removePersonnelGarde(PersonnelGarde $personnelGarde): self
+    {
+        if ($this->personnelGardes->removeElement($personnelGarde)) {
+            // set the owning side to null (unless already changed)
+            if ($personnelGarde->getPersonnel() === $this) {
+                $personnelGarde->setPersonnel(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Consultation>
+     */
+    public function getConsultations(): Collection
+    {
+        return $this->consultations;
+    }
+
+    public function addConsultation(Consultation $consultation): self
+    {
+        if (!$this->consultations->contains($consultation)) {
+            $this->consultations->add($consultation);
+            $consultation->setDoctor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeConsultation(Consultation $consultation): self
+    {
+        if ($this->consultations->removeElement($consultation)) {
+            // set the owning side to null (unless already changed)
+            if ($consultation->getDoctor() === $this) {
+                $consultation->setDoctor(null);
+            }
+        }
 
         return $this;
     }
