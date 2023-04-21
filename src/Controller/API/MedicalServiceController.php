@@ -27,4 +27,11 @@ class MedicalServiceController extends ApiController
         $medicalService = $this->medicalServiceService->create($medicalServiceRequest, $this->getUser());
         return $this->response($medicalService);
     }
+
+    #[Route('/{id}', name: 'api_get_one_medical_service', methods: 'GET')]
+    public function getOne(int $id): JsonResponse
+    {
+        $medicalService = $this->medicalServiceService->findOrFail($id);
+        return $this->response($medicalService);
+    }
 }

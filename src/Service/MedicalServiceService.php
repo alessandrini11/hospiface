@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\DTO\MedicalServiceRequest;
 use App\Entity\Service;
+use App\Exceptions\NotFoundException;
 use App\Interface\EntityServiceInterface;
 use App\Repository\ServiceRepository;
 
@@ -23,9 +24,14 @@ class MedicalServiceService implements EntityServiceInterface
         return $medicalService;
     }
 
-    public function findOrFail(int $id)
+    public function findOrFail(int $id): Service
     {
-        // TODO: Implement findOrFail() method.
+        $medicalService = $this->medicalServiceRepository->find($id);
+        if(!$medicalService)
+        {
+            throw new NotFoundException();
+        }
+        return $medicalService;
     }
 
     public function update($entityRequest, $entity, $loggedUser = null)
