@@ -10,9 +10,11 @@ use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: ServiceRepository::class)]
 #[HasLifecycleCallbacks]
+#[UniqueEntity(['name'], message: 'the service already exist')]
 class Service
 {
     use DateTrait;

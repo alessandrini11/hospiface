@@ -3,7 +3,10 @@
 namespace App\Controller\API;
 
 use App\DTO\MedicalServiceRequest;
+use App\model\PaginationModel;
+use App\Repository\ServiceRepository;
 use App\Service\MedicalServiceService;
+use App\Service\PaginationService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,7 +16,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class MedicalServiceController extends ApiController
 {
     public function __construct(
-        readonly private MedicalServiceService $medicalServiceService
+        readonly private MedicalServiceService $medicalServiceService,
+        readonly private PaginationService $paginationService
     )
     {
     }
@@ -28,6 +32,13 @@ class MedicalServiceController extends ApiController
         return $this->response($medicalService);
     }
 
+    #[Route('', name: 'api_medical_service_get_all', methods: 'GET')]
+    public function getAll(Request $request, ServiceRepository $serviceRepository): JsonResponse
+    {
+        $paginationModel = new PaginationModel($request);
+        $array = $this->paginationService->getPaginatedItems($paginationModel, $serviceRepository);
+        return $this->response($array);
+    }
     #[Route('/{id}', name: 'api_get_one_medical_service', methods: 'GET')]
     public function getOne(int $id): JsonResponse
     {

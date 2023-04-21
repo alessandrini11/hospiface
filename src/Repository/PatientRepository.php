@@ -43,15 +43,14 @@ class PatientRepository extends ServiceEntityRepository implements EntityReposit
 
     public function searchByName(string $query)
     {
-       $qb = $this->createQueryBuilder('p')
-           ->andWhere('p.firstname LIKE  :query')
-           ->orWhere('p.lastname LIKE :query')
-           ->setParameter('query', "%{$query}%")
-       ;
-        return $qb
-            ->orderBy('p.createdAt', 'DESC')
+       return $qb = $this->createQueryBuilder('p')
+            ->andWhere('p.firstname LIKE  :query')
+            ->orWhere('p.lastname LIKE :query')
+            ->setParameter('query', "%{$query}%")
+            ->orderBy('p.firstname', 'ASC')
             ->getQuery()
-            ->getResult();
+            ->getResult()
+           ;
     }
 
 //    /**

@@ -11,7 +11,7 @@ class PaginationModel
     public ?string $query;
     public function __construct(Request $request)
     {
-        $this->perPage = (int) $request->query->get('perPage', 1);
+        $this->perPage = (int) $request->query->get('perPage', 10);
         $this->actualPage = (int) $request->query->get('actualPage', 1);
         $this->query = $request->query->get('query' );
     }
