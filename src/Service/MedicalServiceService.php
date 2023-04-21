@@ -34,9 +34,12 @@ class MedicalServiceService implements EntityServiceInterface
         return $medicalService;
     }
 
-    public function update($entityRequest, $entity, $loggedUser = null)
+    public function update($entityRequest, $entity, $loggedUser = null): Service
     {
-        // TODO: Implement update() method.
+        $medicalService = $this->setFields($entityRequest, $entity);
+        $medicalService->setUpdatedBy($loggedUser);
+        $this->medicalServiceRepository->save($medicalService, true);
+        return $medicalService;
     }
 
     public function delete(int $id): void

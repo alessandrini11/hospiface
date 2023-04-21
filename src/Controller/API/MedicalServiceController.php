@@ -45,4 +45,14 @@ class MedicalServiceController extends ApiController
         $medicalService = $this->medicalServiceService->findOrFail($id);
         return $this->response($medicalService);
     }
+    #[Route('/{id}', name: 'api_medical_service_update_one', methods: 'PUT')]
+    public function updateOne(int $id, Request $request, ValidatorInterface $validator): JsonResponse
+    {
+        $medicalService = $this->medicalServiceService->findOrFail($id);
+        $medicalServiceRequest = new MedicalServiceRequest($request);
+        $validationErrors = $validator->validate($medicalServiceRequest);
+        $this->checkValidationError($validationErrors);
+        $updatedMedicalService = $this->medicalServiceService->update($medicalServiceRequest, $medicalService, $this->getUser());
+        return $this->response($updatedMedicalService);
+    }
 }
