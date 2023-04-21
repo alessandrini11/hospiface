@@ -24,7 +24,7 @@ class PatientRequest
 
     #[Assert\Type(type: 'string')]
     #[Assert\NotBlank(allowNull: true)]
-    #[Assert\Length(max: 5)]
+    #[Assert\Choice(choices: ['man', 'woman'], message: 'The sex you selected is not an valid choice')]
     public ?string $sex;
 
     #[Assert\Type(type: 'string')]
@@ -34,7 +34,7 @@ class PatientRequest
     public ?string $phoneNumber;
 
     #[Assert\Type(type: 'integer')]
-    #[Assert\Choice(choices: [0, 1, 2, 3], message: 'The value you selected is not an valid choice')]
+    #[Assert\Choice(choices: [0, 1, 2, 3], message: 'The status you selected is not an valid choice')]
     #[Assert\NotBlank(allowNull: true)]
     public ?int $status;
 

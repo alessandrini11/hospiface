@@ -4,6 +4,7 @@ namespace App\Controller\API;
 
 use App\DTO\PatientRequest;
 use App\Repository\PatientRepository;
+use App\Service\PaginationService;
 use App\Service\PatientService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +16,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class PatientController extends ApiController
 {
     public function __construct(
-        readonly private PatientService $patientService
+        readonly private PatientService $patientService,
+        readonly private PaginationService $paginationService
     )
     {
     }
@@ -31,10 +33,14 @@ class PatientController extends ApiController
     }
 
     #[Route('', name: 'api_get_all_patients', methods: 'GET')]
-    public function getAll(PatientRepository $patientRepository): JsonResponse
+    public function getAll(Request $request, PatientRepository $patientRepository): JsonResponse
     {
-        $patients = $patientRepository->findAll();
-        return $this->response($patients);
+        $array = $this->paginationService->getPaginatedItems(
+            (int) $request->query->get('perPage', 1),
+            (int) $request->query->get('actualPage', 1),
+            $patientRepository
+        );
+        return $this->response($array);
     }
 
     #[Route('/{id}', name: 'api_get_one_patients', methods: 'GET')]
@@ -45,7 +51,12 @@ class PatientController extends ApiController
     }
 
     #[Route('/{id}', name: 'api_update_one_patients', methods: 'PUT')]
-    public function updateOne(int $id, Request $request, ValidatorInterface $validator, PatientRepository $patientRepository): JsonResponse
+    public function updateOne(
+        int $id,
+        Request $request,
+        ValidatorInterface $validator,
+        PatientRepository $patientRepository
+    ): JsonResponse
     {
         $patient = $this->patientService->findOrFail($id);
         $patientRequest = new PatientRequest($request);
@@ -55,7 +66,7 @@ class PatientController extends ApiController
         return $this->response($patientResponse);
     }
 
-    #[Route('/{id}', name: 'api_get_one_patients', methods: 'GET')]
+    #[Route('/{id}', name: 'api_delete_one_patients', methods: 'DELETE')]
     public function deleteOne(int $id,PatientRepository $patientRepository): JsonResponse
     {
         $this->patientService->delete($id);

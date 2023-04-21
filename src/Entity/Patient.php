@@ -23,19 +23,10 @@ class Patient
     const MAN = 'man';
     const WOMAN = 'woman';
 
-    const SEXES = [
-        self::MAN => 'man',
-        self::WOMAN => 'woman',
-    ];
-    const STATUS_DISABLED = 0;
-    const STATUS_ENABLED = 1;
-    const STATUS_DELETED = 2;
+    const FREE = 0;
+    const HOSPITALIZED = 1;
+    const DEATH = 2;
 
-    const STATUSES = [
-        self::STATUS_DISABLED => 'Disabled',
-        self::STATUS_ENABLED => 'Enabled',
-        self::STATUS_DELETED => 'Deleted',
-    ];
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
