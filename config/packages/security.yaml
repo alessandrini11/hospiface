@@ -51,6 +51,7 @@ security:
         - { path: ^/api/auth/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/auth/token/refresh, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/users, roles: ROLE_ADMIN }
+        - { path: ^/api/patients, roles: ROLE_USER}
         # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:

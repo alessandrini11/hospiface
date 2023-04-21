@@ -6,6 +6,8 @@ use App\Repository\ServiceRepository;
 use App\Trait\DateTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 
@@ -14,6 +16,8 @@ use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 class Service
 {
     use DateTrait;
+    const ENABLED = 1;
+    const DISABLED = 0;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -22,10 +26,10 @@ class Service
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(type: Types::SMALLINT, nullable: true)]
     private ?string $status = null;
 
-    #[ORM\OneToMany(mappedBy: 'service', targetEntity: PersonnelService::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'service', targetEntity: PersonnelService::class, fetch: 'EAGER', orphanRemoval: true)]
     private Collection $personnelServices;
 
     #[ORM\ManyToOne(inversedBy: 'createdServices')]
@@ -34,7 +38,7 @@ class Service
     #[ORM\ManyToOne(inversedBy: 'updatedServices')]
     private ?User $updatedBy = null;
 
-    #[ORM\OneToMany(mappedBy: 'service', targetEntity: PersonnelGarde::class)]
+    #[ORM\OneToMany(mappedBy: 'service', targetEntity: PersonnelGarde::class, fetch: 'EAGER')]
     private Collection $personnelGardes;
 
     public function __construct()
@@ -60,12 +64,12 @@ class Service
         return $this;
     }
 
-    public function getStatus(): ?string
+    public function getStatus(): ?int
     {
         return $this->status;
     }
 
-    public function setStatus(?string $status): self
+    public function setStatus(?int $status): self
     {
         $this->status = $status;
 
