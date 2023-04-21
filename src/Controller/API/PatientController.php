@@ -43,4 +43,23 @@ class PatientController extends ApiController
         $patient = $this->patientService->findOrFail($id);
         return $this->response($patient);
     }
+
+    #[Route('/{id}', name: 'api_update_one_patients', methods: 'PUT')]
+    public function updateOne(int $id, Request $request, ValidatorInterface $validator, PatientRepository $patientRepository): JsonResponse
+    {
+        $patient = $this->patientService->findOrFail($id);
+        $patientRequest = new PatientRequest($request);
+        $validationErrors = $validator->validate($patientRequest);
+        $this->checkValidationError($validationErrors);
+        $patientResponse = $this->patientService->update($patientRequest, $patient, $this->getUser());
+        return $this->response($patientResponse);
+    }
+
+    #[Route('/{id}', name: 'api_get_one_patients', methods: 'GET')]
+    public function deleteOne(int $id,PatientRepository $patientRepository): JsonResponse
+    {
+        $this->patientService->delete($id);
+        return $this->response([], Response::HTTP_NO_CONTENT);
+    }
+
 }
