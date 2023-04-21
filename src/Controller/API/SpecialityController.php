@@ -3,6 +3,8 @@
 namespace App\Controller\API;
 
 use App\DTO\SpecialityRequest;
+use App\model\PaginationModel;
+use App\Repository\SpecialityRepository;
 use App\Service\PaginationService;
 use App\Service\SpecialityService;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -28,5 +30,13 @@ class SpecialityController extends ApiController
         $this->checkValidationError($validationErrors);
         $speciality = $this->specialityService->create($specialityRequest, $this->getUser());
         return $this->response($speciality);
+    }
+
+    #[Route('', name: 'api_speciality_getAll', methods: 'GET')]
+    public function getAll(Request $request, SpecialityRepository $specialityRepository): JsonResponse
+    {
+        $paginationModel = new PaginationModel($request);
+        $array = $this->paginationService->getPaginatedItems($paginationModel, $specialityRepository);
+        return $this->response($array);
     }
 }
