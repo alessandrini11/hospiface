@@ -4,13 +4,14 @@ namespace App\Trait;
 
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
+use DateTime;
 trait DateTrait
 {
     #[ORM\Column(nullable: true)]
-    private ?\DateTime $createdAt;
+    private ?DateTime $createdAt = null;
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTime $updatedAt;
+    private ?DateTime $updatedAt = null;
 
     /**
      * Get the date of creation
@@ -20,10 +21,6 @@ trait DateTrait
         return $this->createdAt;
     }
 
-    /**
-     * set date of creation
-     * @return $this
-     */
     public function setCreatedAt(DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
@@ -39,11 +36,6 @@ trait DateTrait
         return $this->updatedAt;
     }
 
-    /**
-     * Set the date of update.
-     *
-     * @return $this
-     */
     public function setUpdatedAt(DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
@@ -52,17 +44,17 @@ trait DateTrait
     }
 
     #[ORM\PrePersist]
-    public function onPrePersist()
+    public function onPrePersist(): self
     {
-        $this->createdAt = new \DateTime('now');
+        $this->createdAt = new DateTime('now');
 
         return $this;
     }
 
     #[ORM\PreUpdate]
-    public function onPreUpdate()
+    public function onPreUpdate(): self
     {
-        $this->updatedAt = new \DateTime('now');
+        $this->updatedAt = new DateTime('now');
 
         return $this;
     }

@@ -9,10 +9,12 @@ use App\Entity\User;
 use App\Exceptions\NotFoundException;
 use App\Exceptions\OldPasswordAndNewPasswordNotMatchException;
 use App\Exceptions\PasswordNotMatchException;
+use App\Interface\EntityInterface;
+use App\Interface\EntityServiceInterface;
 use App\Repository\UserRepository;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class UserService
+class UserService implements EntityServiceInterface
 {
     private UserPasswordHasherInterface $hasher;
     private UserRepository $userRepository;
@@ -25,16 +27,20 @@ class UserService
         $this->userRepository = $userRepository;
     }
 
-    public function create(UserRequest $userRequest): UserResponse
+    /**
+     * @param $entityRequest
+     * @param null $loggedUser
+     */
+    public function create( $entityRequest, $loggedUser = null): UserResponse
     {
-        $user = $this->setFields($userRequest, new User());
+        $user = $this->setFields($entityRequest, new User());
         $this->userRepository->save($user, true);
         return new UserResponse($user);
     }
 
-    public function update(UserRequest $userRequest, User $user): UserResponse
+    public function update($entityRequest, $entity, $loggedUser = null): UserResponse
     {
-        $userUpdate = $this->setFields($userRequest, $user);
+        $userUpdate = $this->setFields($entityRequest, $entity);
         $this->userRepository->save($userUpdate, true);
         return new UserResponse($userUpdate);
     }
@@ -70,32 +76,33 @@ class UserService
         return $user;
     }
 
-    private function setFields(UserRequest $userRequest, User $user): User
+    public function setFields( $entityRequest,  $entity): null | User
     {
-        if($userRequest->firstname) {
-            $user->setFirstname($userRequest->firstname);
+        if (!$entityRequest instanceof UserRequest && !$entity instanceof User) return null;
+        if($entityRequest->firstname) {
+            $entity->setFirstname($entityRequest->firstname);
         }
-        if($userRequest->lastname) {
-            $user->setLastname($userRequest->lastname);
+        if($entityRequest->lastname) {
+            $entity->setLastname($entityRequest->lastname);
         }
-        if($userRequest->sex) {
-            $user->setSex($userRequest->sex);
+        if($entityRequest->sex) {
+            $entity->setSex($entityRequest->sex);
         }
-        if($userRequest->email){
-            $user->setEmail($userRequest->email);
+        if($entityRequest->email){
+            $entity->setEmail($entityRequest->email);
         }
-        if($userRequest->password){
-            $user->setPassword($this->hasher->hashPassword($user, $userRequest->password));
+        if($entityRequest->password){
+            $entity->setPassword($this->hasher->hashPassword($entity, $entityRequest->password));
         }
-        if($userRequest->phonenumber){
-            $user->setPhonenumber($userRequest->phonenumber);
+        if($entityRequest->phonenumber){
+            $entity->setPhonenumber($entityRequest->phonenumber);
         }
-        if($userRequest->status){
-            $user->setStatus($userRequest->status);
+        if($entityRequest->status){
+            $entity->setStatus($entityRequest->status);
         }
-        if($userRequest->roles){
-            $user->setRoles($userRequest->roles);
+        if($entityRequest->roles){
+            $entity->setRoles($entityRequest->roles);
         }
-        return $user;
+        return $entity;
     }
 }

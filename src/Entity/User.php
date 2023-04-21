@@ -23,7 +23,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     const MAN = 'man';
     const WOMAN = 'woman';
 
-    const SEXS = [
+    const SEXES = [
         self::MAN => 'man',
         self::WOMAN => 'woman',
     ];

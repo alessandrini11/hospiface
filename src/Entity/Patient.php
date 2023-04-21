@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Interface\EntityInterface;
 use App\Repository\PatientRepository;
 use App\Trait\DateTrait;
 use App\Trait\PersonTrait;
@@ -10,17 +11,19 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: PatientRepository::class)]
+#[UniqueEntity(['email'], 'this email is already taken')]
 #[HasLifecycleCallbacks]
-class Patient
+class Patient implements EntityInterface
 {
     use PersonTrait;
     use DateTrait;
     const MAN = 'man';
     const WOMAN = 'woman';
 
-    const SEXS = [
+    const SEXES = [
         self::MAN => 'man',
         self::WOMAN => 'woman',
     ];
@@ -47,8 +50,8 @@ class Patient
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $bloodGroup = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $status = null;
+    #[ORM\Column(type: Types::SMALLINT, nullable: true)]
+    private ?int $status = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $birthDate = null;
@@ -112,12 +115,12 @@ class Patient
         return $this;
     }
 
-    public function getStatus(): ?string
+    public function getStatus(): ?int
     {
         return $this->status;
     }
 
-    public function setStatus(?string $status): self
+    public function setStatus(?int $status): self
     {
         $this->status = $status;
 
@@ -218,5 +221,20 @@ class Patient
         }
 
         return $this;
+    }
+
+    public function getData(): array
+    {
+        return [
+            'firstName' => $this->firstname,
+            'lastName' => $this->lastname,
+            'email' => $this->email,
+            'sex' => $this->sex,
+            'status' => $this->status,
+            'emergencyPerson' => $this->emergencyPersonne,
+            'emergencyContact' => $this->emergencyContact,
+            'bloodGroup' => $this->bloodGroup,
+            'birthDate' => $this->birthDate
+        ];
     }
 }

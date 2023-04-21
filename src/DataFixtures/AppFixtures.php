@@ -23,6 +23,7 @@ class AppFixtures extends Fixture
             ->setRoles([User::ROLE_ADMIN])
             ->setStatus(User::STATUS_ENABLED)
             ->setEmail('alex@gmailcom')
+            ->setSex('female')
             ->setPhonenumber('695254870')
             ->setPassword($this->hasher->hashPassword($user, 'azerty'));
         $manager->persist($user);
