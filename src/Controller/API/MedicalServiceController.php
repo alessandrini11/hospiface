@@ -9,6 +9,7 @@ use App\Service\MedicalServiceService;
 use App\Service\PaginationService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -29,7 +30,7 @@ class MedicalServiceController extends ApiController
         $validationErrors = $validator->validate($medicalServiceRequest);
         $this->checkValidationError($validationErrors);
         $medicalService = $this->medicalServiceService->create($medicalServiceRequest, $this->getUser());
-        return $this->response($medicalService);
+        return $this->response($medicalService, Response::HTTP_CREATED);
     }
 
     #[Route('', name: 'api_medical_service_get_all', methods: 'GET')]
@@ -54,5 +55,12 @@ class MedicalServiceController extends ApiController
         $this->checkValidationError($validationErrors);
         $updatedMedicalService = $this->medicalServiceService->update($medicalServiceRequest, $medicalService, $this->getUser());
         return $this->response($updatedMedicalService);
+    }
+
+    #[Route('/{id}', name: 'api_delete_one_medical_service', methods: 'DELETE')]
+    public function delete(int $id): JsonResponse
+    {
+        $this->medicalServiceService->delete($id);
+        return $this->response([], Response::HTTP_NO_CONTENT);
     }
 }
