@@ -3,6 +3,7 @@
 namespace App\Controller\API;
 
 use App\DTO\PatientRequest;
+use App\model\PaginationModel;
 use App\Repository\PatientRepository;
 use App\Service\PaginationService;
 use App\Service\PatientService;
@@ -35,22 +36,19 @@ class PatientController extends ApiController
     #[Route('', name: 'api_get_all_patients', methods: 'GET')]
     public function getAll(Request $request, PatientRepository $patientRepository): JsonResponse
     {
-        $array = $this->paginationService->getPaginatedItems(
-            (int) $request->query->get('perPage', 1),
-            (int) $request->query->get('actualPage', 1),
-            $patientRepository
-        );
+        $paginationModel = new PaginationModel($request);
+        $array = $this->paginationService->getPaginatedItems($paginationModel, $patientRepository);
         return $this->response($array);
     }
 
-    #[Route('/{id}', name: 'api_get_one_patients', methods: 'GET')]
+    #[Route('/{id}', name: 'api_get_one_patient', methods: 'GET')]
     public function getOne(int $id,PatientRepository $patientRepository): JsonResponse
     {
         $patient = $this->patientService->findOrFail($id);
         return $this->response($patient);
     }
 
-    #[Route('/{id}', name: 'api_update_one_patients', methods: 'PUT')]
+    #[Route('/{id}', name: 'api_update_one_patient', methods: 'PUT')]
     public function updateOne(
         int $id,
         Request $request,
@@ -66,7 +64,7 @@ class PatientController extends ApiController
         return $this->response($patientResponse);
     }
 
-    #[Route('/{id}', name: 'api_delete_one_patients', methods: 'DELETE')]
+    #[Route('/{id}', name: 'api_delete_one_patient', methods: 'DELETE')]
     public function deleteOne(int $id,PatientRepository $patientRepository): JsonResponse
     {
         $this->patientService->delete($id);

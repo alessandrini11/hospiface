@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Patient;
+use App\Interface\EntityRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -14,7 +16,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Patient[]    findAll()
  * @method Patient[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class PatientRepository extends ServiceEntityRepository
+class PatientRepository extends ServiceEntityRepository implements EntityRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -37,6 +39,19 @@ class PatientRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function searchByName(string $query)
+    {
+       $qb = $this->createQueryBuilder('p')
+           ->andWhere('p.firstname LIKE  :query')
+           ->orWhere('p.lastname LIKE :query')
+           ->setParameter('query', "%{$query}%")
+       ;
+        return $qb
+            ->orderBy('p.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
 
 //    /**
