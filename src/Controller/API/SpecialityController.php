@@ -46,4 +46,15 @@ class SpecialityController extends ApiController
         $speciality = $this->specialityService->findOrFail($id);
         return $this->response($speciality);
     }
+
+    #[Route('/{id}', name: 'app_api_speciality_updateOne', methods: 'PUT')]
+    public function updateOne(int $id, Request $request, ValidatorInterface $validator): JsonResponse
+    {
+        $speciality = $this->specialityService->findOrFail($id);
+        $specialityRequest = new SpecialityRequest($request);
+        $validationErrors = $validator->validate($specialityRequest);
+        $this->checkValidationError($validationErrors);
+        $updatedSpeciality = $this->specialityService->update($specialityRequest, $speciality, $this->getUser());
+        return $this->response($updatedSpeciality);
+    }
 }

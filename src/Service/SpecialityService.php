@@ -31,9 +31,12 @@ class SpecialityService implements EntityServiceInterface
         return $speciality;
     }
 
-    public function update($entityRequest, $entity, $loggedUser = null)
+    public function update($entityRequest, $entity, $loggedUser = null): Speciality
     {
-        // TODO: Implement update() method.
+        $speciality = $this->setFields($entityRequest, $entity);
+        $speciality->setUpdatedBy($loggedUser);
+        $this->specialityRepository->save($speciality, true);
+        return $speciality;
     }
 
     public function delete(int $id): void
