@@ -56,13 +56,13 @@ class Personnel
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $status = null;
 
-    #[ORM\ManyToOne(inversedBy: 'createdPersonnels')]
+    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'createdPersonnels')]
     private ?User $createdBy = null;
 
-    #[ORM\ManyToOne(inversedBy: 'updatedPersonnels')]
+    #[ORM\ManyToOne(fetch: 'EAGER',inversedBy: 'updatedPersonnels')]
     private ?User $updatedBy = null;
 
-    #[ORM\ManyToOne(inversedBy: 'personnels')]
+    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'personnels')]
     private ?Speciality $speciality = null;
 
     #[ORM\OneToMany(mappedBy: 'personnel', targetEntity: PersonnelService::class, fetch: 'EAGER')]

@@ -3,6 +3,8 @@
 namespace App\Controller\API;
 
 use App\DTO\PersonnelRequest;
+use App\model\PaginationModel;
+use App\Repository\PersonnelRepository;
 use App\Service\PaginationService;
 use App\Service\PersonnelService;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -29,5 +31,13 @@ class PersonnelController extends ApiController
         $this->checkValidationError($validationError);
         $patientResponse = $this->personnelService->create($personnelRequest, $this->getUser());
         return $this->response($patientResponse, Response::HTTP_CREATED);
+    }
+
+    #[Route('', name: 'api_personnel_getAll', methods: 'GET')]
+    public function getAll(Request $request, PersonnelRepository $personnelRepository): JsonResponse
+    {
+        $paginationModel = new PaginationModel($request);
+        $array = $this->paginationService->getPaginatedItems($paginationModel, $personnelRepository);
+        return $this->response($array);
     }
 }
