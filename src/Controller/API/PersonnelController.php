@@ -58,4 +58,11 @@ class PersonnelController extends ApiController
         $updatedPersonnel = $this->personnelService->update($personnelRequest, $personnel, $this->getUser());
         return $this->response($updatedPersonnel, Response::HTTP_CREATED);
     }
+
+    #[Route('/{id}', name: 'api_personnel_delete', methods: 'DELETE')]
+    public function delete(int $id): JsonResponse
+    {
+        $this->personnelService->delete($id);
+        return $this->response([], Response::HTTP_NO_CONTENT);
+    }
 }
