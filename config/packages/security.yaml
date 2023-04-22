@@ -53,6 +53,7 @@ security:
         - { path: ^/api/users, roles: ROLE_ADMIN }
         - { path: ^/api/patients, roles: ROLE_USER}
         - { path: ^/api/medical_services, roles: ROLE_USER}
+        - { path: ^/api/specialities, roles: ROLE_USER}
         # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:

@@ -27,7 +27,7 @@ class SpecialityService implements EntityServiceInterface
     public function findOrFail(int $id): Speciality
     {
         $speciality = $this->specialityRepository->find($id);
-        if (!$speciality) throw new NotFoundException();
+        if (!$speciality) throw new NotFoundException('Speciality Not Found');
         return $speciality;
     }
 
@@ -41,7 +41,8 @@ class SpecialityService implements EntityServiceInterface
 
     public function delete(int $id): void
     {
-        // TODO: Implement delete() method.
+        $speciality = $this->findOrFail($id);
+        $this->specialityRepository->remove($speciality, true);
     }
 
     public function setFields($entityRequest, $entity): ?Speciality

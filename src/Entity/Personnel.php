@@ -10,9 +10,11 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: PersonnelRepository::class)]
 #[HasLifecycleCallbacks]
+#[UniqueEntity(['email'], 'this email is already taken')]
 class Personnel
 {
     use DateTrait;
@@ -63,14 +65,20 @@ class Personnel
     #[ORM\ManyToOne(inversedBy: 'personnels')]
     private ?Speciality $speciality = null;
 
-    #[ORM\OneToMany(mappedBy: 'personnel', targetEntity: PersonnelService::class)]
+    #[ORM\OneToMany(mappedBy: 'personnel', targetEntity: PersonnelService::class, fetch: 'EAGER')]
     private Collection $personnelServices;
 
-    #[ORM\OneToMany(mappedBy: 'personnel', targetEntity: PersonnelGarde::class)]
+    #[ORM\OneToMany(mappedBy: 'personnel', targetEntity: PersonnelGarde::class, fetch: 'EAGER')]
     private Collection $personnelGardes;
 
-    #[ORM\OneToMany(mappedBy: 'doctor', targetEntity: Consultation::class)]
+    #[ORM\OneToMany(mappedBy: 'doctor', targetEntity: Consultation::class, fetch: 'EAGER')]
     private Collection $consultations;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $bloodGroup = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $title = null;
 
     public function __construct()
     {
@@ -266,6 +274,30 @@ class Personnel
                 $consultation->setDoctor(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getBloodGroup(): ?string
+    {
+        return $this->bloodGroup;
+    }
+
+    public function setBloodGroup(?string $bloodGroup): self
+    {
+        $this->bloodGroup = $bloodGroup;
+
+        return $this;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(?string $title): self
+    {
+        $this->title = $title;
 
         return $this;
     }
