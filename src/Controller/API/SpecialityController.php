@@ -9,6 +9,7 @@ use App\Service\PaginationService;
 use App\Service\SpecialityService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -29,7 +30,7 @@ class SpecialityController extends ApiController
         $validationErrors = $validator->validate($specialityRequest);
         $this->checkValidationError($validationErrors);
         $speciality = $this->specialityService->create($specialityRequest, $this->getUser());
-        return $this->response($speciality);
+        return $this->response($speciality, Response::HTTP_CREATED);
     }
 
     #[Route('', name: 'api_speciality_getAll', methods: 'GET')]
@@ -56,5 +57,12 @@ class SpecialityController extends ApiController
         $this->checkValidationError($validationErrors);
         $updatedSpeciality = $this->specialityService->update($specialityRequest, $speciality, $this->getUser());
         return $this->response($updatedSpeciality);
+    }
+
+    #[Route('/{id}', name: 'app_api_speciality_deleteOne', methods: 'DELETE')]
+    public function deleteOne(int $id): JsonResponse
+    {
+        $this->specialityService->delete($id);
+        return $this->response([], Response::HTTP_NO_CONTENT);
     }
 }
