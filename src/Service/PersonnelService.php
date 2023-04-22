@@ -32,9 +32,12 @@ class PersonnelService implements EntityServiceInterface
         return $personnel;
     }
 
-    public function update($entityRequest, $entity, $loggedUser = null)
+    public function update($entityRequest, $entity, $loggedUser = null): Personnel
     {
-        // TODO: Implement update() method.
+        $personnel = $this->setFields($entityRequest, $entity);
+        $personnel->setUpdatedBy($loggedUser);
+        $this->personnelRepository->save($personnel, true);
+        return $personnel;
     }
 
     public function delete(int $id): void

@@ -29,8 +29,8 @@ class PersonnelController extends ApiController
         $personnelRequest = new PersonnelRequest($request);
         $validationError = $validator->validate($personnelRequest);
         $this->checkValidationError($validationError);
-        $patientResponse = $this->personnelService->create($personnelRequest, $this->getUser());
-        return $this->response($patientResponse, Response::HTTP_CREATED);
+        $personnel = $this->personnelService->create($personnelRequest, $this->getUser());
+        return $this->response($personnel, Response::HTTP_CREATED);
     }
 
     #[Route('', name: 'api_personnel_getAll', methods: 'GET')]
@@ -46,5 +46,16 @@ class PersonnelController extends ApiController
     {
         $personnel = $this->personnelService->findOrFail($id);
         return $this->response($personnel);
+    }
+
+    #[Route('/{id}', name: 'api_personnel_updateOne', methods: 'PUT')]
+    public function updateOne(int $id, Request $request, ValidatorInterface $validator): JsonResponse
+    {
+        $personnel = $this->personnelService->findOrFail($id);
+        $personnelRequest = new PersonnelRequest($request);
+        $validationError = $validator->validate($personnelRequest);
+        $this->checkValidationError($validationError);
+        $updatedPersonnel = $this->personnelService->update($personnelRequest, $personnel, $this->getUser());
+        return $this->response($updatedPersonnel, Response::HTTP_CREATED);
     }
 }
