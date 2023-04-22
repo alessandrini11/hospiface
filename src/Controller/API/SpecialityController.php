@@ -39,4 +39,11 @@ class SpecialityController extends ApiController
         $array = $this->paginationService->getPaginatedItems($paginationModel, $specialityRepository);
         return $this->response($array);
     }
+
+    #[Route('/{id}', name: 'api_speciality_getOne', methods: 'GET')]
+    public function getOne(int $id): JsonResponse
+    {
+        $speciality = $this->specialityService->findOrFail($id);
+        return $this->response($speciality);
+    }
 }

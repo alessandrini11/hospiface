@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\DTO\SpecialityRequest;
 use App\Entity\Speciality;
+use App\Exceptions\NotFoundException;
 use App\Interface\EntityServiceInterface;
 use App\Repository\SpecialityRepository;
 
@@ -23,9 +24,11 @@ class SpecialityService implements EntityServiceInterface
         return $speciality;
     }
 
-    public function findOrFail(int $id)
+    public function findOrFail(int $id): Speciality
     {
-        // TODO: Implement findOrFail() method.
+        $speciality = $this->specialityRepository->find($id);
+        if (!$speciality) throw new NotFoundException();
+        return $speciality;
     }
 
     public function update($entityRequest, $entity, $loggedUser = null)
