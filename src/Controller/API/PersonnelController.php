@@ -40,4 +40,11 @@ class PersonnelController extends ApiController
         $array = $this->paginationService->getPaginatedItems($paginationModel, $personnelRepository);
         return $this->response($array);
     }
+
+    #[Route('/{id}', name: 'api_personnel_getOne', methods: 'GET')]
+    public function getOne(int $id,PersonnelRepository $personnelRepository): JsonResponse
+    {
+        $personnel = $this->personnelService->findOrFail($id);
+        return $this->response($personnel);
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\DTO\PersonnelRequest;
 use App\Entity\Personnel;
+use App\Exceptions\NotFoundException;
 use App\Interface\EntityServiceInterface;
 use App\Repository\PersonnelRepository;
 
@@ -24,9 +25,11 @@ class PersonnelService implements EntityServiceInterface
         return $personnel;
     }
 
-    public function findOrFail(int $id)
+    public function findOrFail(int $id): Personnel
     {
-        // TODO: Implement findOrFail() method.
+        $personnel = $this->personnelRepository->find($id);
+        if(!$personnel) throw new NotFoundException('Personnel Not Found');
+        return $personnel;
     }
 
     public function update($entityRequest, $entity, $loggedUser = null)
