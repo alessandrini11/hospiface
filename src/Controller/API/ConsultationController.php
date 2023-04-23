@@ -40,4 +40,11 @@ class ConsultationController extends ApiController
         $array = $this->paginationService->getPaginatedItems($paginationModel, $consultationRepository);
         return $this->response($array);
     }
+
+    #[Route('/{id}', name: 'api_consultation_getOne', methods: 'GET')]
+    public function getOne(int $id): JsonResponse
+    {
+        $consultation = $this->consultationService->findOrFail($id);
+        return $this->response($consultation);
+    }
 }

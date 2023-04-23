@@ -7,6 +7,7 @@ use App\Entity\Consultation;
 use App\Entity\MedicalOrder;
 use App\Entity\Parametre;
 use App\Entity\Result;
+use App\Exceptions\NotFoundException;
 use App\Interface\EntityServiceInterface;
 use App\Repository\ConsultationRepository;
 use App\Repository\MedicalOrderRepository;
@@ -54,9 +55,11 @@ class ConsultationService implements EntityServiceInterface
     {
         // TODO: Implement update() method.
     }
-    public function findOrFail(int $id)
+    public function findOrFail(int $id): Consultation
     {
-        // TODO: Implement findOrFail() method.
+        $consultation = $this->consultationRepository->find($id);
+        if(!$consultation) throw new NotFoundException('Consultation Not Found');
+        return $consultation;
     }
 
     public function delete(int $id): void
