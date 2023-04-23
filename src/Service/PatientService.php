@@ -30,10 +30,7 @@ class PatientService implements EntityServiceInterface
     public function findOrFail(int $id): Patient
     {
         $patient = $this->patientRepository->find($id);
-        if(!$patient)
-        {
-            throw new NotFoundException();
-        }
+        if(!$patient) throw new NotFoundException('Patient Not Found');
         return $patient;
     }
 
