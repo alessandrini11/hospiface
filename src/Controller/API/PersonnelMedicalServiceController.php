@@ -39,4 +39,14 @@ class PersonnelMedicalServiceController extends ApiController
         $array = $this->paginationService->getPaginatedItems($paginationModel, $personnelServiceRepository);
         return $this->response($array);
     }
+    #[Route('/{id}', name: 'api_personnelmedicalservice_update', methods: 'PUT')]
+    public function update(int $id, Request $request, ValidatorInterface $validator): JsonResponse
+    {
+        $personnelService = $this->personnelMedicalServiceService->findOrFail($id);
+        $personnelServiceRequest = new PersonnelMedicalServiceRequest($request);
+        $validationError = $validator->validate($personnelServiceRequest);
+        $this->checkValidationError($validationError);
+        $updatedPersonnelService = $this->personnelMedicalServiceService->create($personnelServiceRequest, $this->getUser());
+        return $this->response($updatedPersonnelService, Response::HTTP_CREATED);
+    }
 }
