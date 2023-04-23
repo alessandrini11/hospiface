@@ -3,7 +3,10 @@
 namespace App\Controller\API;
 
 use App\DTO\ConsultationRequest;
+use App\model\PaginationModel;
+use App\Repository\ConsultationRepository;
 use App\Service\ConsultationService;
+use App\Service\PaginationService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,7 +17,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class ConsultationController extends ApiController
 {
     public function __construct(
-        readonly private ConsultationService $consultationService
+        readonly private ConsultationService $consultationService,
+        readonly private PaginationService $paginationService
     )
     {
     }
@@ -27,5 +31,13 @@ class ConsultationController extends ApiController
         $this->checkValidationError($validationError);
         $consultation = $this->consultationService->create($consultationRequest, $this->getUser());
         return $this->response($consultation, Response::HTTP_CREATED);
+    }
+
+    #[Route('', name: 'app_api_consultation_getAll', methods: 'GET')]
+    public function getAll(Request $request, ConsultationRepository $consultationRepository): JsonResponse
+    {
+        $paginationModel = new PaginationModel($request);
+        $array = $this->paginationService->getPaginatedItems($paginationModel, $consultationRepository);
+        return $this->response($array);
     }
 }
