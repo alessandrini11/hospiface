@@ -161,6 +161,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'updateBy', targetEntity: PersonnelService::class)]
     private Collection $updatedPersonnelService;
 
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Garde::class)]
+    private Collection $createdGardes;
+
+    #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: Garde::class)]
+    private Collection $updatedGardes;
+
     public function __construct()
     {
         $this->createdPersonnels = new ArrayCollection();
@@ -191,6 +197,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->updatedConsultations = new ArrayCollection();
         $this->createdPersonnelServices = new ArrayCollection();
         $this->updatedPersonnelService = new ArrayCollection();
+        $this->createdGardes = new ArrayCollection();
+        $this->updatedGardes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -1171,6 +1179,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($updatedPersonnelService->getUpdateBy() === $this) {
                 $updatedPersonnelService->setUpdateBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Garde>
+     */
+    public function getCreatedGardes(): Collection
+    {
+        return $this->createdGardes;
+    }
+
+    public function addCreatedGarde(Garde $createdGarde): self
+    {
+        if (!$this->createdGardes->contains($createdGarde)) {
+            $this->createdGardes->add($createdGarde);
+            $createdGarde->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreatedGarde(Garde $createdGarde): self
+    {
+        if ($this->createdGardes->removeElement($createdGarde)) {
+            // set the owning side to null (unless already changed)
+            if ($createdGarde->getCreatedBy() === $this) {
+                $createdGarde->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Garde>
+     */
+    public function getUpdatedGardes(): Collection
+    {
+        return $this->updatedGardes;
+    }
+
+    public function addUpdatedGarde(Garde $updatedGarde): self
+    {
+        if (!$this->updatedGardes->contains($updatedGarde)) {
+            $this->updatedGardes->add($updatedGarde);
+            $updatedGarde->setUpdatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUpdatedGarde(Garde $updatedGarde): self
+    {
+        if ($this->updatedGardes->removeElement($updatedGarde)) {
+            // set the owning side to null (unless already changed)
+            if ($updatedGarde->getUpdatedBy() === $this) {
+                $updatedGarde->setUpdatedBy(null);
             }
         }
 

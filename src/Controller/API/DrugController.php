@@ -56,7 +56,7 @@ class DrugController extends ApiController
         $updatedDrug = $this->drugService->update($drugRequest, $drug, $this->getUser());
         return $this->response($updatedDrug);
     }
-    #[Route('/{id}', name: 'api_drug_delete', methods: 'GET')]
+    #[Route('/{id}', name: 'api_drug_delete', methods: 'DELETE')]
     public function delete(int $id): JsonResponse
     {
         $this->drugService->delete($id);

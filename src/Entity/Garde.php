@@ -26,11 +26,17 @@ class Garde
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $endDate = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $status = null;
+    #[ORM\Column(type: Types::SMALLINT, nullable: true)]
+    private ?int $status = null;
 
-    #[ORM\OneToMany(mappedBy: 'garde', targetEntity: PersonnelGarde::class)]
+    #[ORM\OneToMany(mappedBy: 'garde', targetEntity: PersonnelGarde::class, fetch: 'EAGER')]
     private Collection $personnelGardes;
+
+    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'createdGardes')]
+    private ?User $createdBy = null;
+
+    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'updatedGardes')]
+    private ?User $updatedBy = null;
 
     public function __construct()
     {
@@ -66,12 +72,12 @@ class Garde
         return $this;
     }
 
-    public function getStatus(): ?string
+    public function getStatus(): ?int
     {
         return $this->status;
     }
 
-    public function setStatus(?string $status): self
+    public function setStatus(?int $status): self
     {
         $this->status = $status;
 
@@ -104,6 +110,30 @@ class Garde
                 $personnelGarde->setGarde(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCreatedBy(): ?User
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?User $createdBy): self
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    public function getUpdatedBy(): ?User
+    {
+        return $this->updatedBy;
+    }
+
+    public function setUpdatedBy(?User $updatedBy): self
+    {
+        $this->updatedBy = $updatedBy;
 
         return $this;
     }
