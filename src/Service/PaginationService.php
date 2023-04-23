@@ -19,9 +19,9 @@ class PaginationService
         }
         return [
             'data' => $data,
-            'page' => $actualPage,
-            'perPage' => $perPage,
-            'totalPages' => $totalPages
+            'page' => !$query ? $actualPage : null,
+            'perPage' => !$query ? $perPage : null,
+            'totalPages' => !$query ? $totalPages : null
         ];
     }
 }

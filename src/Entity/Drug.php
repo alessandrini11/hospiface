@@ -26,13 +26,13 @@ class Drug
     #[ORM\Column(nullable: true)]
     private ?bool $alternative = null;
 
-    #[ORM\ManyToOne(inversedBy: 'drugs')]
+    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'drugs')]
     private ?MedicalOrder $medicalOrder = null;
 
-    #[ORM\ManyToOne(inversedBy: 'createdDrugs')]
+    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'createdDrugs')]
     private ?User $createdBy = null;
 
-    #[ORM\ManyToOne(inversedBy: 'updatedDrugs')]
+    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'updatedDrugs')]
     private ?User $updatedBy = null;
 
     public function getId(): ?int

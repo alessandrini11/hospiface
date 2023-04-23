@@ -21,11 +21,8 @@ class MedicalExamService implements EntityServiceInterface
 
     public function create($entityRequest, $loggedUser = null): MedicalExams
     {
-        $result = $this->resultService->findOrFail($entityRequest->result);
         $medicalExam = $this->setFields($entityRequest, new MedicalExams());
         $medicalExam->setCreatedBy($loggedUser);
-        $result->addMedicalExam($medicalExam);
-        $this->entityManager->persist($result);
         $this->entityManager->persist($medicalExam);
         $this->entityManager->flush();
         return $medicalExam;
@@ -56,6 +53,11 @@ class MedicalExamService implements EntityServiceInterface
         if(!$entityRequest instanceof MedicalExamRequest && !$entity instanceof MedicalExams) return null;
         if($entityRequest->type){
             $entity->setType($entityRequest->type);
+        }
+        if($entityRequest->result){
+            $result = $this->resultService->findOrFail($entityRequest->result);
+            $result->addMedicalExam($entity);
+            $this->entityManager->persist($result);
         }
         if($entityRequest->description){
             $entity->setDescription($entityRequest->description);

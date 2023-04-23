@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Drug;
+use App\Interface\EntityRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -14,7 +15,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Drug[]    findAll()
  * @method Drug[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class DrugRepository extends ServiceEntityRepository
+class DrugRepository extends ServiceEntityRepository implements EntityRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -37,6 +38,16 @@ class DrugRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+    public function searchByName(string $query)
+    {
+        return $this->createQueryBuilder('d')
+            ->where('d.name LIKE :query')
+            ->setParameter('query', "%{$query}%")
+            ->orderBy('d.name', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
     }
 
 //    /**
@@ -63,4 +74,5 @@ class DrugRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
 }
