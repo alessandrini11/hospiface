@@ -47,7 +47,8 @@ class MedicalExamService implements EntityServiceInterface
 
     public function delete(int $id): void
     {
-        // TODO: Implement delete() method.
+        $medicalExam = $this->findOrFail($id);
+        $this->medicalExamsRepository->remove($medicalExam, true);
     }
 
     public function setFields($entityRequest, $entity): ?MedicalExams
