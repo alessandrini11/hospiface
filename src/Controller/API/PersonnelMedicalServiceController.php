@@ -39,6 +39,13 @@ class PersonnelMedicalServiceController extends ApiController
         $array = $this->paginationService->getPaginatedItems($paginationModel, $personnelServiceRepository);
         return $this->response($array);
     }
+    #[Route('/{id}', name: '_api_personnelmedicalservice_getone', methods: 'GET')]
+    public function getOne(int $id): JsonResponse
+    {
+        $personnelService = $this->personnelMedicalServiceService->findOrFail($id);
+        return $this->response($personnelService);
+    }
+
     #[Route('/{id}', name: 'api_personnelmedicalservice_update', methods: 'PUT')]
     public function update(int $id, Request $request, ValidatorInterface $validator): JsonResponse
     {
@@ -46,7 +53,14 @@ class PersonnelMedicalServiceController extends ApiController
         $personnelServiceRequest = new PersonnelMedicalServiceRequest($request);
         $validationError = $validator->validate($personnelServiceRequest);
         $this->checkValidationError($validationError);
-        $updatedPersonnelService = $this->personnelMedicalServiceService->create($personnelServiceRequest, $this->getUser());
+        $updatedPersonnelService = $this->personnelMedicalServiceService->update($personnelServiceRequest, $personnelService, $this->getUser());
         return $this->response($updatedPersonnelService, Response::HTTP_CREATED);
+    }
+
+    #[Route('/{id}', name: 'api_personnelmedicalservice_delete', methods: 'DELETE')]
+    public function delete(int $id): JsonResponse
+    {
+        $this->personnelMedicalServiceService->delete($id);
+        return $this->response([], Response::HTTP_NO_CONTENT);
     }
 }
