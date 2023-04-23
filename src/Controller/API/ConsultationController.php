@@ -58,4 +58,11 @@ class ConsultationController extends ApiController
         $updatedConsultation = $this->consultationService->update($consultationRequest, $consultation, $this->getUser());
         return $this->response($updatedConsultation, Response::HTTP_CREATED);
     }
+
+    #[Route('/{id}', name: 'api_consultation_delete', methods: 'DELETE')]
+    public function delete(int $id): JsonResponse
+    {
+        $this->consultationService->delete($id);
+        return $this->response([], Response::HTTP_NO_CONTENT);
+    }
 }

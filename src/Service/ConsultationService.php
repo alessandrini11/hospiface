@@ -68,7 +68,8 @@ class ConsultationService implements EntityServiceInterface
 
     public function delete(int $id): void
     {
-
+        $consultation = $this->findOrFail($id);
+        $this->consultationRepository->remove($consultation, true);
     }
 
     public function setFields($entityRequest, $entity): ?Consultation

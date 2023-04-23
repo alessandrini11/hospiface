@@ -29,7 +29,7 @@ class Consultation
 
     #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'consultations')]
     private ?Patient $patient = null;
-    
+
     #[ORM\OneToOne(cascade: ['persist', 'remove'], fetch: 'EAGER')]
     private ?Parametre $parameter = null;
 
