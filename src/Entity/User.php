@@ -155,6 +155,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: Consultation::class)]
     private Collection $updatedConsultations;
 
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: PersonnelService::class)]
+    private Collection $createdPersonnelServices;
+
+    #[ORM\OneToMany(mappedBy: 'updateBy', targetEntity: PersonnelService::class)]
+    private Collection $updatedPersonnelService;
+
     public function __construct()
     {
         $this->createdPersonnels = new ArrayCollection();
@@ -183,6 +189,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->updatedConfigDesigns = new ArrayCollection();
         $this->createdConsultations = new ArrayCollection();
         $this->updatedConsultations = new ArrayCollection();
+        $this->createdPersonnelServices = new ArrayCollection();
+        $this->updatedPersonnelService = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -1103,6 +1111,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($updatedConsultation->getUpdatedBy() === $this) {
                 $updatedConsultation->setUpdatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PersonnelService>
+     */
+    public function getCreatedPersonnelServices(): Collection
+    {
+        return $this->createdPersonnelServices;
+    }
+
+    public function addCreatedPersonnelService(PersonnelService $createdPersonnelService): self
+    {
+        if (!$this->createdPersonnelServices->contains($createdPersonnelService)) {
+            $this->createdPersonnelServices->add($createdPersonnelService);
+            $createdPersonnelService->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreatedPersonnelService(PersonnelService $createdPersonnelService): self
+    {
+        if ($this->createdPersonnelServices->removeElement($createdPersonnelService)) {
+            // set the owning side to null (unless already changed)
+            if ($createdPersonnelService->getCreatedBy() === $this) {
+                $createdPersonnelService->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PersonnelService>
+     */
+    public function getUpdatedPersonnelService(): Collection
+    {
+        return $this->updatedPersonnelService;
+    }
+
+    public function addUpdatedPersonnelService(PersonnelService $updatedPersonnelService): self
+    {
+        if (!$this->updatedPersonnelService->contains($updatedPersonnelService)) {
+            $this->updatedPersonnelService->add($updatedPersonnelService);
+            $updatedPersonnelService->setUpdateBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUpdatedPersonnelService(PersonnelService $updatedPersonnelService): self
+    {
+        if ($this->updatedPersonnelService->removeElement($updatedPersonnelService)) {
+            // set the owning side to null (unless already changed)
+            if ($updatedPersonnelService->getUpdateBy() === $this) {
+                $updatedPersonnelService->setUpdateBy(null);
             }
         }
 

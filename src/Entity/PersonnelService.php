@@ -3,11 +3,14 @@
 namespace App\Entity;
 
 use App\Repository\PersonnelServiceRepository;
+use App\Trait\DateTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PersonnelServiceRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class PersonnelService
 {
+    use DateTrait;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -22,6 +25,12 @@ class PersonnelService
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $positionHeld = null;
+
+    #[ORM\ManyToOne(inversedBy: 'createdPersonnelServices')]
+    private ?User $createdBy = null;
+
+    #[ORM\ManyToOne(inversedBy: 'updatedPersonnelService')]
+    private ?User $updateBy = null;
 
     public function getId(): ?int
     {
@@ -60,6 +69,30 @@ class PersonnelService
     public function setPositionHeld(?string $positionHeld): self
     {
         $this->positionHeld = $positionHeld;
+
+        return $this;
+    }
+
+    public function getCreatedBy(): ?User
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?User $createdBy): self
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    public function getUpdateBy(): ?User
+    {
+        return $this->updateBy;
+    }
+
+    public function setUpdateBy(?User $updateBy): self
+    {
+        $this->updateBy = $updateBy;
 
         return $this;
     }
