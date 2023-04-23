@@ -56,7 +56,9 @@ security:
         - { path: ^/api/specialities, roles: ROLE_USER}
         - { path: ^/api/consultations, roles: ROLE_USER}
         - { path: ^/api/personnels, roles: ROLE_USER}
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/api/parameters, roles: ROLE_USER}
+        - { path: ^/api/results, roles: ROLE_USER}
+        # - { path: ^/parameters, roles: ROLE_USER }
 
 when@test:
     security:

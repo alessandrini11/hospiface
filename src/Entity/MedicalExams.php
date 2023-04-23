@@ -23,15 +23,14 @@ class MedicalExams
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
+    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'medicalExam')]
+    private ?Result $result = null;
 
-    #[ORM\ManyToOne(inversedBy: 'createdMedicalExams')]
+    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'createdMedicalExams')]
     private ?User $createdBy = null;
 
-    #[ORM\ManyToOne(inversedBy: 'updatedMedicalExams')]
+    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'updatedMedicalExams')]
     private ?User $updatedBy = null;
-
-    #[ORM\ManyToOne(inversedBy: 'medicalExam')]
-    private ?Result $result = null;
 
     public function getId(): ?int
     {
