@@ -47,4 +47,15 @@ class ConsultationController extends ApiController
         $consultation = $this->consultationService->findOrFail($id);
         return $this->response($consultation);
     }
+
+    #[Route('/{id}', name: 'api_consultation_updateOne', methods: 'PUT')]
+    public function updateOne(int $id, Request $request, ValidatorInterface $validator): JsonResponse
+    {
+        $consultation = $this->consultationService->findOrFail($id);
+        $consultationRequest = new ConsultationRequest($request);
+        $validationError = $validator->validate($consultationRequest);
+        $this->checkValidationError($validationError);
+        $updatedConsultation = $this->consultationService->update($consultationRequest, $consultation, $this->getUser());
+        return $this->response($updatedConsultation, Response::HTTP_CREATED);
+    }
 }

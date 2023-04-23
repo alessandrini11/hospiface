@@ -18,18 +18,18 @@ class Consultation
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(fetch: 'EAGER' , inversedBy: 'consultations')]
-    private ?Personnel $doctor = null;
-
-    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'consultations')]
-    private ?Patient $patient = null;
-
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
     private ?int $status = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $type = null;
 
+    #[ORM\ManyToOne(fetch: 'EAGER' , inversedBy: 'consultations')]
+    private ?Personnel $doctor = null;
+
+    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'consultations')]
+    private ?Patient $patient = null;
+    
     #[ORM\OneToOne(cascade: ['persist', 'remove'], fetch: 'EAGER')]
     private ?Parametre $parameter = null;
 

@@ -51,9 +51,13 @@ class ConsultationService implements EntityServiceInterface
 
     }
 
-    public function update($entityRequest, $entity, $loggedUser = null)
+    public function update($entityRequest, $entity, $loggedUser = null): Consultation
     {
-        // TODO: Implement update() method.
+        $consultation = $this->setFields($entityRequest, new Consultation());
+        $consultation
+            ->setUpdatedBy($loggedUser);
+        $this->consultationRepository->save($consultation);
+        return $consultation;
     }
     public function findOrFail(int $id): Consultation
     {

@@ -21,7 +21,7 @@ class ConsultationRequest
 
     #[Assert\Type('string')]
     #[Assert\NotBlank(allowNull: true)]
-    #[Assert\Length(max: 10)]
+    #[Assert\Length(max: 50)]
     public ?string $type;
 
     public function __construct(Request $request)
