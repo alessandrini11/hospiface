@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\DTO\MedicalExamRequest;
 use App\Entity\MedicalExams;
+use App\Exceptions\NotFoundException;
 use App\Interface\EntityServiceInterface;
 use App\Repository\MedicalExamsRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -29,14 +30,19 @@ class MedicalExamService implements EntityServiceInterface
         $this->entityManager->flush();
         return $medicalExam;
     }
-    public function update($entityRequest, $entity, $loggedUser = null)
+    public function update($entityRequest, $entity, $loggedUser = null): MedicalExams
     {
-        // TODO: Implement update() method.
+        $medicalExam = $this->setFields($entityRequest, $entity);
+        $medicalExam->setUpdatedBy($loggedUser);
+        $this->medicalExamsRepository->save($medicalExam, true);
+        return $medicalExam;
     }
 
-    public function findOrFail(int $id)
+    public function findOrFail(int $id): MedicalExams
     {
-        // TODO: Implement findOrFail() method.
+        $medicalExam = $this->medicalExamsRepository->find($id);
+        if(!$medicalExam) throw new NotFoundException('Medical Exam Not Found');
+        return $medicalExam;
     }
 
     public function delete(int $id): void
