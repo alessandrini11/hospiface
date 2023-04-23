@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ConsultationRepository;
 use App\Trait\DateTrait;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 
@@ -17,23 +18,29 @@ class Consultation
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'consultations')]
+    #[ORM\ManyToOne(fetch: 'EAGER' , inversedBy: 'consultations')]
     private ?Personnel $doctor = null;
 
-    #[ORM\ManyToOne(inversedBy: 'consultations')]
+    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'consultations')]
     private ?Patient $patient = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $status = null;
+    #[ORM\Column(type: Types::SMALLINT, nullable: true)]
+    private ?int $status = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $type = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(cascade: ['persist', 'remove'], fetch: 'EAGER')]
     private ?Parametre $parameter = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(cascade: ['persist', 'remove'], fetch: 'EAGER')]
     private ?Result $result = null;
+
+    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'createdConsultations')]
+    private ?User $createdBy = null;
+
+    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'updatedConsultations')]
+    private ?User $updatedBy = null;
 
     public function getId(): ?int
     {
@@ -64,12 +71,12 @@ class Consultation
         return $this;
     }
 
-    public function getStatus(): ?string
+    public function getStatus(): ?int
     {
         return $this->status;
     }
 
-    public function setStatus(string $status): self
+    public function setStatus(int $status): self
     {
         $this->status = $status;
 
@@ -108,6 +115,30 @@ class Consultation
     public function setResult(?Result $result): self
     {
         $this->result = $result;
+
+        return $this;
+    }
+
+    public function getCreatedBy(): ?User
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?User $createdBy): self
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    public function getUpdatedBy(): ?User
+    {
+        return $this->updatedBy;
+    }
+
+    public function setUpdatedBy(?User $updatedBy): self
+    {
+        $this->updatedBy = $updatedBy;
 
         return $this;
     }

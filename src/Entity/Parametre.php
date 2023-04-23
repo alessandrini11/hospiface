@@ -29,10 +29,10 @@ class Parametre
     #[ORM\Column(nullable: true)]
     private ?float $height = null;
 
-    #[ORM\ManyToOne(inversedBy: 'createdParameters')]
+    #[ORM\ManyToOne(fetch: 'EAGER' , inversedBy: 'createdParameters')]
     private ?User $createdBy = null;
 
-    #[ORM\ManyToOne(inversedBy: 'updatedParameters')]
+    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'updatedParameters')]
     private ?User $updatedBy = null;
 
     public function getId(): ?int

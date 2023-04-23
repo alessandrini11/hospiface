@@ -149,6 +149,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: ConfigDesign::class)]
     private Collection $updatedConfigDesigns;
 
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Consultation::class)]
+    private Collection $createdConsultations;
+
+    #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: Consultation::class)]
+    private Collection $updatedConsultations;
+
     public function __construct()
     {
         $this->createdPersonnels = new ArrayCollection();
@@ -175,6 +181,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->updatedHospitilizations = new ArrayCollection();
         $this->createdConfigDesigns = new ArrayCollection();
         $this->updatedConfigDesigns = new ArrayCollection();
+        $this->createdConsultations = new ArrayCollection();
+        $this->updatedConsultations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -1035,6 +1043,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($updatedConfigDesign->getUpdatedBy() === $this) {
                 $updatedConfigDesign->setUpdatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Consultation>
+     */
+    public function getCreatedConsultations(): Collection
+    {
+        return $this->createdConsultations;
+    }
+
+    public function addCreatedConsultation(Consultation $createdConsultation): self
+    {
+        if (!$this->createdConsultations->contains($createdConsultation)) {
+            $this->createdConsultations->add($createdConsultation);
+            $createdConsultation->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreatedConsultation(Consultation $createdConsultation): self
+    {
+        if ($this->createdConsultations->removeElement($createdConsultation)) {
+            // set the owning side to null (unless already changed)
+            if ($createdConsultation->getCreatedBy() === $this) {
+                $createdConsultation->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Consultation>
+     */
+    public function getUpdatedConsultations(): Collection
+    {
+        return $this->updatedConsultations;
+    }
+
+    public function addUpdatedConsultation(Consultation $updatedConsultation): self
+    {
+        if (!$this->updatedConsultations->contains($updatedConsultation)) {
+            $this->updatedConsultations->add($updatedConsultation);
+            $updatedConsultation->setUpdatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUpdatedConsultation(Consultation $updatedConsultation): self
+    {
+        if ($this->updatedConsultations->removeElement($updatedConsultation)) {
+            // set the owning side to null (unless already changed)
+            if ($updatedConsultation->getUpdatedBy() === $this) {
+                $updatedConsultation->setUpdatedBy(null);
             }
         }
 
