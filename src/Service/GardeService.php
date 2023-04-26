@@ -38,7 +38,8 @@ class GardeService implements EntityServiceInterface
     }
     public function delete(int $id): void
     {
-        // TODO: Implement delete() method.
+        $garde = $this->findOrFail($id);
+        $this->gardeRepository->remove($garde, true);
     }
     public function setFields($entityRequest, $entity): ?Garde
     {

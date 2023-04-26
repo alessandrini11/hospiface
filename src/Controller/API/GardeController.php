@@ -59,4 +59,11 @@ class GardeController extends ApiController
         $updatedGarde = $this->gardeService->update($gardeRequest, $garde, $this->getUser());
         return $this->response($updatedGarde);
     }
+
+    #[Route('/{id}', name: 'api_garde_delete', methods: 'DELETE')]
+    public function delete(int $id): JsonResponse
+    {
+        $this->gardeService->delete($id);
+        return $this->response([], Response::HTTP_NO_CONTENT);
+    }
 }
