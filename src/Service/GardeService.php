@@ -45,11 +45,11 @@ class GardeService implements EntityServiceInterface
     public function setFields($entityRequest, $entity): ?Garde
     {
         if (!$entityRequest instanceof GardeRequest && !$entity instanceof Garde) return null;
-        $this->dateService->compareDates($entityRequest->endDate, $entityRequest->startDate);
         if($entityRequest->startDate){
             $entity->setStartDate($entityRequest->startDate);
         }
         if($entityRequest->endDate){
+            $this->dateService->compareDates($entityRequest->endDate, $entityRequest->startDate);
             $entity->setEndDate($entityRequest->endDate);
         }
         if($entityRequest->status){

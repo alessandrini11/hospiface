@@ -22,7 +22,8 @@ class PersonnelGardeRequest
     {
         $this->service = (int) $request->get('service');
         $this->personnel = (int) $request->get('personnel');
-        $this->startDate = (new \DateTime())->setTimestamp(strtotime($request->get('startDate')));
-        $this->endDate =  (new \DateTime())->setTimestamp(strtotime($request->get('endDate')));
+        $this->startDate = $request->get('startDate') ? (new \DateTime())->setTimestamp(strtotime($request->get('startDate'))) : null;
+        $this->endDate = $request->get('startDate') ? (new \DateTime())->setTimestamp(strtotime($request->get('endDate'))) : null;
+
     }
 }

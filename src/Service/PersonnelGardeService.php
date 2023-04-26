@@ -26,9 +26,11 @@ class PersonnelGardeService implements EntityServiceInterface
         return $personnelGarde;
     }
 
-    public function update($entityRequest, $entity, $loggedUser = null)
+    public function update($entityRequest, $entity, $loggedUser = null): PersonnelGarde
     {
-        // TODO: Implement update() method.
+        $personnelGarde = $this->setFields($entityRequest, $entity);
+        $this->personnelGardeRepository->save($personnelGarde, true);
+        return $personnelGarde;
     }
 
     public function findOrFail(int $id): PersonnelGarde
@@ -39,16 +41,17 @@ class PersonnelGardeService implements EntityServiceInterface
     }
     public function delete(int $id): void
     {
-        // TODO: Implement delete() method.
+        $personnelGarde = $this->findOrFail($id);
+        $this->personnelGardeRepository->remove($personnelGarde, true);
     }
     public function setFields($entityRequest, $entity): ?PersonnelGarde
     {
         if (!$entityRequest instanceof PersonnelGardeRequest && !$entity instanceof PersonnelGarde) return null;
-        $this->dateService->compareDates($entityRequest->endDate, $entityRequest->startDate);
         if($entityRequest->startDate){
             $entity->setStartDate($entityRequest->startDate);
         }
         if($entityRequest->endDate){
+            $this->dateService->compareDates($entityRequest->endDate, $entityRequest->startDate);
             $entity->setEndDate($entityRequest->endDate);
         }
         if($entityRequest->personnel){
