@@ -41,4 +41,22 @@ class GardeController extends ApiController
         $array = $this->paginationService->getPaginatedItems($paginationModel, $gardeRepository);
         return $this->response($array);
     }
+
+    #[Route('/{id}', name: 'api_garde_one', methods: 'GET')]
+    public function one(int $id): JsonResponse
+    {
+        $garde = $this->gardeService->findOrFail($id);
+        return $this->response($garde);
+    }
+
+    #[Route('/{id}', name: 'api_garde_update', methods: 'PUT')]
+    public function update(int $id, Request $request, ValidatorInterface $validator): JsonResponse
+    {
+        $garde = $this->gardeService->findOrFail($id);
+        $gardeRequest = new GardeRequest($request);
+        $validationError = $validator->validate($gardeRequest);
+        $this->checkValidationError($validationError);
+        $updatedGarde = $this->gardeService->update($gardeRequest, $garde, $this->getUser());
+        return $this->response($updatedGarde);
+    }
 }

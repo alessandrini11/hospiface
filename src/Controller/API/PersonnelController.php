@@ -42,7 +42,7 @@ class PersonnelController extends ApiController
     }
 
     #[Route('/{id}', name: 'api_personnel_getOne', methods: 'GET')]
-    public function getOne(int $id,PersonnelRepository $personnelRepository): JsonResponse
+    public function getOne(int $id): JsonResponse
     {
         $personnel = $this->personnelService->findOrFail($id);
         return $this->response($personnel);
