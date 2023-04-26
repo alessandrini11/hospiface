@@ -6,8 +6,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class BadRequestException extends ApiException
 {
-    public function __construct(int $statusCode = Response::HTTP_BAD_REQUEST, string $message = 'Bad Request')
+    public function __construct(string $message = 'Bad Request')
     {
-        parent::__construct($statusCode, $message);
+        parent::__construct(Response::HTTP_BAD_REQUEST, $message);
     }
 }

@@ -14,13 +14,13 @@ class PersonnelGarde
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'personnelGardes')]
+    #[ORM\ManyToOne(fetch: 'EAGER' , inversedBy: 'personnelGardes')]
     private ?Personnel $personnel = null;
 
-    #[ORM\ManyToOne(inversedBy: 'personnelGardes')]
+    #[ORM\ManyToOne(fetch: 'EAGER' , inversedBy: 'personnelGardes')]
     private ?Service $service = null;
 
-    #[ORM\ManyToOne(inversedBy: 'personnelGardes')]
+    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'personnelGardes')]
     private ?Garde $garde = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]

@@ -11,7 +11,8 @@ use App\Repository\GardeRepository;
 class GardeService implements EntityServiceInterface
 {
     public function __construct(
-        readonly private GardeRepository $gardeRepository
+        readonly private GardeRepository $gardeRepository,
+        readonly private DateService $dateService
     )
     {
     }
@@ -44,6 +45,7 @@ class GardeService implements EntityServiceInterface
     public function setFields($entityRequest, $entity): ?Garde
     {
         if (!$entityRequest instanceof GardeRequest && !$entity instanceof Garde) return null;
+        $this->dateService->compareDates($entityRequest->endDate, $entityRequest->startDate);
         if($entityRequest->startDate){
             $entity->setStartDate($entityRequest->startDate);
         }
