@@ -28,4 +28,11 @@ class PersonnelGardeController extends ApiController
         $personnelGarde = $this->personnelGardeService->create($personnelGardeRequest);
         return $this->response($personnelGarde, Response::HTTP_CREATED);
     }
+
+    #[Route('/{id}', name: 'api_personnel_garde_one', methods: 'GET')]
+    public function one(int $id): JsonResponse
+    {
+        $personnelGarde = $this->personnelGardeService->findOrFail($id);
+        return $this->response($personnelGarde);
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\DTO\PersonnelGardeRequest;
 use App\Entity\PersonnelGarde;
+use App\Exceptions\NotFoundException;
 use App\Interface\EntityServiceInterface;
 use App\Repository\PersonnelGardeRepository;
 
@@ -30,9 +31,11 @@ class PersonnelGardeService implements EntityServiceInterface
         // TODO: Implement update() method.
     }
 
-    public function findOrFail(int $id)
+    public function findOrFail(int $id): PersonnelGarde
     {
-        // TODO: Implement findOrFail() method.
+        $personnelGarde = $this->personnelGardeRepository->find($id);
+        if(!$personnelGarde) throw new NotFoundException('Personnel Garde Not Found');
+        return $personnelGarde;
     }
     public function delete(int $id): void
     {
