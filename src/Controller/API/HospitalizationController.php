@@ -58,4 +58,10 @@ class HospitalizationController extends ApiController
         $hospitalization = $this->hospitalizationService->update($hospitRequest, $hospitalization, $this->getUser());
         return $this->response($hospitalization);
     }
+    #[Route('/{id}', name: 'api_hospitalization_delete', methods: 'DELETE')]
+    public function delete(int $id): JsonResponse
+    {
+        $this->hospitalizationService->delete($id);
+        return $this->response([], Response::HTTP_NO_CONTENT);
+    }
 }
