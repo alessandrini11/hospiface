@@ -40,4 +40,11 @@ class HospitalizationController extends ApiController
         $array = $this->paginationService->getPaginatedItems($paginationModel, $hospitilizationRepository);
         return $this->response($array);
     }
+
+    #[Route('/{id}', name: 'api_hospitalization_one', methods: 'GET')]
+    public function one(int $id): JsonResponse
+    {
+        $hospitalization = $this->hospitalizationService->findOrFail($id);
+        return $this->response($hospitalization);
+    }
 }

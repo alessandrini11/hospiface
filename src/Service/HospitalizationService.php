@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\DTO\HospitalisationRequest;
 use App\Entity\Hospitilization;
+use App\Exceptions\NotFoundException;
 use App\Interface\EntityServiceInterface;
 use App\Repository\HospitilizationRepository;
 
@@ -29,9 +30,11 @@ class HospitalizationService implements EntityServiceInterface
         // TODO: Implement update() method.
     }
 
-    public function findOrFail(int $id)
+    public function findOrFail(int $id): Hospitilization
     {
-        // TODO: Implement findOrFail() method.
+       $hospitalization = $this->hospitalizationRepository->find($id);
+       if (!$hospitalization) throw new NotFoundException('Hospitalization Not Found');
+       return $hospitalization;
     }
 
     public function delete(int $id): void
