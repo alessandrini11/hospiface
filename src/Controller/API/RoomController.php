@@ -60,8 +60,9 @@ class RoomController extends ApiController
     }
 
     #[Route('/{id}', name: 'api_room_delete', methods: 'DELETE')]
-    public function delete(): JsonResponse
+    public function delete(int $id): JsonResponse
     {
-        $this->response();
+        $this->roomService->delete($id);
+        $this->response([], Response::HTTP_NO_CONTENT);
     }
 }
