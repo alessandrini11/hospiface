@@ -3,6 +3,8 @@
 namespace App\Controller\API;
 
 use App\DTO\HospitalisationRequest;
+use App\model\PaginationModel;
+use App\Repository\HospitilizationRepository;
 use App\Service\HospitalizationService;
 use App\Service\PaginationService;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -29,5 +31,13 @@ class HospitalizationController extends ApiController
         $this->checkValidationError($validationErrors);
         $hospitalization = $this->hospitalizationService->create($hospitRequest, $this->getUser());
         return $this->response($hospitalization, Response::HTTP_CREATED);
+    }
+
+    #[Route('', name: 'api_hospitalization_all', methods: 'GET')]
+    public function all(Request $request, HospitilizationRepository $hospitilizationRepository): JsonResponse
+    {
+        $paginationModel = new PaginationModel($request);
+        $array = $this->paginationService->getPaginatedItems($paginationModel, $hospitilizationRepository);
+        return $this->response($array);
     }
 }
