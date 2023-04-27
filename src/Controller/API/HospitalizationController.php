@@ -47,4 +47,15 @@ class HospitalizationController extends ApiController
         $hospitalization = $this->hospitalizationService->findOrFail($id);
         return $this->response($hospitalization);
     }
+
+    #[Route('/{id}', name: 'api_hospitalization_update', methods: 'PUT')]
+    public function update(int $id, Request $request, ValidatorInterface $validator): JsonResponse
+    {
+        $hospitalization = $this->hospitalizationService->findOrFail($id);
+        $hospitRequest = new HospitalisationRequest($request);
+        $validationErrors = $validator->validate($hospitRequest);
+        $this->checkValidationError($validationErrors);
+        $hospitalization = $this->hospitalizationService->update($hospitRequest, $hospitalization, $this->getUser());
+        return $this->response($hospitalization);
+    }
 }

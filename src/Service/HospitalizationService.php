@@ -25,9 +25,12 @@ class HospitalizationService implements EntityServiceInterface
         $this->hospitalizationRepository->save($hospitalization, true);
         return $hospitalization;
     }
-    public function update($entityRequest, $entity, $loggedUser = null)
+    public function update($entityRequest, $entity, $loggedUser = null): Hospitilization
     {
-        // TODO: Implement update() method.
+        $hospitalization = $this->setFields($entityRequest, $entity);
+        $hospitalization->setUpdatedBy($loggedUser);
+        $this->hospitalizationRepository->save($hospitalization, true);
+        return $hospitalization;
     }
 
     public function findOrFail(int $id): Hospitilization
