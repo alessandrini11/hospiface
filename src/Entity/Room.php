@@ -24,13 +24,13 @@ class Room
     #[ORM\Column(nullable: true)]
     private ?int $beds = null;
 
-    #[ORM\ManyToOne(inversedBy: 'createdRooms')]
+    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'createdRooms')]
     private ?User $createdBy = null;
 
-    #[ORM\ManyToOne(inversedBy: 'updatedRooms')]
+    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'updatedRooms')]
     private ?User $updatedBy = null;
 
-    #[ORM\OneToMany(mappedBy: 'room', targetEntity: HospitalizationRoom::class)]
+    #[ORM\OneToMany(mappedBy: 'room', targetEntity: HospitalizationRoom::class, fetch: 'EAGER')]
     private Collection $hospitalizationRooms;
 
     public function __construct()
