@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\HospitilizationRepository;
 use App\Trait\DateTrait;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
@@ -52,14 +54,19 @@ class Hospitilization
     #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'hospitilizations')]
     private ?Patient $patient = null;
 
-    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'hospitilizations')]
-    private ?Room $room = null;
-
     #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'createdHospitilizations')]
     private ?User $createdBy = null;
 
     #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'updatedHospitilizations')]
     private ?User $updatedBy = null;
+
+    #[ORM\OneToMany(mappedBy: 'hospitalization', targetEntity: HospitalizationRoom::class)]
+    private Collection $hospitalizationRooms;
+
+    public function __construct()
+    {
+        $this->hospitalizationRooms = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -126,18 +133,6 @@ class Hospitilization
         return $this;
     }
 
-    public function getRoom(): ?Room
-    {
-        return $this->room;
-    }
-
-    public function setRoom(?Room $room): self
-    {
-        $this->room = $room;
-
-        return $this;
-    }
-
     public function getCreatedBy(): ?User
     {
         return $this->createdBy;
@@ -158,6 +153,36 @@ class Hospitilization
     public function setUpdatedBy(?User $updatedBy): self
     {
         $this->updatedBy = $updatedBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, HospitalizationRoom>
+     */
+    public function getHospitalizationRooms(): Collection
+    {
+        return $this->hospitalizationRooms;
+    }
+
+    public function addHospitalizationRoom(HospitalizationRoom $hospitalizationRoom): self
+    {
+        if (!$this->hospitalizationRooms->contains($hospitalizationRoom)) {
+            $this->hospitalizationRooms->add($hospitalizationRoom);
+            $hospitalizationRoom->setHospitalization($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHospitalizationRoom(HospitalizationRoom $hospitalizationRoom): self
+    {
+        if ($this->hospitalizationRooms->removeElement($hospitalizationRoom)) {
+            // set the owning side to null (unless already changed)
+            if ($hospitalizationRoom->getHospitalization() === $this) {
+                $hospitalizationRoom->setHospitalization(null);
+            }
+        }
 
         return $this;
     }
