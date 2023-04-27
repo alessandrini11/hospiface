@@ -42,15 +42,21 @@ class RoomController extends ApiController
     }
 
     #[Route('/{id}', name: 'api_room_one', methods: 'GET')]
-    public function one(): JsonResponse
+    public function one(int $id): JsonResponse
     {
-        $this->response();
+        $room = $this->roomService->findOrFail($id);
+        return $this->response($room);
     }
 
     #[Route('/{id}', name: 'api_room_update', methods: 'PUT')]
-    public function update(): JsonResponse
+    public function update(int $id, Request $request, ValidatorInterface $validator): JsonResponse
     {
-        $this->response();
+        $room = $this->roomService->findOrFail($id);
+        $roomRequest = new RoomRequest($request);
+        $validationErrors = $validator->validate($roomRequest);
+        $this->checkValidationError($validationErrors);
+        $updatedRoom = $this->roomService->update($roomRequest, $room, $this->getUser());
+        return $this->response($updatedRoom);
     }
 
     #[Route('/{id}', name: 'api_room_delete', methods: 'DELETE')]
