@@ -13,12 +13,31 @@ use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 class Hospitilization
 {
     use DateTrait;
+
+    const PROGRAMMED = 0;
+    const STARTED = 1;
+    const ENDED = 2;
+    const STATUS = [
+        self::PROGRAMMED => 'programmed',
+        self::STARTED => 'started',
+        self::ENDED => 'ended'
+    ];
+    const OBSERVATION = 'observation';
+    const MEDICALCARE = 'medical care';
+    const INTENSIVECARE = 'intensive care';
+    const SURGYCALRECOVERY = 'surgical recovery';
+    const TYPES = [
+        self::INTENSIVECARE,
+        self::OBSERVATION,
+        self::MEDICALCARE,
+        self::SURGYCALRECOVERY
+    ];
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(type: Types::SMALLINT, nullable: true)]
     private ?string $status = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -30,16 +49,16 @@ class Hospitilization
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $endDate = null;
 
-    #[ORM\ManyToOne(inversedBy: 'hospitilizations')]
+    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'hospitilizations')]
     private ?Patient $patient = null;
 
-    #[ORM\ManyToOne(inversedBy: 'hospitilizations')]
+    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'hospitilizations')]
     private ?Room $room = null;
 
-    #[ORM\ManyToOne(inversedBy: 'createdHospitilizations')]
+    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'createdHospitilizations')]
     private ?User $createdBy = null;
 
-    #[ORM\ManyToOne(inversedBy: 'updatedHospitilizations')]
+    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'updatedHospitilizations')]
     private ?User $updatedBy = null;
 
     public function getId(): ?int
@@ -47,12 +66,12 @@ class Hospitilization
         return $this->id;
     }
 
-    public function getStatus(): ?string
+    public function getStatus(): ?int
     {
         return $this->status;
     }
 
-    public function setStatus(?string $status): self
+    public function setStatus(?int $status): self
     {
         $this->status = $status;
 

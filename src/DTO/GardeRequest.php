@@ -19,9 +19,8 @@ class GardeRequest
 
     public function __construct(Request $request)
     {
-        $this->startDate = !$request->get('startDate') ? (new \DateTime())->setTimestamp(strtotime($request->get('startDate'))) : null;
-        $this->endDate = !$request->get('startDate') ? (new \DateTime())->setTimestamp(strtotime($request->get('endDate'))) : null;
+        $this->startDate = $request->get('startDate') ? (new \DateTime())->setTimestamp(strtotime($request->get('startDate'))) : null;
+        $this->endDate = $request->get('startDate') ? (new \DateTime())->setTimestamp(strtotime($request->get('endDate'))) : null;
         $this->status = (int) $request->get('status');
     }
-
 }
