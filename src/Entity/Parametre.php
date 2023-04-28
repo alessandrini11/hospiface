@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Interface\EntityInterface;
 use App\Repository\ParametreRepository;
 use App\Trait\DateTrait;
 use Doctrine\ORM\Mapping as ORM;
@@ -9,7 +10,7 @@ use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 
 #[ORM\Entity(repositoryClass: ParametreRepository::class)]
 #[HasLifecycleCallbacks]
-class Parametre
+class Parametre implements EntityInterface
 {
     use DateTrait;
     #[ORM\Id]
@@ -110,5 +111,10 @@ class Parametre
         $this->updatedBy = $updatedBy;
 
         return $this;
+    }
+
+    public function getData(): array
+    {
+        return [];
     }
 }

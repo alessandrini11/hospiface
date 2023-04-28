@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Interface\EntityInterface;
 use App\Repository\HospitilizationRepository;
 use App\Trait\DateTrait;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -12,7 +13,7 @@ use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 
 #[ORM\Entity(repositoryClass: HospitilizationRepository::class)]
 #[HasLifecycleCallbacks]
-class Hospitilization
+class Hospitilization implements EntityInterface
 {
     use DateTrait;
 
@@ -166,5 +167,10 @@ class Hospitilization
         $this->hospitalizationRoom = $hospitalizationRoom;
 
         return $this;
+    }
+
+    public function getData(): array
+    {
+        return [];
     }
 }

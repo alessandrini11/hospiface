@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Interface\EntityInterface;
 use App\Repository\ConsultationRepository;
 use App\Trait\DateTrait;
 use Doctrine\DBAL\Types\Types;
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 
 #[ORM\Entity(repositoryClass: ConsultationRepository::class)]
 #[HasLifecycleCallbacks]
-class Consultation
+class Consultation implements EntityInterface
 {
     use DateTrait;
     #[ORM\Id]
@@ -141,5 +142,19 @@ class Consultation
         $this->updatedBy = $updatedBy;
 
         return $this;
+    }
+
+    public function getData(): array
+    {
+        return [
+            "id" => $this->id,
+            "status" => $this->status,
+            "doctor" => $this->doctor->getData(),
+            "patient" => $this->patient?->getData(),
+            "result" => $this->result?->getData(),
+            "parameter" => $this->parameter?->getData(),
+            "created_by" => $this->createdBy?->getData(),
+            "updated_by" => $this->updatedBy?->getData(),
+        ];
     }
 }

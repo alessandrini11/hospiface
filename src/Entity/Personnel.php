@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Interface\EntityInterface;
 use App\Repository\PersonnelRepository;
 use App\Trait\DateTrait;
 use App\Trait\PersonTrait;
@@ -15,7 +16,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 #[ORM\Entity(repositoryClass: PersonnelRepository::class)]
 #[HasLifecycleCallbacks]
 #[UniqueEntity(['email'], 'this email is already taken')]
-class Personnel
+class Personnel implements EntityInterface
 {
     use DateTrait;
     use PersonTrait;
@@ -300,5 +301,20 @@ class Personnel
         $this->title = $title;
 
         return $this;
+    }
+
+    public function getData(): array
+    {
+        return [
+            "first_name" => $this->firstname,
+            "last_name" => $this->lastname,
+            "sex" => $this->sex,
+            "email" => $this->email,
+            "phone_number" => $this->phonenumber,
+            "status" => $this->status,
+            "type" => $this->type,
+            "position_held" => $this->positionHeld,
+            "sub_typ" => $this->subType
+        ];
     }
 }

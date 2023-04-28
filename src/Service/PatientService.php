@@ -21,6 +21,8 @@ class PatientService implements EntityServiceInterface
     }
     public function create($entityRequest, $loggedUser = null): PatientResponse
     {
+        $isPatientExist = $this->patientRepository->findBy(['email' => $entityRequest->email]);
+        if ($isPatientExist) throw new BadRequestException('Patient with email already exist');
         $patient = $this->setFields($entityRequest, new Patient());
         $patient->setCreatedBy($loggedUser);
         $this->patientRepository->save($patient, true);

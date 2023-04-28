@@ -16,17 +16,20 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 #[ORM\Entity(repositoryClass: PatientRepository::class)]
 #[UniqueEntity(['email'], 'this email is already taken')]
 #[HasLifecycleCallbacks]
-class Patient
+class Patient implements EntityInterface
 {
     use PersonTrait;
     use DateTrait;
     const MAN = 'man';
     const WOMAN = 'woman';
-
     const FREE = 0;
     const HOSPITALIZED = 1;
     const DEATH = 2;
-
+    const STATUS = [
+        self::FREE => 'free',
+        self::HOSPITALIZED => 'hospitalized',
+        self::DEATH => 'death'
+    ];
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -214,18 +217,19 @@ class Patient
         return $this;
     }
 
-//    public function getData(): array
-//    {
-//        return [
-//            'firstName' => $this->firstname,
-//            'lastName' => $this->lastname,
-//            'email' => $this->email,
-//            'sex' => $this->sex,
-//            'status' => $this->status,
-//            'emergencyPerson' => $this->emergencyPersonne,
-//            'emergencyContact' => $this->emergencyContact,
-//            'bloodGroup' => $this->bloodGroup,
-//            'birthDate' => $this->birthDate
-//        ];
-//    }
+    public function getData(): array
+    {
+        return [
+            'id' => $this->id,
+            'firstName' => $this->firstname,
+            'lastName' => $this->lastname,
+            'email' => $this->email,
+            'sex' => $this->sex,
+            'status' => $this->status,
+            'emergencyPerson' => $this->emergencyPersonne,
+            'emergencyContact' => $this->emergencyContact,
+            'bloodGroup' => $this->bloodGroup,
+            'birthDate' => $this->birthDate
+        ];
+    }
 }
