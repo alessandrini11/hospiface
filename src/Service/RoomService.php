@@ -3,7 +3,9 @@
 namespace App\Service;
 
 use App\DTO\RoomRequest;
+use App\Entity\Hospitilization;
 use App\Entity\Room;
+use App\Exceptions\BadRequestException;
 use App\Exceptions\NotFoundException;
 use App\Interface\EntityServiceInterface;
 use App\Repository\RoomRepository;
@@ -51,5 +53,19 @@ class RoomService implements EntityServiceInterface
             $entity->setNumber($entityRequest->number);
         }
         return $entity;
+    }
+
+    public function isFull(Room $room): void
+    {
+        $hospitalizationRooms = $room->getHospitalizationRooms();
+        $hospitalization = [];
+        foreach ($hospitalizationRooms as $item){
+            if ($item->getHospitilization()->getStatus() === Hospitilization::STARTED){
+                $hospitalization[] = $item->getHospitilization();
+            }
+        }
+        if(count($hospitalization) === $room->getBeds()){
+            throw new BadRequestException('The Room Can Not Get More Patient');
+        }
     }
 }

@@ -77,94 +77,94 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $sex = null;
 
-    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Personnel::class)]
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Personnel::class, fetch: 'EAGER')]
     private Collection $createdPersonnels;
 
-    #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: Personnel::class)]
+    #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: Personnel::class, fetch: 'EAGER')]
     private Collection $updatedPersonnels;
 
-    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Speciality::class)]
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Speciality::class, fetch: 'EAGER')]
     private Collection $createdSpecialities;
 
-    #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: Speciality::class)]
+    #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: Speciality::class, fetch: 'EAGER')]
     private Collection $updatedSpecialities;
 
-    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Patient::class)]
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Patient::class, fetch: 'EAGER')]
     private Collection $createdPatients;
 
-    #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: Patient::class)]
+    #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: Patient::class, fetch: 'EAGER')]
     private Collection $updatedPatients;
 
-    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Service::class)]
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Service::class, fetch: 'EAGER')]
     private Collection $createdServices;
 
-    #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: Service::class)]
+    #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: Service::class, fetch: 'EAGER')]
     private Collection $updatedServices;
 
-    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Parametre::class)]
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Parametre::class, fetch: 'EAGER')]
     private Collection $createdParameters;
 
-    #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: Parametre::class)]
+    #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: Parametre::class, fetch: 'EAGER')]
     private Collection $updatedParameters;
 
-    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Result::class)]
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Result::class, fetch: 'EAGER')]
     private Collection $createdResults;
 
-    #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: Result::class)]
+    #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: Result::class, fetch: 'EAGER')]
     private Collection $updatedResults;
 
-    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: MedicalOrder::class)]
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: MedicalOrder::class, fetch: 'EAGER')]
     private Collection $createdMedicalOrders;
 
-    #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: MedicalOrder::class)]
+    #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: MedicalOrder::class, fetch: 'EAGER')]
     private Collection $updatedMedicalOrders;
 
-    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Drug::class)]
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Drug::class, fetch: 'EAGER')]
     private Collection $createdDrugs;
 
-    #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: Drug::class)]
+    #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: Drug::class, fetch: 'EAGER')]
     private Collection $updatedDrugs;
 
-    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: MedicalExams::class)]
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: MedicalExams::class, fetch: 'EAGER')]
     private Collection $createdMedicalExams;
 
-    #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: MedicalExams::class)]
+    #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: MedicalExams::class, fetch: 'EAGER')]
     private Collection $updatedMedicalExams;
 
-    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Room::class)]
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Room::class, fetch: 'EAGER')]
     private Collection $createdRooms;
 
-    #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: Room::class)]
+    #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: Room::class, fetch: 'EAGER')]
     private Collection $updatedRooms;
 
-    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Hospitilization::class)]
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Hospitilization::class, fetch: 'EAGER')]
     private Collection $createdHospitilizations;
 
-    #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: Hospitilization::class)]
+    #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: Hospitilization::class, fetch: 'EAGER')]
     private Collection $updatedHospitilizations;
 
-    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: ConfigDesign::class)]
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: ConfigDesign::class, fetch: 'EAGER')]
     private Collection $createdConfigDesigns;
 
-    #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: ConfigDesign::class)]
+    #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: ConfigDesign::class, fetch: 'EAGER')]
     private Collection $updatedConfigDesigns;
 
-    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Consultation::class)]
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Consultation::class, fetch: 'EAGER')]
     private Collection $createdConsultations;
 
-    #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: Consultation::class)]
+    #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: Consultation::class, fetch: 'EAGER')]
     private Collection $updatedConsultations;
 
-    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: PersonnelService::class)]
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: PersonnelService::class, fetch: 'EAGER')]
     private Collection $createdPersonnelServices;
 
-    #[ORM\OneToMany(mappedBy: 'updateBy', targetEntity: PersonnelService::class)]
+    #[ORM\OneToMany(mappedBy: 'updateBy', targetEntity: PersonnelService::class, fetch: 'EAGER')]
     private Collection $updatedPersonnelService;
 
-    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Garde::class)]
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Garde::class, fetch: 'EAGER')]
     private Collection $createdGardes;
 
-    #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: Garde::class)]
+    #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: Garde::class, fetch: 'EAGER')]
     private Collection $updatedGardes;
 
     public function __construct()

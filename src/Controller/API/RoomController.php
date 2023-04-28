@@ -63,6 +63,6 @@ class RoomController extends ApiController
     public function delete(int $id): JsonResponse
     {
         $this->roomService->delete($id);
-        $this->response([], Response::HTTP_NO_CONTENT);
+        return $this->response([], Response::HTTP_NO_CONTENT);
     }
 }

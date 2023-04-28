@@ -3,9 +3,11 @@
 namespace App\Service;
 
 use App\DTO\HospitalisationRequest;
+use App\Entity\HospitalizationRoom;
 use App\Entity\Hospitilization;
 use App\Exceptions\NotFoundException;
 use App\Interface\EntityServiceInterface;
+use App\Repository\HospitalizationRoomRepository;
 use App\Repository\HospitilizationRepository;
 
 class HospitalizationService implements EntityServiceInterface
@@ -13,11 +15,12 @@ class HospitalizationService implements EntityServiceInterface
     public function __construct(
         readonly private HospitilizationRepository $hospitalizationRepository,
         readonly private PatientService $patientService,
-        readonly private MedicalServiceService $medicalServiceService
+        readonly private HospitalizationRoomService $hospitalizationRoomService,
+        readonly private RoomService $roomService,
+        readonly private HospitalizationRoomRepository $hospitalizationRoomRepository
     )
     {
     }
-
     public function create($entityRequest, $loggedUser = null): Hospitilization
     {
         $hospitalization = $this->setFields($entityRequest, new Hospitilization());
@@ -27,7 +30,7 @@ class HospitalizationService implements EntityServiceInterface
     }
     public function update($entityRequest, $entity, $loggedUser = null): Hospitilization
     {
-        $hospitalization = $this->setFields($entityRequest, $entity);
+        $hospitalization = $this->setFields($entityRequest, $entity, true);
         $hospitalization->setUpdatedBy($loggedUser);
         $this->hospitalizationRepository->save($hospitalization, true);
         return $hospitalization;
@@ -42,7 +45,8 @@ class HospitalizationService implements EntityServiceInterface
 
     public function delete(int $id): void
     {
-        // TODO: Implement delete() method.
+        $hospitalization = $this->findOrFail($id);
+        $this->hospitalizationRepository->remove($hospitalization, true);
     }
     public function setFields($entityRequest, $entity): ?Hospitilization
     {
@@ -60,9 +64,12 @@ class HospitalizationService implements EntityServiceInterface
             $patient = $this->patientService->findOrFail($entityRequest->patient);
             $entity->setPatient($patient);
         }
-//        if($entityRequest->room){
-//            $entity->setRoom($entityRequest->room);
-//        }
+        if ($entityRequest->room){
+            $room = $this->roomService->findOrFail($entityRequest->room);
+            $this->roomService->isFull($room);
+            $hospitalRoom =  $this->hospitalizationRoomService->createOrUpdate($entity, $room);
+            $entity->setHospitalizationRoom($hospitalRoom);
+        }
         return $entity;
     }
 }

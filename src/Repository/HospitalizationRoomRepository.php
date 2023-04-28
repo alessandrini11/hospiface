@@ -40,7 +40,7 @@ class HospitalizationRoomRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return HospitalizationRoom[] Returns an array of HospitalizationRoom objects
+//     * @return HospitalizationRoomService[] Returns an array of HospitalizationRoomService objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class HospitalizationRoomRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?HospitalizationRoom
+//    public function findOneBySomeField($value): ?HospitalizationRoomService
 //    {
 //        return $this->createQueryBuilder('h')
 //            ->andWhere('h.exampleField = :val')

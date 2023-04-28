@@ -60,12 +60,11 @@ class Hospitilization
     #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'updatedHospitilizations')]
     private ?User $updatedBy = null;
 
-    #[ORM\OneToMany(mappedBy: 'hospitalization', targetEntity: HospitalizationRoom::class)]
-    private Collection $hospitalizationRooms;
+    #[ORM\OneToOne(inversedBy: 'hospitilization', cascade: ['persist', 'remove'], fetch: 'EAGER')]
+    private ?HospitalizationRoom $hospitalizationRoom = null;
 
     public function __construct()
     {
-        $this->hospitalizationRooms = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -157,32 +156,14 @@ class Hospitilization
         return $this;
     }
 
-    /**
-     * @return Collection<int, HospitalizationRoom>
-     */
-    public function getHospitalizationRooms(): Collection
+    public function getHospitalizationRoom(): ?HospitalizationRoom
     {
-        return $this->hospitalizationRooms;
+        return $this->hospitalizationRoom;
     }
 
-    public function addHospitalizationRoom(HospitalizationRoom $hospitalizationRoom): self
+    public function setHospitalizationRoom(?HospitalizationRoom $hospitalizationRoom): self
     {
-        if (!$this->hospitalizationRooms->contains($hospitalizationRoom)) {
-            $this->hospitalizationRooms->add($hospitalizationRoom);
-            $hospitalizationRoom->setHospitalization($this);
-        }
-
-        return $this;
-    }
-
-    public function removeHospitalizationRoom(HospitalizationRoom $hospitalizationRoom): self
-    {
-        if ($this->hospitalizationRooms->removeElement($hospitalizationRoom)) {
-            // set the owning side to null (unless already changed)
-            if ($hospitalizationRoom->getHospitalization() === $this) {
-                $hospitalizationRoom->setHospitalization(null);
-            }
-        }
+        $this->hospitalizationRoom = $hospitalizationRoom;
 
         return $this;
     }

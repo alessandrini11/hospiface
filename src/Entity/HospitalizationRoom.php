@@ -19,8 +19,8 @@ class HospitalizationRoom
     #[ORM\ManyToOne(inversedBy: 'hospitalizationRooms')]
     private ?Room $room = null;
 
-    #[ORM\ManyToOne(inversedBy: 'hospitalizationRooms')]
-    private ?Hospitilization $hospitalization = null;
+    #[ORM\OneToOne(mappedBy: 'hospitalizationRoom', cascade: ['persist', 'remove'])]
+    private ?Hospitilization $hospitilization = null;
 
     public function getId(): ?int
     {
@@ -39,14 +39,24 @@ class HospitalizationRoom
         return $this;
     }
 
-    public function getHospitalization(): ?Hospitilization
+    public function getHospitilization(): ?Hospitilization
     {
-        return $this->hospitalization;
+        return $this->hospitilization;
     }
 
-    public function setHospitalization(?Hospitilization $hospitalization): self
+    public function setHospitilization(?Hospitilization $hospitilization): self
     {
-        $this->hospitalization = $hospitalization;
+        // unset the owning side of the relation if necessary
+        if ($hospitilization === null && $this->hospitilization !== null) {
+            $this->hospitilization->setHospitalizationRoom(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($hospitilization !== null && $hospitilization->getHospitalizationRoom() !== $this) {
+            $hospitilization->setHospitalizationRoom($this);
+        }
+
+        $this->hospitilization = $hospitilization;
 
         return $this;
     }
