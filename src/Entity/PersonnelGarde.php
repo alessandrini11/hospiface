@@ -2,12 +2,13 @@
 
 namespace App\Entity;
 
+use App\Interface\EntityInterface;
 use App\Repository\PersonnelGardeRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PersonnelGardeRepository::class)]
-class PersonnelGarde
+class PersonnelGarde implements EntityInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -92,5 +93,14 @@ class PersonnelGarde
         $this->endDate = $endDate;
 
         return $this;
+    }
+    public function getData(): array
+    {
+        return [
+            "id" => $this->id,
+            "personnel" => $this->personnel->getData(),
+            "start_date" => $this->startDate,
+            "end_date" => $this->endDate
+        ];
     }
 }

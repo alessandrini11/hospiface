@@ -66,10 +66,10 @@ class Personnel implements EntityInterface
     #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'personnels')]
     private ?Speciality $speciality = null;
 
-    #[ORM\OneToMany(mappedBy: 'personnel', targetEntity: PersonnelService::class, fetch: 'EAGER')]
+    #[ORM\OneToMany(mappedBy: 'personnel', targetEntity: PersonnelService::class, fetch: 'EAGER', orphanRemoval: true)]
     private Collection $personnelServices;
 
-    #[ORM\OneToMany(mappedBy: 'personnel', targetEntity: PersonnelGarde::class, fetch: 'EAGER')]
+    #[ORM\OneToMany(mappedBy: 'personnel', targetEntity: PersonnelGarde::class, fetch: 'EAGER', orphanRemoval: true)]
     private Collection $personnelGardes;
 
     #[ORM\OneToMany(mappedBy: 'doctor', targetEntity: Consultation::class, fetch: 'EAGER')]

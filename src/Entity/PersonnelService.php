@@ -2,13 +2,14 @@
 
 namespace App\Entity;
 
+use App\Interface\EntityInterface;
 use App\Repository\PersonnelServiceRepository;
 use App\Trait\DateTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PersonnelServiceRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class PersonnelService
+class PersonnelService implements EntityInterface
 {
     use DateTrait;
     #[ORM\Id]
@@ -95,5 +96,14 @@ class PersonnelService
         $this->updateBy = $updateBy;
 
         return $this;
+    }
+
+    public function getData(): array
+    {
+        return [
+          "id" => $this->id,
+          "personnel" => $this->personnel->getData(),
+          "position_held" => $this->positionHeld,
+        ];
     }
 }

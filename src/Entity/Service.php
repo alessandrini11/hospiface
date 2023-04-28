@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Interface\EntityInterface;
 use App\Repository\ServiceRepository;
 use App\Trait\DateTrait;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -15,11 +16,15 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 #[ORM\Entity(repositoryClass: ServiceRepository::class)]
 #[HasLifecycleCallbacks]
 #[UniqueEntity(['name'], message: 'the service already exist')]
-class Service
+class Service implements EntityInterface
 {
     use DateTrait;
     const ENABLED = 1;
     const DISABLED = 0;
+    const STATUS = [
+      self::DISABLED => 'disabled',
+      self::ENABLED => 'enabled'
+    ];
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -160,5 +165,12 @@ class Service
         }
 
         return $this;
+    }
+
+    public function getData(): array
+    {
+        return [
+
+        ];
     }
 }

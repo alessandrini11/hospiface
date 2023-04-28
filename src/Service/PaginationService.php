@@ -2,9 +2,11 @@
 
 namespace App\Service;
 
+use App\DTO\MedicalServiceResponse;
 use App\DTO\PatientRequest;
 use App\DTO\PatientResponse;
 use App\Entity\Patient;
+use App\Entity\Service;
 use App\model\PaginationModel;
 
 class PaginationService
@@ -38,6 +40,9 @@ class PaginationService
         switch ($name){
             case Patient::class:
                 return new PatientResponse($entity);
+                break;
+            case Service::class:
+                return new MedicalServiceResponse($entity);
                 break;
             default:
                 break;
