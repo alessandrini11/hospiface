@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\DTO\ConsultationRequest;
+use App\DTO\ConsultationResponse;
 use App\Entity\Consultation;
 use App\Entity\MedicalOrder;
 use App\Entity\Parametre;
@@ -27,7 +28,7 @@ class ConsultationService implements EntityServiceInterface
     {
     }
 
-    public function create($entityRequest, $loggedUser = null): Consultation
+    public function create($entityRequest, $loggedUser = null): ConsultationResponse
     {
         $parameter = new Parametre();
         $parameter->setCreatedBy($loggedUser);
@@ -47,17 +48,17 @@ class ConsultationService implements EntityServiceInterface
         $this->medicalOrderRepository->save($medicalOrder);
         $this->resultRepository->save($result);
         $this->consultationRepository->save($consultation, true);
-        return $consultation;
+        return new ConsultationResponse($consultation);
 
     }
 
-    public function update($entityRequest, $entity, $loggedUser = null): Consultation
+    public function update($entityRequest, $entity, $loggedUser = null): ConsultationResponse
     {
         $consultation = $this->setFields($entityRequest, new Consultation());
         $consultation
             ->setUpdatedBy($loggedUser);
         $this->consultationRepository->save($consultation);
-        return $consultation;
+        return new ConsultationResponse($consultation);
     }
     public function findOrFail(int $id): Consultation
     {

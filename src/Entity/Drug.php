@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Interface\EntityInterface;
 use App\Repository\DrugRepository;
 use App\Trait\DateTrait;
 use Doctrine\ORM\Mapping as ORM;
@@ -9,7 +10,7 @@ use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 
 #[ORM\Entity(repositoryClass: DrugRepository::class)]
 #[HasLifecycleCallbacks]
-class Drug
+class Drug implements EntityInterface
 {
     use DateTrait;
     #[ORM\Id]
@@ -110,5 +111,15 @@ class Drug
         $this->updatedBy = $updatedBy;
 
         return $this;
+    }
+
+    public function getData(): array
+    {
+        return [
+            "id" => $this->id,
+            "name" => $this->name,
+            "dosage" => $this->dosage,
+            "is_alternative" => $this->alternative
+        ];
     }
 }

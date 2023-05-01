@@ -13,6 +13,14 @@ use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 #[HasLifecycleCallbacks]
 class Consultation implements EntityInterface
 {
+    const CHECKUP = 'checkup';
+    CONST TYPES = [self::CHECKUP];
+    const STARTED = 1;
+    const ENDED = 0;
+    const STATUS = [
+        self::ENDED => 'ended',
+        self::STARTED => 'started'
+    ];
     use DateTrait;
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -153,8 +161,6 @@ class Consultation implements EntityInterface
             "patient" => $this->patient?->getData(),
             "result" => $this->result?->getData(),
             "parameter" => $this->parameter?->getData(),
-            "created_by" => $this->createdBy?->getData(),
-            "updated_by" => $this->updatedBy?->getData(),
         ];
     }
 }

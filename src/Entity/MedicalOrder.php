@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Interface\EntityInterface;
 use App\Repository\MedicalOrderRepository;
 use App\Trait\DateTrait;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -11,7 +12,7 @@ use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 
 #[ORM\Entity(repositoryClass: MedicalOrderRepository::class)]
 #[HasLifecycleCallbacks]
-class MedicalOrder
+class MedicalOrder implements EntityInterface
 {
     use DateTrait;
     #[ORM\Id]
@@ -90,5 +91,11 @@ class MedicalOrder
         }
 
         return $this;
+    }
+    public function getData(): array
+    {
+        return [
+
+        ];
     }
 }

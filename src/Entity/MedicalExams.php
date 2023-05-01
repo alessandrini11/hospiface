@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Interface\EntityInterface;
 use App\Repository\MedicalExamsRepository;
 use App\Trait\DateTrait;
 use Doctrine\DBAL\Types\Types;
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 
 #[ORM\Entity(repositoryClass: MedicalExamsRepository::class)]
 #[HasLifecycleCallbacks]
-class MedicalExams
+class MedicalExams implements EntityInterface
 {
     use DateTrait;
     #[ORM\Id]
@@ -95,5 +96,13 @@ class MedicalExams
         $this->result = $result;
 
         return $this;
+    }
+
+    public function getData(): array
+    {
+       return [
+           "type" => $this->type,
+           "description" => $this->description
+       ];
     }
 }

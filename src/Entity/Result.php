@@ -122,6 +122,9 @@ class Result implements EntityInterface
 
     public function getData(): array
     {
-        return [];
+        return [
+            "id" => $this->id,
+            "interpretation" => $this->interpretation,
+        ];
     }
 }

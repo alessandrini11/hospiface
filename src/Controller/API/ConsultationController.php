@@ -3,6 +3,8 @@
 namespace App\Controller\API;
 
 use App\DTO\ConsultationRequest;
+use App\DTO\ConsultationResponse;
+use App\Entity\Consultation;
 use App\model\PaginationModel;
 use App\Repository\ConsultationRepository;
 use App\Service\ConsultationService;
@@ -29,15 +31,15 @@ class ConsultationController extends ApiController
         $consultationRequest = new ConsultationRequest($request);
         $validationError = $validator->validate($consultationRequest);
         $this->checkValidationError($validationError);
-        $consultation = $this->consultationService->create($consultationRequest, $this->getUser());
-        return $this->response($consultation, Response::HTTP_CREATED);
+        $consultationResponse = $this->consultationService->create($consultationRequest, $this->getUser());
+        return $this->response($consultationResponse, Response::HTTP_CREATED);
     }
 
     #[Route('', name: 'app_api_consultation_getAll', methods: 'GET')]
     public function getAll(Request $request, ConsultationRepository $consultationRepository): JsonResponse
     {
         $paginationModel = new PaginationModel($request);
-        $array = $this->paginationService->getPaginatedItems($paginationModel, $consultationRepository);
+        $array = $this->paginationService->getPaginatedItems($paginationModel, $consultationRepository, Consultation::class);
         return $this->response($array);
     }
 
@@ -45,7 +47,7 @@ class ConsultationController extends ApiController
     public function getOne(int $id): JsonResponse
     {
         $consultation = $this->consultationService->findOrFail($id);
-        return $this->response($consultation);
+        return $this->response(new ConsultationResponse($consultation));
     }
 
     #[Route('/{id}', name: 'api_consultation_updateOne', methods: 'PUT')]
@@ -55,8 +57,8 @@ class ConsultationController extends ApiController
         $consultationRequest = new ConsultationRequest($request);
         $validationError = $validator->validate($consultationRequest);
         $this->checkValidationError($validationError);
-        $updatedConsultation = $this->consultationService->update($consultationRequest, $consultation, $this->getUser());
-        return $this->response($updatedConsultation, Response::HTTP_CREATED);
+        $consultationResponse = $this->consultationService->update($consultationRequest, $consultation, $this->getUser());
+        return $this->response($consultationResponse, Response::HTTP_CREATED);
     }
 
     #[Route('/{id}', name: 'api_consultation_delete', methods: 'DELETE')]
