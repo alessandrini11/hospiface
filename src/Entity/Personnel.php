@@ -306,6 +306,7 @@ class Personnel implements EntityInterface
     public function getData(): array
     {
         return [
+            "id" => $this->id,
             "first_name" => $this->firstname,
             "last_name" => $this->lastname,
             "sex" => $this->sex,

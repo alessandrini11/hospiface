@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\DTO\SpecialityRequest;
+use App\DTO\SpecialityResponse;
 use App\Entity\Speciality;
 use App\Exceptions\NotFoundException;
 use App\Interface\EntityServiceInterface;
@@ -16,12 +17,12 @@ class SpecialityService implements EntityServiceInterface
     {
     }
 
-    public function create($entityRequest, $loggedUser = null): Speciality
+    public function create($entityRequest, $loggedUser = null): SpecialityResponse
     {
         $speciality = $this->setFields($entityRequest, new Speciality());
         $speciality->setCreatedBy($loggedUser);
         $this->specialityRepository->save($speciality, true);
-        return $speciality;
+        return new SpecialityResponse($speciality);
     }
 
     public function findOrFail(int $id): Speciality
@@ -31,12 +32,12 @@ class SpecialityService implements EntityServiceInterface
         return $speciality;
     }
 
-    public function update($entityRequest, $entity, $loggedUser = null): Speciality
+    public function update($entityRequest, $entity, $loggedUser = null): SpecialityResponse
     {
         $speciality = $this->setFields($entityRequest, $entity);
         $speciality->setUpdatedBy($loggedUser);
         $this->specialityRepository->save($speciality, true);
-        return $speciality;
+        return new SpecialityResponse($speciality);
     }
 
     public function delete(int $id): void

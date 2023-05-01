@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Interface\EntityInterface;
 use App\Repository\SpecialityRepository;
 use App\Trait\DateTrait;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -11,7 +12,7 @@ use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 
 #[ORM\Entity(repositoryClass: SpecialityRepository::class)]
 #[HasLifecycleCallbacks]
-class Speciality
+class Speciality implements EntityInterface
 {
     use DateTrait;
     #[ORM\Id]
@@ -105,5 +106,13 @@ class Speciality
         $this->updatedBy = $updatedBy;
 
         return $this;
+    }
+
+    public function getData(): array
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name
+        ];
     }
 }

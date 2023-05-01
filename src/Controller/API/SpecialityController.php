@@ -3,6 +3,8 @@
 namespace App\Controller\API;
 
 use App\DTO\SpecialityRequest;
+use App\DTO\SpecialityResponse;
+use App\Entity\Speciality;
 use App\model\PaginationModel;
 use App\Repository\SpecialityRepository;
 use App\Service\PaginationService;
@@ -29,15 +31,15 @@ class SpecialityController extends ApiController
         $specialityRequest = new SpecialityRequest($request);
         $validationErrors = $validator->validate($specialityRequest);
         $this->checkValidationError($validationErrors);
-        $speciality = $this->specialityService->create($specialityRequest, $this->getUser());
-        return $this->response($speciality, Response::HTTP_CREATED);
+        $specialityResponse = $this->specialityService->create($specialityRequest, $this->getUser());
+        return $this->response($specialityResponse, Response::HTTP_CREATED);
     }
 
     #[Route('', name: 'api_speciality_getAll', methods: 'GET')]
     public function getAll(Request $request, SpecialityRepository $specialityRepository): JsonResponse
     {
         $paginationModel = new PaginationModel($request);
-        $array = $this->paginationService->getPaginatedItems($paginationModel, $specialityRepository);
+        $array = $this->paginationService->getPaginatedItems($paginationModel, $specialityRepository, Speciality::class);
         return $this->response($array);
     }
 
@@ -45,7 +47,7 @@ class SpecialityController extends ApiController
     public function getOne(int $id): JsonResponse
     {
         $speciality = $this->specialityService->findOrFail($id);
-        return $this->response($speciality);
+        return $this->response(new SpecialityResponse($speciality));
     }
 
     #[Route('/{id}', name: 'app_api_speciality_updateOne', methods: 'PUT')]
@@ -55,8 +57,8 @@ class SpecialityController extends ApiController
         $specialityRequest = new SpecialityRequest($request);
         $validationErrors = $validator->validate($specialityRequest);
         $this->checkValidationError($validationErrors);
-        $updatedSpeciality = $this->specialityService->update($specialityRequest, $speciality, $this->getUser());
-        return $this->response($updatedSpeciality);
+        $specialityResponse = $this->specialityService->update($specialityRequest, $speciality, $this->getUser());
+        return $this->response($specialityResponse);
     }
 
     #[Route('/{id}', name: 'app_api_speciality_deleteOne', methods: 'DELETE')]
