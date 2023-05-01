@@ -37,6 +37,54 @@ class Personnel implements EntityInterface
         self::STATUS_ENABLED => 'Enabled',
         self::STATUS_DELETED => 'Deleted',
     ];
+    const MEDICAL = 'medical';
+    const ADMINISTRATIVE = 'administrative';
+    const TECHNICAL = 'technical';
+    const ACADEMIC = 'academic';
+    const DOCTOR = 'doctor';
+    const LAB_TECHNICIAN = 'lab. technician';
+    const NURSE = 'nurse';
+    const EMBALMER = 'embalmer';
+    const CAREGIVER = 'caregiver';
+    const LEGAL_OFFICER = 'legal officer';
+    const COMPUTER_SCIENTIST = 'computer scientist';
+    const ACCOUNTANT = 'accountant';
+    const TITLES = [
+        'Pr.',
+        'Dr.',
+        'Ing.'
+    ];
+    const TYPES = [
+        self::MEDICAL => [
+            self::DOCTOR,
+            self::LAB_TECHNICIAN,
+            self::NURSE,
+            self::CAREGIVER,
+            self::EMBALMER
+        ],
+        self::ADMINISTRATIVE => [
+            self::LEGAL_OFFICER,
+            self::COMPUTER_SCIENTIST,
+            self::ACCOUNTANT
+        ],
+        self::TECHNICAL => [
+            'maintenance', 'security'
+        ],
+        self::ACADEMIC => [
+            self::DOCTOR,
+            self::LAB_TECHNICIAN,
+            self::NURSE,
+            self::CAREGIVER,
+            self::EMBALMER,
+            self::LEGAL_OFFICER,
+            self::COMPUTER_SCIENTIST,
+            self::ACCOUNTANT
+        ]
+
+    ];
+    const POSITIONS = [
+        'general manager', 'deputy director', 'head of department'
+    ];
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -309,13 +357,15 @@ class Personnel implements EntityInterface
             "id" => $this->id,
             "first_name" => $this->firstname,
             "last_name" => $this->lastname,
+            "title" => $this->title,
             "sex" => $this->sex,
-            "email" => $this->email,
-            "phone_number" => $this->phonenumber,
-            "status" => $this->status,
             "type" => $this->type,
+            "sub_typ" => $this->subType,
+            "speciality" => $this->speciality?->getData(),
+            "phone_number" => $this->phonenumber,
+            "email" => $this->email,
+            "status" => $this->status,
             "position_held" => $this->positionHeld,
-            "sub_typ" => $this->subType
         ];
     }
 }

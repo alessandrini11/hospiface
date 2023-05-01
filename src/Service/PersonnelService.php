@@ -3,7 +3,9 @@
 namespace App\Service;
 
 use App\DTO\PersonnelRequest;
+use App\DTO\PersonnelResponse;
 use App\Entity\Personnel;
+use App\Exceptions\BadRequestException;
 use App\Exceptions\NotFoundException;
 use App\Interface\EntityServiceInterface;
 use App\Repository\PersonnelRepository;
@@ -17,12 +19,14 @@ class PersonnelService implements EntityServiceInterface
     {
     }
 
-    public function create($entityRequest, $loggedUser = null): Personnel
+    public function create($entityRequest, $loggedUser = null): PersonnelResponse
     {
+        $isExist = $this->personnelRepository->findBy(['email' => $entityRequest->email]);
+        if($isExist) throw new BadRequestException('Personnel With Email Already Exist');
         $personnel = $this->setFields($entityRequest, new Personnel());
         $personnel->setCreatedBy($loggedUser);
         $this->personnelRepository->save($personnel, true);
-        return $personnel;
+        return new PersonnelResponse($personnel);
     }
 
     public function findOrFail(int $id): Personnel
@@ -32,12 +36,12 @@ class PersonnelService implements EntityServiceInterface
         return $personnel;
     }
 
-    public function update($entityRequest, $entity, $loggedUser = null): Personnel
+    public function update($entityRequest, $entity, $loggedUser = null): PersonnelResponse
     {
         $personnel = $this->setFields($entityRequest, $entity);
         $personnel->setUpdatedBy($loggedUser);
         $this->personnelRepository->save($personnel, true);
-        return $personnel;
+        return new PersonnelResponse($personnel);
     }
 
     public function delete(int $id): void

@@ -5,8 +5,10 @@ namespace App\Service;
 use App\DTO\MedicalServiceResponse;
 use App\DTO\PatientRequest;
 use App\DTO\PatientResponse;
+use App\DTO\PersonnelResponse;
 use App\DTO\SpecialityResponse;
 use App\Entity\Patient;
+use App\Entity\Personnel;
 use App\Entity\Service;
 use App\Entity\Speciality;
 use App\model\PaginationModel;
@@ -48,6 +50,10 @@ class PaginationService
                 break;
             case Speciality::class:
                 return new SpecialityResponse($entity);
+                break;
+            case Personnel::class:
+                return new PersonnelResponse($entity);
+                break;
             default:
                 break;
         }
