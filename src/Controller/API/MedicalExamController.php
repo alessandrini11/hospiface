@@ -27,14 +27,14 @@ class MedicalExamController extends ApiController
         $validationError = $validator->validate($medicalExamRequest);
         $this->checkValidationError($validationError);
         $medicalExam = $this->medicalExamService->create($medicalExamRequest, $this->getUser());
-        return $this->response($medicalExam, Response::HTTP_CREATED);
+        return $this->response($medicalExam->getData(), Response::HTTP_CREATED);
     }
 
     #[Route('/{id}', name: 'api_medicalexam_getOne', methods: 'GET')]
     public function getOne(int $id): JsonResponse
     {
         $medicalExam = $this->medicalExamService->findOrFail($id);
-        return $this->response($medicalExam);
+        return $this->response($medicalExam->getData());
     }
     #[Route('/{id}', name: 'api_medicalExam_updateOne', methods: 'PUT')]
     public function updateOne(int $id, Request $request, ValidatorInterface $validator): JsonResponse
@@ -44,7 +44,7 @@ class MedicalExamController extends ApiController
         $validationError = $validator->validate($medicalExamRequest);
         $this->checkValidationError($validationError);
         $updatedMedicalExam = $this->medicalExamService->update($medicalExamRequest, $medicalExam, $this->getUser());
-        return $this->response($updatedMedicalExam);
+        return $this->response($updatedMedicalExam->getData());
     }
     #[Route('/{id}', name: 'api_medicalexam_delete', methods: 'DELETE')]
     public function delete(int $id): JsonResponse

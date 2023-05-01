@@ -101,6 +101,7 @@ class MedicalExams implements EntityInterface
     public function getData(): array
     {
        return [
+           "id" => $this->id,
            "type" => $this->type,
            "description" => $this->description
        ];

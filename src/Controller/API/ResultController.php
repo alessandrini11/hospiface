@@ -27,6 +27,6 @@ class ResultController extends ApiController
         $validationErrors = $validator->validate($resultRequest);
         $this->checkValidationError($validationErrors);
         $updatedResult = $this->resultService->update($resultRequest, $result, $this->getUser());
-        return $this->response($updatedResult, Response::HTTP_CREATED);
+        return $this->response($updatedResult->getData(), Response::HTTP_CREATED);
     }
 }
