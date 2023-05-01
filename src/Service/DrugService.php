@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\DTO\DrugRequest;
+use App\DTO\DrugResponse;
 use App\Entity\Drug;
 use App\Exceptions\NotFoundException;
 use App\Interface\EntityServiceInterface;
@@ -20,21 +21,21 @@ class DrugService implements EntityServiceInterface
     {
     }
 
-    public function create($entityRequest, $loggedUser = null): Drug
+    public function create($entityRequest, $loggedUser = null): DrugResponse
     {
         $drug = $this->setFields($entityRequest, new Drug());
         $drug->setCreatedBy($loggedUser);
         $this->entityManager->persist($drug);
         $this->entityManager->flush();
-        return $drug;
+        return new DrugResponse($drug);
     }
-    public function update($entityRequest, $entity, $loggedUser = null): Drug
+    public function update($entityRequest, $entity, $loggedUser = null): DrugResponse
     {
         $drug = $this->setFields($entityRequest, $entity);
         $drug->setUpdatedBy($loggedUser);
         $this->entityManager->persist($drug);
         $this->entityManager->flush();
-        return $entity;
+        return new DrugResponse($entity);
     }
 
     public function findOrFail(int $id): Drug

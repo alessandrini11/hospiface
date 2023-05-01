@@ -3,7 +3,9 @@
 namespace App\Controller\API;
 
 use App\DTO\DrugRequest;
+use App\DTO\DrugResponse;
 use App\DTO\MedicalExamRequest;
+use App\Entity\Drug;
 use App\model\PaginationModel;
 use App\Repository\DrugRepository;
 use App\Service\DrugService;
@@ -30,21 +32,21 @@ class DrugController extends ApiController
         $drugRequest = new DrugRequest($request);
         $validationError = $validator->validate($drugRequest);
         $this->checkValidationError($validationError);
-        $medicalExam = $this->drugService->create($drugRequest, $this->getUser());
-        return $this->response($medicalExam, Response::HTTP_CREATED);
+        $drugResponse = $this->drugService->create($drugRequest, $this->getUser());
+        return $this->response($drugResponse, Response::HTTP_CREATED);
     }
     #[Route('', name: 'api_drug_getall', methods: 'GET')]
     public function getAll(Request $request, DrugRepository $drugRepository): JsonResponse
     {
         $paginationModel = new PaginationModel($request);
-        $array = $this->paginationService->getPaginatedItems($paginationModel, $drugRepository);
+        $array = $this->paginationService->getPaginatedItems($paginationModel, $drugRepository, Drug::class);
         return $this->response($array);
     }
     #[Route('/{id}', name: 'api_drug_getone', methods: 'GET')]
     public function getOne(int $id): JsonResponse
     {
         $drug = $this->drugService->findOrFail($id);
-        return $this->response($drug);
+        return $this->response(new DrugResponse($drug));
     }
     #[Route('/{id}', name: 'api_drug_update', methods: 'PUT')]
     public function update(int $id, Request $request, ValidatorInterface $validator): JsonResponse
@@ -53,8 +55,8 @@ class DrugController extends ApiController
         $drugRequest = new DrugRequest($request);
         $validationError = $validator->validate($drugRequest);
         $this->checkValidationError($validationError);
-        $updatedDrug = $this->drugService->update($drugRequest, $drug, $this->getUser());
-        return $this->response($updatedDrug);
+        $drugResponse = $this->drugService->update($drugRequest, $drug, $this->getUser());
+        return $this->response($drugResponse);
     }
     #[Route('/{id}', name: 'api_drug_delete', methods: 'DELETE')]
     public function delete(int $id): JsonResponse
