@@ -6,11 +6,13 @@ use App\DTO\ConsultationResponse;
 use App\DTO\MedicalServiceResponse;
 use App\DTO\PatientRequest;
 use App\DTO\PatientResponse;
+use App\DTO\PersonnelMedicalServiceResponse;
 use App\DTO\PersonnelResponse;
 use App\DTO\SpecialityResponse;
 use App\Entity\Consultation;
 use App\Entity\Patient;
 use App\Entity\Personnel;
+use App\Entity\PersonnelService;
 use App\Entity\Service;
 use App\Entity\Speciality;
 use App\model\PaginationModel;
@@ -59,6 +61,8 @@ class PaginationService
             case Consultation::class:
                 return new ConsultationResponse($entity);
                 break;
+            case PersonnelService::class:
+                return new PersonnelMedicalServiceResponse($entity);
             default:
                 break;
         }

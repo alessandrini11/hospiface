@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\DTO\PersonnelMedicalServiceRequest;
+use App\DTO\PersonnelMedicalServiceResponse;
 use App\Exceptions\NotFoundException;
 use App\Interface\EntityServiceInterface;
 use App\Service\PersonnelService as PersonServ;
@@ -20,21 +21,21 @@ class PersonnelMedicalServiceService implements EntityServiceInterface
     {
     }
 
-    public function create($entityRequest, $loggedUser = null): PersonServEntity
+    public function create($entityRequest, $loggedUser = null): PersonnelMedicalServiceResponse
     {
         $personnelService = $this->setFields($entityRequest, new PersonServEntity());
         $personnelService
             ->setCreatedBy($loggedUser);
         $this->personnelServiceRepository->save($personnelService, true);
-        return $personnelService;
+        return new PersonnelMedicalServiceResponse($personnelService);
     }
-    public function update($entityRequest, $entity, $loggedUser = null): PersonServEntity
+    public function update($entityRequest, $entity, $loggedUser = null): PersonnelMedicalServiceResponse
     {
         $personnelService = $this->setFields($entityRequest, $entity);
         $personnelService
             ->setUpdateBy($loggedUser);
         $this->personnelServiceRepository->save($personnelService, true);
-        return $personnelService;
+        return new PersonnelMedicalServiceResponse($personnelService);
     }
 
     public function findOrFail(int $id): PersonServEntity

@@ -170,7 +170,9 @@ class Service implements EntityInterface
     public function getData(): array
     {
         return [
-
+            "id" => $this->id,
+            "name" => $this->name,
+            "status" => $this->status
         ];
     }
 }

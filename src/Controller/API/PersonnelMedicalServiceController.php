@@ -3,6 +3,8 @@
 namespace App\Controller\API;
 
 use App\DTO\PersonnelMedicalServiceRequest;
+use App\DTO\PersonnelMedicalServiceResponse;
+use App\Entity\PersonnelService;
 use App\model\PaginationModel;
 use App\Repository\PersonnelServiceRepository;
 use App\Service\PaginationService;
@@ -29,21 +31,21 @@ class PersonnelMedicalServiceController extends ApiController
         $personnelServiceRequest = new PersonnelMedicalServiceRequest($request);
         $validationError = $validator->validate($personnelServiceRequest);
         $this->checkValidationError($validationError);
-        $personnelService = $this->personnelMedicalServiceService->create($personnelServiceRequest, $this->getUser());
-        return $this->response($personnelService, Response::HTTP_CREATED);
+        $personnelMedicalServiceResponse = $this->personnelMedicalServiceService->create($personnelServiceRequest, $this->getUser());
+        return $this->response($personnelMedicalServiceResponse, Response::HTTP_CREATED);
     }
     #[Route('', name: 'api_personnelMedicalService_getAll', methods: 'GET')]
     public function getAll(Request $request, PersonnelServiceRepository $personnelServiceRepository): JsonResponse
     {
         $paginationModel = new PaginationModel($request);
-        $array = $this->paginationService->getPaginatedItems($paginationModel, $personnelServiceRepository);
+        $array = $this->paginationService->getPaginatedItems($paginationModel, $personnelServiceRepository, PersonnelService::class);
         return $this->response($array);
     }
     #[Route('/{id}', name: '_api_personnelmedicalservice_getone', methods: 'GET')]
     public function getOne(int $id): JsonResponse
     {
         $personnelService = $this->personnelMedicalServiceService->findOrFail($id);
-        return $this->response($personnelService);
+        return $this->response(new PersonnelMedicalServiceResponse($personnelService));
     }
 
     #[Route('/{id}', name: 'api_personnelmedicalservice_update', methods: 'PUT')]
@@ -53,8 +55,8 @@ class PersonnelMedicalServiceController extends ApiController
         $personnelServiceRequest = new PersonnelMedicalServiceRequest($request);
         $validationError = $validator->validate($personnelServiceRequest);
         $this->checkValidationError($validationError);
-        $updatedPersonnelService = $this->personnelMedicalServiceService->update($personnelServiceRequest, $personnelService, $this->getUser());
-        return $this->response($updatedPersonnelService, Response::HTTP_CREATED);
+        $personnelMedicalServiceResponse = $this->personnelMedicalServiceService->update($personnelServiceRequest, $personnelService, $this->getUser());
+        return $this->response($personnelMedicalServiceResponse, Response::HTTP_CREATED);
     }
 
     #[Route('/{id}', name: 'api_personnelmedicalservice_delete', methods: 'DELETE')]
