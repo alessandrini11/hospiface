@@ -4,6 +4,7 @@ namespace App\Controller\API;
 
 use App\DTO\DrugRequest;
 use App\DTO\GardeRequest;
+use App\Entity\Garde;
 use App\model\PaginationModel;
 use App\Repository\GardeRepository;
 use App\Service\GardeService;
@@ -38,7 +39,7 @@ class GardeController extends ApiController
     public function getAll(Request $request, GardeRepository $gardeRepository): JsonResponse
     {
         $paginationModel = new PaginationModel($request);
-        $array = $this->paginationService->getPaginatedItems($paginationModel, $gardeRepository);
+        $array = $this->paginationService->getPaginatedItems($paginationModel, $gardeRepository, Garde::class);
         return $this->response($array);
     }
 

@@ -6,10 +6,10 @@ use App\Exceptions\BadRequestException;
 
 class DateService
 {
-    public function compareDates($endDate, $startDate): void
+    public function compareDates($endDate, $startDate, $message = 'The Start Date Must Be Smaller than End Date'): void
     {
         if($endDate <= $startDate){
-            throw new BadRequestException('The Start Date Must Be Smaller than End Date');
+            throw new BadRequestException($message);
         }
     }
 }

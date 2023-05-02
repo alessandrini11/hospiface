@@ -14,7 +14,8 @@ class PersonnelGardeService implements EntityServiceInterface
         private readonly PersonnelService $personnelService,
         private readonly MedicalServiceService $medicalServiceService,
         private readonly PersonnelGardeRepository $personnelGardeRepository,
-        private readonly DateService $dateService
+        private readonly DateService $dateService,
+        private readonly GardeService $gardeService
     )
     {
     }
@@ -47,7 +48,13 @@ class PersonnelGardeService implements EntityServiceInterface
     public function setFields($entityRequest, $entity): ?PersonnelGarde
     {
         if (!$entityRequest instanceof PersonnelGardeRequest && !$entity instanceof PersonnelGarde) return null;
+        if($entityRequest->garde){
+            $garde = $this->gardeService->findOrFail($entityRequest->garde);
+            $entity->setGarde($garde);
+        }
         if($entityRequest->startDate){
+            $garde = $this->gardeService->findOrFail($entityRequest->garde);
+            $this->dateService->compareDates($garde->getEndDate(), $entityRequest->startDate);
             $entity->setStartDate($entityRequest->startDate);
         }
         if($entityRequest->endDate){

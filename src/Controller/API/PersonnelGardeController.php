@@ -18,7 +18,6 @@ class PersonnelGardeController extends ApiController
 {
     public function __construct(
         readonly private PersonnelGardeService $personnelGardeService,
-        readonly private PaginationService $paginationService
     )
     {
     }
@@ -30,14 +29,14 @@ class PersonnelGardeController extends ApiController
         $validationErrors = $validator->validate($personnelGardeRequest);
         $this->checkValidationError($validationErrors);
         $personnelGarde = $this->personnelGardeService->create($personnelGardeRequest);
-        return $this->response($personnelGarde, Response::HTTP_CREATED);
+        return $this->response($personnelGarde->getData(), Response::HTTP_CREATED);
     }
 
     #[Route('/{id}', name: 'api_personnel_garde_one', methods: 'GET')]
     public function one(int $id): JsonResponse
     {
         $personnelGarde = $this->personnelGardeService->findOrFail($id);
-        return $this->response($personnelGarde);
+        return $this->response($personnelGarde->getData());
     }
 
     #[Route('/{id}', name: 'api_personnel_garde_update', methods: 'PUT')]
@@ -48,7 +47,7 @@ class PersonnelGardeController extends ApiController
         $validationErrors = $validator->validate($personnelGardeRequest);
         $this->checkValidationError($validationErrors);
         $updatedPersonnelGarde = $this->personnelGardeService->update($personnelGardeRequest, $personnelGarde);
-        return $this->response($updatedPersonnelGarde);
+        return $this->response($updatedPersonnelGarde->getData());
     }
 
     #[Route('/{id}', name: 'api_personnel_garde_delete', methods: 'DELETE')]

@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\DTO\ConsultationResponse;
 use App\DTO\DrugResponse;
+use App\DTO\GardeResponse;
 use App\DTO\MedicalServiceResponse;
 use App\DTO\PatientRequest;
 use App\DTO\PatientResponse;
@@ -12,6 +13,7 @@ use App\DTO\PersonnelResponse;
 use App\DTO\SpecialityResponse;
 use App\Entity\Consultation;
 use App\Entity\Drug;
+use App\Entity\Garde;
 use App\Entity\Patient;
 use App\Entity\Personnel;
 use App\Entity\PersonnelService;
@@ -68,6 +70,9 @@ class PaginationService
                 break;
             case Drug::class:
                 return new DrugResponse($entity);
+                break;
+            case Garde::class:
+                return new GardeResponse($entity);
                 break;
             default:
                 break;
