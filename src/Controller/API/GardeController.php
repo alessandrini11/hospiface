@@ -30,8 +30,8 @@ class GardeController extends ApiController
         $gardeRequest = new GardeRequest($request);
         $validationError = $validator->validate($gardeRequest);
         $this->checkValidationError($validationError);
-        $garde = $this->gardeService->create($gardeRequest, $this->getUser());
-        return $this->response($garde, Response::HTTP_CREATED);
+        $gardeResponse = $this->gardeService->create($gardeRequest, $this->getUser());
+        return $this->response($gardeResponse, Response::HTTP_CREATED);
     }
 
     #[Route('', name: 'api_garde_getall', methods: 'GET')]
@@ -56,8 +56,8 @@ class GardeController extends ApiController
         $gardeRequest = new GardeRequest($request);
         $validationError = $validator->validate($gardeRequest);
         $this->checkValidationError($validationError);
-        $updatedGarde = $this->gardeService->update($gardeRequest, $garde, $this->getUser());
-        return $this->response($updatedGarde);
+        $gardeResponse = $this->gardeService->update($gardeRequest, $garde, $this->getUser());
+        return $this->response($gardeResponse);
     }
 
     #[Route('/{id}', name: 'api_garde_delete', methods: 'DELETE')]

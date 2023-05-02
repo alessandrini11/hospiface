@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\DTO\GardeRequest;
+use App\DTO\GardeResponse;
 use App\Entity\Garde;
 use App\Exceptions\NotFoundException;
 use App\Interface\EntityServiceInterface;
@@ -17,19 +18,19 @@ class GardeService implements EntityServiceInterface
     {
     }
 
-    public function create($entityRequest, $loggedUser = null): Garde
+    public function create($entityRequest, $loggedUser = null): GardeResponse
     {
         $garde = $this->setFields($entityRequest, new Garde());
         $garde->setCreatedBy($loggedUser);
         $this->gardeRepository->save($garde, true);
-        return $garde;
+        return new GardeResponse($garde);
     }
-    public function update($entityRequest, $entity, $loggedUser = null): Garde
+    public function update($entityRequest, $entity, $loggedUser = null): GardeResponse
     {
         $garde = $this->setFields($entityRequest, $entity);
         $garde->setUpdatedBy($loggedUser);
         $this->gardeRepository->save($garde, true);
-        return $garde;
+        return new GardeResponse($garde);
     }
     public function findOrFail(int $id): Garde
     {
