@@ -3,6 +3,8 @@
 namespace App\Controller\API;
 
 use App\DTO\RoomRequest;
+use App\DTO\RoomResponse;
+use App\Entity\Room;
 use App\model\PaginationModel;
 use App\Repository\RoomRepository;
 use App\Service\PaginationService;
@@ -30,14 +32,14 @@ class RoomController extends ApiController
         $validationErrors = $validator->validate($roomRequest);
         $this->checkValidationError($validationErrors);
         $room = $this->roomService->create($roomRequest, $this->getUser());
-        return $this->response($room, Response::HTTP_CREATED);
+        return $this->response($room->getData(), Response::HTTP_CREATED);
     }
 
     #[Route('', name: 'api_room_all', methods: 'GET')]
     public function all(Request $request, RoomRepository $roomRepository): JsonResponse
     {
         $paginationModel = new PaginationModel($request);
-        $array = $this->paginationService->getPaginatedItems($paginationModel, $roomRepository);
+        $array = $this->paginationService->getPaginatedItems($paginationModel, $roomRepository, Room::class);
         return $this->response($array);
     }
 
@@ -45,7 +47,7 @@ class RoomController extends ApiController
     public function one(int $id): JsonResponse
     {
         $room = $this->roomService->findOrFail($id);
-        return $this->response($room);
+        return $this->response(new RoomResponse($room));
     }
 
     #[Route('/{id}', name: 'api_room_update', methods: 'PUT')]
@@ -56,7 +58,7 @@ class RoomController extends ApiController
         $validationErrors = $validator->validate($roomRequest);
         $this->checkValidationError($validationErrors);
         $updatedRoom = $this->roomService->update($roomRequest, $room, $this->getUser());
-        return $this->response($updatedRoom);
+        return $this->response($updatedRoom->getData());
     }
 
     #[Route('/{id}', name: 'api_room_delete', methods: 'DELETE')]

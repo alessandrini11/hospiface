@@ -41,7 +41,7 @@ class Hospitilization implements EntityInterface
     private ?int $id = null;
 
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
-    private ?string $status = null;
+    private ?int $status = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $type = null;
