@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Interface\EntityInterface;
 use App\Repository\RoomRepository;
 use App\Trait\DateTrait;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RoomRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class Room
+class Room implements EntityInterface
 {
     use DateTrait;
     #[ORM\Id]
@@ -119,5 +120,14 @@ class Room
         }
 
         return $this;
+    }
+
+    public function getData(): array
+    {
+        return [
+            "id" => $this->id,
+            "number" => $this->number,
+            "beds" => $this->beds
+        ];
     }
 }

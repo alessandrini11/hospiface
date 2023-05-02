@@ -67,6 +67,8 @@ security:
         - { path: ^/api/results, roles: ROLE_USER}
         - { path: ^/api/drugs, roles: ROLE_USER}
         - { path: ^/api/gardes, roles: ROLE_USER}
+        - { path: ^/api/hospitalizations, roles: ROLE_USER}
+        - { path: ^/api/rooms, roles: ROLE_USER}
         # - { path: ^/parameters, roles: ROLE_USER }
 
 when@test:

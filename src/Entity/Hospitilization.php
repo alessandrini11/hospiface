@@ -171,6 +171,18 @@ class Hospitilization implements EntityInterface
 
     public function getData(): array
     {
-        return [];
+        return [
+            "id" => $this->id,
+            "status" => $this->status,
+            "type" => $this->type,
+            "start_date" => $this->startDate,
+            "end_date" => $this->endDate,
+            "room" => $this->hospitalizationRoom->getRoom()->getData(),
+            "patient" => $this->patient->getData(),
+            "created_by" => $this->createdBy?->getData(),
+            "updated_by" => $this->updatedBy?->getData(),
+            "created_at" => $this->createdAt,
+            "updated_at" => $this->updatedAt
+        ];
     }
 }

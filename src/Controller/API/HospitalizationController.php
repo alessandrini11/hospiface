@@ -3,6 +3,7 @@
 namespace App\Controller\API;
 
 use App\DTO\HospitalisationRequest;
+use App\Entity\Hospitilization;
 use App\model\PaginationModel;
 use App\Repository\HospitilizationRepository;
 use App\Service\HospitalizationService;
@@ -30,14 +31,14 @@ class HospitalizationController extends ApiController
         $validationErrors = $validator->validate($hospitRequest);
         $this->checkValidationError($validationErrors);
         $hospitalization = $this->hospitalizationService->create($hospitRequest, $this->getUser());
-        return $this->response($hospitalization, Response::HTTP_CREATED);
+        return $this->response($hospitalization->getData(), Response::HTTP_CREATED);
     }
 
     #[Route('', name: 'api_hospitalization_all', methods: 'GET')]
     public function all(Request $request, HospitilizationRepository $hospitilizationRepository): JsonResponse
     {
         $paginationModel = new PaginationModel($request);
-        $array = $this->paginationService->getPaginatedItems($paginationModel, $hospitilizationRepository);
+        $array = $this->paginationService->getPaginatedItems($paginationModel, $hospitilizationRepository, Hospitilization::class);
         return $this->response($array);
     }
 
@@ -45,7 +46,7 @@ class HospitalizationController extends ApiController
     public function one(int $id): JsonResponse
     {
         $hospitalization = $this->hospitalizationService->findOrFail($id);
-        return $this->response($hospitalization);
+        return $this->response($hospitalization->getData());
     }
 
     #[Route('/{id}', name: 'api_hospitalization_update', methods: 'PUT')]
@@ -56,7 +57,7 @@ class HospitalizationController extends ApiController
         $validationErrors = $validator->validate($hospitRequest);
         $this->checkValidationError($validationErrors);
         $hospitalization = $this->hospitalizationService->update($hospitRequest, $hospitalization, $this->getUser());
-        return $this->response($hospitalization);
+        return $this->response($hospitalization->getData());
     }
     #[Route('/{id}', name: 'api_hospitalization_delete', methods: 'DELETE')]
     public function delete(int $id): JsonResponse
