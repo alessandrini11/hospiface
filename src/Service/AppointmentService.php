@@ -5,6 +5,7 @@ namespace App\Service;
 use App\DTO\AppointmentRequest;
 use App\DTO\AppointmentResponse;
 use App\Entity\Appointment;
+use App\Exceptions\NotFoundException;
 use App\Interface\EntityServiceInterface;
 use App\Repository\AppointmentRepository;
 
@@ -34,11 +35,14 @@ class AppointmentService implements EntityServiceInterface
     }
     public function findOrFail(int $id)
     {
-        // TODO: Implement findOrFail() method.
+        $appointment = $this->appointmentRepository->find($id);
+        if(!$appointment) throw new NotFoundException('Appointment Not Found');
+        return $appointment;
     }
     public function delete(int $id): void
     {
-        // TODO: Implement delete() method.
+        $appointment = $this->findOrFail($id);
+        $this->appointmentRepository->remove($appointment, true);
     }
     public function setFields($entityRequest, $entity): ?Appointment
     {
