@@ -29,6 +29,10 @@ class HospitalisationRequest
     #[Assert\NotBlank(allowNull: true)]
     public ?int $room;
 
+    #[Assert\Type('string')]
+    #[Assert\NotBlank(allowNull: true)]
+    public ?string $description;
+
     public function __construct(Request $request)
     {
         $this->status = (int) $request->get('status');
@@ -36,5 +40,6 @@ class HospitalisationRequest
         $this->startDate = $request->get('startDate') ? (new \DateTime())->setTimestamp(strtotime($request->get('startDate'))) : null;
         $this->patient = (int) $request->get('patient');
         $this->room = (int) $request->get('room');
+        $this->description = $request->get('description');
     }
 }

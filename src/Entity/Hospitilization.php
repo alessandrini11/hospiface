@@ -64,6 +64,9 @@ class Hospitilization implements EntityInterface
     #[ORM\OneToOne(inversedBy: 'hospitilization', cascade: ['persist', 'remove'], fetch: 'EAGER')]
     private ?HospitalizationRoom $hospitalizationRoom = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $description = null;
+
     public function __construct()
     {
     }
@@ -169,15 +172,28 @@ class Hospitilization implements EntityInterface
         return $this;
     }
 
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
     public function getData(): array
     {
         return [
             "id" => $this->id,
             "status" => $this->status,
             "type" => $this->type,
+            "description" => $this->description,
             "start_date" => $this->startDate,
             "end_date" => $this->endDate,
-            "room" => $this->hospitalizationRoom->getRoom()->getData(),
+            "room" => $this->hospitalizationRoom?->getRoom()->getData(),
             "patient" => $this->patient->getData(),
             "created_by" => $this->createdBy?->getData(),
             "updated_by" => $this->updatedBy?->getData(),

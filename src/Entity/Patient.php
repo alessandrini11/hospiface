@@ -62,10 +62,14 @@ class Patient implements EntityInterface
     #[ORM\OneToMany(mappedBy: 'patient', targetEntity: Hospitilization::class, fetch: 'EAGER')]
     private Collection $hospitilizations;
 
+    #[ORM\OneToMany(mappedBy: 'patient', targetEntity: Appointment::class)]
+    private Collection $appointments;
+
     public function __construct()
     {
         $this->consultations = new ArrayCollection();
         $this->hospitilizations = new ArrayCollection();
+        $this->appointments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -221,15 +225,45 @@ class Patient implements EntityInterface
     {
         return [
             'id' => $this->id,
-            'firstName' => $this->firstname,
-            'lastName' => $this->lastname,
+            'first_name' => $this->firstname,
+            'last_name' => $this->lastname,
             'email' => $this->email,
             'sex' => $this->sex,
             'status' => $this->status,
-            'emergencyPerson' => $this->emergencyPersonne,
-            'emergencyContact' => $this->emergencyContact,
-            'bloodGroup' => $this->bloodGroup,
-            'birthDate' => $this->birthDate
+            'emergency_person' => $this->emergencyPersonne,
+            'emergency_contact' => $this->emergencyContact,
+            'blood_group' => $this->bloodGroup,
+            'birth_date' => $this->birthDate
         ];
+    }
+
+    /**
+     * @return Collection<int, Appointment>
+     */
+    public function getAppointments(): Collection
+    {
+        return $this->appointments;
+    }
+
+    public function addAppointment(Appointment $appointment): self
+    {
+        if (!$this->appointments->contains($appointment)) {
+            $this->appointments->add($appointment);
+            $appointment->setPatient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAppointment(Appointment $appointment): self
+    {
+        if ($this->appointments->removeElement($appointment)) {
+            // set the owning side to null (unless already changed)
+            if ($appointment->getPatient() === $this) {
+                $appointment->setPatient(null);
+            }
+        }
+
+        return $this;
     }
 }

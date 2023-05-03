@@ -167,6 +167,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: Garde::class, fetch: 'EAGER')]
     private Collection $updatedGardes;
 
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Appointment::class)]
+    private Collection $createdAppointments;
+
+    #[ORM\OneToMany(mappedBy: 'updatedBy', targetEntity: Appointment::class)]
+    private Collection $updatedAppointments;
+
     public function __construct()
     {
         $this->createdPersonnels = new ArrayCollection();
@@ -199,6 +205,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->updatedPersonnelService = new ArrayCollection();
         $this->createdGardes = new ArrayCollection();
         $this->updatedGardes = new ArrayCollection();
+        $this->createdAppointments = new ArrayCollection();
+        $this->updatedAppointments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -1239,6 +1247,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($updatedGarde->getUpdatedBy() === $this) {
                 $updatedGarde->setUpdatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Appointment>
+     */
+    public function getCreatedAppointments(): Collection
+    {
+        return $this->createdAppointments;
+    }
+
+    public function addCreatedAppointment(Appointment $createdAppointment): self
+    {
+        if (!$this->createdAppointments->contains($createdAppointment)) {
+            $this->createdAppointments->add($createdAppointment);
+            $createdAppointment->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreatedAppointment(Appointment $createdAppointment): self
+    {
+        if ($this->createdAppointments->removeElement($createdAppointment)) {
+            // set the owning side to null (unless already changed)
+            if ($createdAppointment->getCreatedBy() === $this) {
+                $createdAppointment->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Appointment>
+     */
+    public function getUpdatedAppointments(): Collection
+    {
+        return $this->updatedAppointments;
+    }
+
+    public function addUpdatedAppointment(Appointment $updatedAppointment): self
+    {
+        if (!$this->updatedAppointments->contains($updatedAppointment)) {
+            $this->updatedAppointments->add($updatedAppointment);
+            $updatedAppointment->setUpdatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUpdatedAppointment(Appointment $updatedAppointment): self
+    {
+        if ($this->updatedAppointments->removeElement($updatedAppointment)) {
+            // set the owning side to null (unless already changed)
+            if ($updatedAppointment->getUpdatedBy() === $this) {
+                $updatedAppointment->setUpdatedBy(null);
             }
         }
 

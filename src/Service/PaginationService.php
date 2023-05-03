@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\DTO\AppointmentResponse;
 use App\DTO\ConsultationResponse;
 use App\DTO\DrugResponse;
 use App\DTO\GardeResponse;
@@ -13,6 +14,7 @@ use App\DTO\PersonnelMedicalServiceResponse;
 use App\DTO\PersonnelResponse;
 use App\DTO\RoomResponse;
 use App\DTO\SpecialityResponse;
+use App\Entity\Appointment;
 use App\Entity\Consultation;
 use App\Entity\Drug;
 use App\Entity\Garde;
@@ -36,11 +38,15 @@ class PaginationService
         $datas = $repository->findBy([], ['createdAt' => 'DESC'], $perPage, $offset);
         $totalPages = ceil(count($repository->findAll())/$perPage);
         $arrayData = [];
-        foreach ($datas as $entity){
-            $arrayData[] = $this->getEntityRequest($entityName, $entity);
-        }
-        if($query){
-            $arrayData = $repository->searchByName($query);
+        if(!$query){
+            foreach ($datas as $entity){
+                $arrayData[] = $this->getEntityRequest($entityName, $entity);
+            }
+        }else {
+            $searchData = $repository->searchByName($query);
+            foreach ($searchData as $entity){
+                $arrayData[] = $this->getEntityRequest($entityName, $entity);
+            }
         }
 
         return [
@@ -83,6 +89,9 @@ class PaginationService
                 break;
             case Room::class:
                 return new RoomResponse($entity);
+                break;
+            case Appointment::class:
+                return new AppointmentResponse($entity);
             default:
                 break;
         }

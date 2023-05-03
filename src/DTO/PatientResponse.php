@@ -8,15 +8,15 @@ use App\Entity\User;
 class PatientResponse
 {
     public ?int $id;
-    public ?string $firstName;
-    public ?string $lastName;
+    public ?string $first_name;
+    public ?string $last_name;
     public ?string $email;
     public ?string $sex;
-    public ?string $phoneNumber;
-    public ?string $emergencyPerson;
-    public ?string $emergencyContact;
-    public ?string $bloodGroup;
-    public ?\DateTime $birthDate;
+    public ?string $phone_number;
+    public ?string $emergency_person;
+    public ?string $emergency_contact;
+    public ?string $blood_group;
+    public ?\DateTime $birth_date;
     public ?int $status;
     public ?array $hospitalizations;
     public ?array $consultations;

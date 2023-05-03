@@ -70,6 +70,9 @@ class HospitalizationService implements EntityServiceInterface
             $hospitalRoom =  $this->hospitalizationRoomService->createOrUpdate($entity, $room);
             $entity->setHospitalizationRoom($hospitalRoom);
         }
+        if($entityRequest->description){
+            $entity->setDescription($entityRequest->description);
+        }
         return $entity;
     }
 }

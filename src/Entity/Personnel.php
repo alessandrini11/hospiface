@@ -129,11 +129,15 @@ class Personnel implements EntityInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $title = null;
 
+    #[ORM\OneToMany(mappedBy: 'doctor', targetEntity: Appointment::class)]
+    private Collection $appointments;
+
     public function __construct()
     {
         $this->personnelServices = new ArrayCollection();
         $this->personnelGardes = new ArrayCollection();
         $this->consultations = new ArrayCollection();
+        $this->appointments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -367,5 +371,35 @@ class Personnel implements EntityInterface
             "status" => $this->status,
             "position_held" => $this->positionHeld,
         ];
+    }
+
+    /**
+     * @return Collection<int, Appointment>
+     */
+    public function getAppointments(): Collection
+    {
+        return $this->appointments;
+    }
+
+    public function addAppointment(Appointment $appointment): self
+    {
+        if (!$this->appointments->contains($appointment)) {
+            $this->appointments->add($appointment);
+            $appointment->setDoctor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAppointment(Appointment $appointment): self
+    {
+        if ($this->appointments->removeElement($appointment)) {
+            // set the owning side to null (unless already changed)
+            if ($appointment->getDoctor() === $this) {
+                $appointment->setDoctor(null);
+            }
+        }
+
+        return $this;
     }
 }
