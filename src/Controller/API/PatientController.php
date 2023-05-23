@@ -3,6 +3,7 @@
 namespace App\Controller\API;
 
 use App\DTO\PatientRequest;
+use App\DTO\PatientResponse;
 use App\Entity\Patient;
 use App\model\PaginationModel;
 use App\Repository\PatientRepository;
@@ -43,10 +44,10 @@ class PatientController extends ApiController
     }
 
     #[Route('/{id}', name: 'api_get_one_patient', methods: 'GET')]
-    public function getOne(int $id,PatientRepository $patientRepository): JsonResponse
+    public function getOne(int $id): JsonResponse
     {
         $patient = $this->patientService->findOrFail($id);
-        return $this->response($patient);
+        return $this->response(new PatientResponse($patient));
     }
 
     #[Route('/{id}', name: 'api_update_one_patient', methods: 'PUT')]
@@ -54,7 +55,6 @@ class PatientController extends ApiController
         int $id,
         Request $request,
         ValidatorInterface $validator,
-        PatientRepository $patientRepository
     ): JsonResponse
     {
         $patient = $this->patientService->findOrFail($id);

@@ -35,7 +35,7 @@ class PaginationService
         $perPage = $paginationModel->perPage;
         $query = $paginationModel->query;
         $offset = $actualPage == 1 ? 0 : abs($perPage) * (abs($actualPage) - 1);
-        $datas = $repository->findBy([], ['createdAt' => 'DESC'], $perPage, $offset);
+        $datas = $repository->findBy([], ['createdAt' => 'DESC'], $perPage, abs($offset));
         $totalPages = ceil(count($repository->findAll())/$perPage);
         $arrayData = [];
         if(!$query){

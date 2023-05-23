@@ -7,50 +7,50 @@ use App\Entity\Personnel;
 class PersonnelResponse
 {
     public ?int $id;
-    public ?string $first_name;
-    public ?string $last_name;
+    public ?string $firstName;
+    public ?string $lastName;
     public ?string $title;
+    public ?string $bloodGroup;
+    public ?string $address;
     public ?string $sex;
     public ?string $type;
-    public ?string $sub_type;
-    public ?string $phone_number;
+    public ?string $subType;
+    public ?string $phoneNumber;
     public ?array $speciality;
     public ?string $email;
     public ?string $status;
-    public ?string $position_held;
-    public ?array $consultations;
-    public ?array $gardes;
+    public ?string $positionHeld;
+    public ?int $consultations;
+    public ?int $gardes;
     public ?array $created_by;
     public ?array $updated_by;
+    public ?array $services;
     public ?\DateTime $created_at;
     public ?\DateTime $updated_at;
     public function __construct(Personnel $personnel)
     {
         $this->id = $personnel->getId();
         $this->title = $personnel->getTitle();
-        $this->first_name = $personnel->getFirstname();
-        $this->last_name = $personnel->getLastname();
+        $this->firstName = $personnel->getFirstname();
+        $this->lastName = $personnel->getLastname();
         $this->sex = $personnel->getSex();
         $this->type = $personnel->getType();
-        $this->sub_type = $personnel->getSubType();
+        $this->subType = $personnel->getSubType();
         $this->speciality = $personnel->getSpeciality()?->getData();
-        $this->phone_number = $personnel->getPhonenumber();
+        $this->phoneNumber = $personnel->getPhonenumber();
         $this->email = $personnel->getEmail();
         $this->status = $personnel->getStatus();
-        $this->position_held = $personnel->getPositionHeld();
+        $this->positionHeld = $personnel->getPositionHeld();
         $this->created_by = $personnel->getCreatedBy()?->getData();
         $this->updated_by = $personnel->getUpdatedBy()?->getData();
         $this->created_at = $personnel->getCreatedAt();
         $this->updated_at = $personnel->getUpdatedAt();
-        $consultations = [];
-        $personnelGardes = [];
-        foreach ($personnel->getConsultations() as $consultation){
-            $consultations[] = $consultation->getData();
+        $this->consultations = count($personnel->getConsultations());
+        $this->gardes = count($personnel->getPersonnelGardes());
+        $services = [];
+        foreach($personnel->getPersonnelServices() as $service){
+            $services[] = $service->getData();
         }
-        foreach ($personnel->getPersonnelGardes() as $personnelGarde){
-            $personnelGardes[] = $personnelGarde->getData();
-        }
-        $this->consultations = $consultations;
-        $this->gardes = $personnelGardes;
+        $this->services = $services;
     }
 }

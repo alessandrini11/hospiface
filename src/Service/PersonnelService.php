@@ -47,7 +47,9 @@ class PersonnelService implements EntityServiceInterface
     public function delete(int $id): void
     {
         $personnel = $this->findOrFail($id);
-        $this->personnelRepository->remove($personnel, true);
+        // $this->personnelRepository->remove($personnel, true);
+        $personnel->setStatus(Personnel::STATUS_DELETED);
+        $this->personnelRepository->save($personnel, true);
     }
 
     public function setFields($entityRequest, $entity): ?Personnel

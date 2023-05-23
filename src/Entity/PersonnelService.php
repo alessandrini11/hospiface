@@ -102,8 +102,9 @@ class PersonnelService implements EntityInterface
     {
         return [
           "id" => $this->id,
-          "personnel" => $this->personnel->getData(),
+        //   "personnel" => $this->personnel->getData(),
           "position_held" => $this->positionHeld,
+          "service" => $this->service->getData()
         ];
     }
 }
