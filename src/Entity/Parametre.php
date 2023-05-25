@@ -115,6 +115,11 @@ class Parametre implements EntityInterface
 
     public function getData(): array
     {
-        return [];
+        return [
+            "height" => $this->height,
+            "weight" => $this->weight,
+            "bloodPressure" => $this->bloodPressure,
+            "temparature" => $this->temparature
+        ];
     }
 }

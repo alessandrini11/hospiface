@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\DTO\ConsultationRequest;
 use App\DTO\ParameterRequest;
 use App\Entity\Parametre;
 use App\Exceptions\NotFoundException;
@@ -14,6 +15,16 @@ class ParameterService implements BasicEntityServiceInterface
         readonly private ParametreRepository $parametreRepository
     )
     {
+    }
+    public function create(ConsultationRequest $consultationRequest): Parametre
+    {
+        $parameter = new Parametre();
+        $parameter->setHeight($consultationRequest->height);
+        $parameter->setWeight($consultationRequest->weight);
+        $parameter->setTemparature($consultationRequest->temperature);
+        $parameter->setBloodPressure($consultationRequest->bloodPressure);
+        $this->parametreRepository->save($parameter);
+        return $parameter;
     }
     public function update($entityRequest, $entity, $loggedUser = null): Parametre
     {

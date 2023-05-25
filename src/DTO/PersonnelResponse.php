@@ -18,7 +18,7 @@ class PersonnelResponse
     public ?string $phoneNumber;
     public ?array $speciality;
     public ?string $email;
-    public ?string $status;
+    public ?int $status;
     public ?string $positionHeld;
     public ?int $consultations;
     public ?int $gardes;

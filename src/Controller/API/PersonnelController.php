@@ -58,7 +58,7 @@ class PersonnelController extends ApiController
         $validationError = $validator->validate($personnelRequest);
         $this->checkValidationError($validationError);
         $personnelResponse = $this->personnelService->update($personnelRequest, $personnel, $this->getUser());
-        return $this->response($personnelResponse, Response::HTTP_CREATED);
+        return $this->response($personnelResponse);
     }
 
     #[Route('/{id}', name: 'api_personnel_delete', methods: 'DELETE')]

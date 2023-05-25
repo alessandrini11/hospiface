@@ -24,13 +24,14 @@ class ConsultationService implements EntityServiceInterface
         readonly private ResultRepository $resultRepository,
         readonly private PatientService $patientService,
         readonly private PersonnelService $personnelService,
+        readonly private ParameterService $parameterService
     )
     {
     }
 
     public function create($entityRequest, $loggedUser = null): ConsultationResponse
     {
-        $parameter = new Parametre();
+        $parameter = $this->parameterService->create($entityRequest);
         $parameter->setCreatedBy($loggedUser);
         $medicalOrder = new MedicalOrder();
         $medicalOrder->setCreatedBy($loggedUser);
@@ -44,7 +45,6 @@ class ConsultationService implements EntityServiceInterface
             ->setCreatedBy($loggedUser)
             ->setParameter($parameter)
             ->setResult($result);
-        $this->parametreRepository->save($parameter);
         $this->medicalOrderRepository->save($medicalOrder);
         $this->resultRepository->save($result);
         $this->consultationRepository->save($consultation, true);

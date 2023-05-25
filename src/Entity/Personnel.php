@@ -83,7 +83,7 @@ class Personnel implements EntityInterface
 
     ];
     const POSITIONS = [
-        'general manager', 'deputy director', 'head of department'
+        'general manager', 'head of department', 'other'
     ];
     #[ORM\Id]
     #[ORM\GeneratedValue]

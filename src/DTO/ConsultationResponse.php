@@ -7,6 +7,7 @@ use App\Entity\Consultation;
 class ConsultationResponse
 {
     public ?int $id;
+    public ?string $type;
     public ?int $status;
     public ?array $doctor;
     public ?array $patient;
@@ -19,6 +20,7 @@ class ConsultationResponse
     public function __construct(Consultation $consultation)
     {
         $this->id = $consultation->getId();
+        $this->type = $consultation->getType();
         $this->status = $consultation->getStatus();
         $this->doctor = $consultation->getDoctor()?->getData();
         $this->patient = $consultation->getPatient()?->getData();
