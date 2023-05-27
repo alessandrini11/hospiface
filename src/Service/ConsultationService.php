@@ -20,7 +20,6 @@ class ConsultationService implements EntityServiceInterface
     public function __construct(
         readonly private ConsultationRepository $consultationRepository,
         readonly private MedicalOrderRepository $medicalOrderRepository,
-        readonly private ParametreRepository $parametreRepository,
         readonly private ResultRepository $resultRepository,
         readonly private PatientService $patientService,
         readonly private PersonnelService $personnelService,
@@ -31,7 +30,7 @@ class ConsultationService implements EntityServiceInterface
 
     public function create($entityRequest, $loggedUser = null): ConsultationResponse
     {
-        $parameter = $this->parameterService->create($entityRequest);
+        $parameter = $this->parameterService->createOrUpdate($entityRequest);
         $parameter->setCreatedBy($loggedUser);
         $medicalOrder = new MedicalOrder();
         $medicalOrder->setCreatedBy($loggedUser);
@@ -54,10 +53,13 @@ class ConsultationService implements EntityServiceInterface
 
     public function update($entityRequest, $entity, $loggedUser = null): ConsultationResponse
     {
-        $consultation = $this->setFields($entityRequest, new Consultation());
+
+        $consultation = $this->setFields($entityRequest, $entity);
+        $parameter = $consultation->getParameter();
+        $this->parameterService->createOrUpdate($entityRequest, $parameter);
         $consultation
             ->setUpdatedBy($loggedUser);
-        $this->consultationRepository->save($consultation);
+        $this->consultationRepository->save($consultation, true);
         return new ConsultationResponse($consultation);
     }
     public function findOrFail(int $id): Consultation

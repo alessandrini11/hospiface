@@ -119,7 +119,7 @@ class Parametre implements EntityInterface
             "height" => $this->height,
             "weight" => $this->weight,
             "bloodPressure" => $this->bloodPressure,
-            "temparature" => $this->temparature
+            "temperature" => $this->temparature
         ];
     }
 }

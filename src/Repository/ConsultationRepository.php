@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Consultation;
+use App\Interface\EntityRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -14,7 +15,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Consultation[]    findAll()
  * @method Consultation[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ConsultationRepository extends ServiceEntityRepository
+class ConsultationRepository extends ServiceEntityRepository implements EntityRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -37,6 +38,19 @@ class ConsultationRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+    public function searchByName(string $query)
+    {
+        $qb = $this->createQueryBuilder('c');
+        $qb->leftJoin('c.patient', 'p')
+            ->leftJoin('c.doctor', 'd')
+            ->where('p.firstname LIKE :query')
+            ->orWhere('p.lastname LIKE :query')
+            ->orWhere('d.firstname LIKE :query')
+            ->orWhere('d.lastname LIKE :query')
+            ->setParameter('query', "%{$query}%")
+        ;
+        return $qb->getQuery()->getResult();
     }
 
 //    /**

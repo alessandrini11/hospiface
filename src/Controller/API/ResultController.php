@@ -18,7 +18,12 @@ class ResultController extends ApiController
     )
     {
     }
-
+    #[Route('/{id}', name: 'api_result_one', methods: 'GET')]
+    public function one(int $id): JsonResponse
+    {
+        $result = $this->resultService->findOrFail($id);
+        return $this->response($result);
+    }
     #[Route('/{id}', name: 'api_result_update', methods: 'PUT')]
     public function update(int $id, Request $request, ValidatorInterface $validator): JsonResponse
     {

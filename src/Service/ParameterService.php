@@ -16,9 +16,13 @@ class ParameterService implements BasicEntityServiceInterface
     )
     {
     }
-    public function create(ConsultationRequest $consultationRequest): Parametre
+    public function createOrUpdate(ConsultationRequest $consultationRequest, ?Parametre $updatedParameter = null): Parametre
     {
-        $parameter = new Parametre();
+        if($updatedParameter){
+            $parameter = $updatedParameter;
+        } else {
+            $parameter = new Parametre();
+        }
         $parameter->setHeight($consultationRequest->height);
         $parameter->setWeight($consultationRequest->weight);
         $parameter->setTemparature($consultationRequest->temperature);

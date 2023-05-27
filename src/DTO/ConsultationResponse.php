@@ -21,7 +21,7 @@ class ConsultationResponse
     {
         $this->id = $consultation->getId();
         $this->type = $consultation->getType();
-        $this->status = $consultation->getStatus();
+        $this->status = (int) $consultation->getStatus();
         $this->doctor = $consultation->getDoctor()?->getData();
         $this->patient = $consultation->getPatient()?->getData();
         $this->parameter = $consultation->getParameter()?->getData();
@@ -30,12 +30,14 @@ class ConsultationResponse
         $this->created_at = $consultation->getCreatedAt();
         $this->updated_at = $consultation->getUpdatedAt();
         $result =  $consultation->getResult()?->getData();
+        $drugArrayConsultation = $consultation->getResult() ? $consultation->getResult()->getMedicalOrder()->getDrugs() : [];
+        $medicalExamConsultations = $consultation->getResult() ? $consultation->getResult()->getMedicalExam() : [];
         $drugArray = [];
         $examArray = [];
-        foreach ($consultation->getResult()->getMedicalOrder()->getDrugs() as $drug){
+        foreach ($drugArrayConsultation as $drug){
             $drugArray[] = $drug->getData();
         }
-        foreach ($consultation->getResult()->getMedicalExam() as $exam){
+        foreach ($medicalExamConsultations as $exam){
             $examArray[] = $exam->getData();
         }
         $result["medical_order"] = $drugArray;

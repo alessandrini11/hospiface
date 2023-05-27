@@ -58,7 +58,7 @@ class ConsultationController extends ApiController
         $validationError = $validator->validate($consultationRequest);
         $this->checkValidationError($validationError);
         $consultationResponse = $this->consultationService->update($consultationRequest, $consultation, $this->getUser());
-        return $this->response($consultationResponse, Response::HTTP_CREATED);
+        return $this->response($consultationResponse);
     }
 
     #[Route('/{id}', name: 'api_consultation_delete', methods: 'DELETE')]
