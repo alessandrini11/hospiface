@@ -4,7 +4,6 @@ namespace App\Controller\API;
 
 use App\DTO\DrugRequest;
 use App\DTO\DrugResponse;
-use App\DTO\MedicalExamRequest;
 use App\Entity\Drug;
 use App\model\PaginationModel;
 use App\Repository\DrugRepository;
