@@ -20,7 +20,7 @@ class AppointmentResponse
         $this->id = $appointment->getId();
         $this->patient = $appointment->getPatient()->getData();
         $this->doctor = $appointment->getDoctor()->getData();
-        $this->status = $appointment->getStatus();
+        $this->status = (int) $appointment->getStatus();
         $this->date = $appointment->getDate();
         $this->created_by = $appointment->getCreatedBy()?->getData();
         $this->updated_by = $appointment->getUpdatedBy()?->getData();

@@ -27,7 +27,7 @@ class Appointment
     private ?\DateTimeInterface $date = null;
 
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
-    private ?int $status = null;
+    private ?int $status = 0;
 
     #[ORM\ManyToOne(inversedBy: 'createdAppointments')]
     private ?User $createdBy = null;
