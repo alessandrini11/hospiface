@@ -21,6 +21,9 @@ class HospitalisationRequest
     #[Assert\NotBlank(allowNull: true)]
     public ?\DateTime $startDate;
 
+    #[Assert\NotBlank(allowNull: true)]
+    public ?\DateTime $endDate;
+
     #[Assert\Type('integer')]
     #[Assert\NotBlank(allowNull: true)]
     public ?int $patient;
@@ -38,6 +41,7 @@ class HospitalisationRequest
         $this->status = (int) $request->get('status');
         $this->type = $request->get('type');
         $this->startDate = $request->get('startDate') ? (new \DateTime())->setTimestamp(strtotime($request->get('startDate'))) : null;
+        $this->endDate = $request->get('endDate') ? (new \DateTime())->setTimestamp(strtotime($request->get('endDate'))) : null;
         $this->patient = (int) $request->get('patient');
         $this->room = (int) $request->get('room');
         $this->description = $request->get('description');

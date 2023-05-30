@@ -9,8 +9,8 @@ class HospitalizationResponse
     public ?int $id;
     public ?int $status;
     public ?string $type;
-    public ?\DateTime $start_date;
-    public ?\DateTime $end_date;
+    public ?\DateTime $startDate;
+    public ?\DateTime $endDate;
     public ?array $room;
     public ?array $patient;
     public ?string $description;
@@ -21,13 +21,13 @@ class HospitalizationResponse
     public function __construct(Hospitilization $hospitalization)
     {
         $this->id = $hospitalization->getId();
-        $this->status = $hospitalization->getStatus();
+        $this->status = (int) $hospitalization->getStatus();
         $this->type = $hospitalization->getType();
         $this->description = $hospitalization->getDescription();
-        $this->start_date = $hospitalization->getStartDate();
-        $this->end_date = $hospitalization->getEndDate();
+        $this->startDate = $hospitalization->getStartDate();
+        $this->endDate = $hospitalization->getEndDate();
         $this->patient = $hospitalization->getPatient()?->getData();
-        $this->room = $hospitalization->getHospitalizationRoom()->getRoom()->getData();
+        $this->room = $hospitalization->getHospitalizationRoom()?->getRoom()->getData();
         $this->created_at = $hospitalization->getCreatedAt();
         $this->updated_at = $hospitalization->getUpdatedAt();
         $this->created_by = $hospitalization->getCreatedBy()?->getData();

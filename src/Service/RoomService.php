@@ -64,8 +64,8 @@ class RoomService implements EntityServiceInterface
                 $hospitalization[] = $item->getHospitilization();
             }
         }
-        if(count($hospitalization) === $room->getBeds()){
-            throw new BadRequestException('The Room Can Not Get More Patient');
+        if(count($hospitalization) >= $room->getBeds()){
+            throw new BadRequestException("The Room Can Not Contain More Than {$room->getBeds()} Patients" );
         }
     }
 }

@@ -188,11 +188,11 @@ class Hospitilization implements EntityInterface
     {
         return [
             "id" => $this->id,
-            "status" => $this->status,
+            "status" => (int) $this->status,
             "type" => $this->type,
             "description" => $this->description,
-            "start_date" => $this->startDate,
-            "end_date" => $this->endDate,
+            "startDate" => $this->startDate,
+            "endDate" => $this->endDate,
             "room" => $this->hospitalizationRoom?->getRoom()->getData(),
             "patient" => $this->patient->getData(),
             "created_by" => $this->createdBy?->getData(),

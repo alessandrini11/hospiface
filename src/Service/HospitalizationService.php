@@ -54,6 +54,9 @@ class HospitalizationService implements EntityServiceInterface
         if($entityRequest->startDate){
             $entity->setStartDate($entityRequest->startDate);
         }
+        if($entityRequest->endDate){
+            $entity->setEndDate($entityRequest->endDate);
+        }
         if($entityRequest->status){
             $entity->setStatus($entityRequest->status);
         }
