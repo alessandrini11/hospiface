@@ -50,6 +50,8 @@ class RoomService implements EntityServiceInterface
             $entity->setBeds($entityRequest->beds);
         }
         if($entityRequest->number){
+            $isExist = $this->roomRepository->findOneBy(["number" => $entityRequest->number]);
+            if($isExist) throw new BadRequestException("Room Already Exist");
             $entity->setNumber($entityRequest->number);
         }
         return $entity;

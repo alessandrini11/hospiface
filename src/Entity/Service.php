@@ -36,7 +36,7 @@ class Service implements EntityInterface
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
     private ?string $status = null;
 
-    #[ORM\OneToMany(mappedBy: 'service', targetEntity: PersonnelService::class, fetch: 'EAGER', orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'service', targetEntity: PersonnelService::class, fetch: 'EAGER', cascade: ['remove'])]
     private Collection $personnelServices;
 
     #[ORM\ManyToOne(inversedBy: 'createdServices')]
@@ -45,7 +45,7 @@ class Service implements EntityInterface
     #[ORM\ManyToOne(inversedBy: 'updatedServices')]
     private ?User $updatedBy = null;
 
-    #[ORM\OneToMany(mappedBy: 'service', targetEntity: PersonnelGarde::class, fetch: 'EAGER')]
+    #[ORM\OneToMany(mappedBy: 'service', targetEntity: PersonnelGarde::class, fetch: 'EAGER', cascade: ['remove'])]
     private Collection $personnelGardes;
 
     public function __construct()

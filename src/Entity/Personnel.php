@@ -359,14 +359,14 @@ class Personnel implements EntityInterface
     {
         return [
             "id" => $this->id,
-            "first_name" => $this->firstname,
-            "last_name" => $this->lastname,
+            "firstName" => $this->firstname,
+            "lastName" => $this->lastname,
             "title" => $this->title,
             "sex" => $this->sex,
             "type" => $this->type,
             "sub_typ" => $this->subType,
             "speciality" => $this->speciality?->getData(),
-            "phone_number" => $this->phonenumber,
+            "phoneNumber" => $this->phonenumber,
             "email" => $this->email,
             "status" => $this->status,
             "position_held" => $this->positionHeld,

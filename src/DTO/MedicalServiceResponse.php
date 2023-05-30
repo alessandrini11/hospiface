@@ -30,7 +30,11 @@ class MedicalServiceResponse
         $personnels = [];
         $personnelGardes = [];
         foreach ($service->getPersonnelServices() as $personnelService){
-            $personnels[] = $personnelService->getPersonnel()?->getData();
+            $personnels[] = [
+                'id' => $personnelService->getId(),
+                'personnel' => $personnelService->getPersonnel()?->getData(),
+                'positionHeld' => $personnelService->getPositionHeld()
+            ];
         }
         foreach ($service->getPersonnelGardes() as $personnelGarde){
             $personnelGardes[] = $personnelGarde?->getData();
