@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\PersonnelService;
+use App\Interface\EntityRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -14,7 +15,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method PersonnelService[]    findAll()
  * @method PersonnelService[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class PersonnelServiceRepository extends ServiceEntityRepository
+class PersonnelServiceRepository extends ServiceEntityRepository implements EntityRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -39,6 +40,16 @@ class PersonnelServiceRepository extends ServiceEntityRepository
         }
     }
 
+    public function searchByName(string $query)
+    {
+        $qb = $this->createQueryBuilder('s');
+        $qb->leftJoin('s.personnel', 'p')
+            ->where('p.firstname LIKE :query')
+            ->orWhere('p.lastname LIKE :query')
+            ->setParameter('query', "%{$query}%")
+        ;
+        return $qb->getQuery()->getResult();
+    }
 //    /**
 //     * @return PersonnelService[] Returns an array of PersonnelService objects
 //     */

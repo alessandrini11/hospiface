@@ -9,7 +9,7 @@ class PersonnelMedicalServiceResponse
     public ?int $id;
     public ?array $personnel;
     public ?array $service;
-    public ?string $position_held;
+    public ?string $positionHeld;
     public ?array $created_by;
     public ?array $updated_by;
     public ?\DateTime $updated_at;
@@ -19,7 +19,7 @@ class PersonnelMedicalServiceResponse
         $this->id = $personnelService->getId();
         $this->personnel = $personnelService->getPersonnel()?->getData();
         $this->service = $personnelService->getService()->getData();
-        $this->position_held = $personnelService->getPositionHeld();
+        $this->positionHeld = $personnelService->getPositionHeld();
         $this->created_by = $personnelService->getCreatedBy()?->getData();
         $this->updated_by = $personnelService->getUpdateBy()?->getData();
         $this->created_at = $personnelService->getCreatedAt();
