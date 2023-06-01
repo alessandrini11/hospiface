@@ -29,7 +29,7 @@ class Garde
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
     private ?int $status = null;
 
-    #[ORM\OneToMany(mappedBy: 'garde', targetEntity: PersonnelGarde::class, fetch: 'EAGER')]
+    #[ORM\OneToMany(mappedBy: 'garde', targetEntity: PersonnelGarde::class, fetch: 'EAGER', cascade: ['remove'])]
     private Collection $personnelGardes;
 
     #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'createdGardes')]

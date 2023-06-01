@@ -4,6 +4,7 @@ namespace App\Controller\API;
 
 use App\DTO\DrugRequest;
 use App\DTO\GardeRequest;
+use App\DTO\GardeResponse;
 use App\Entity\Garde;
 use App\model\PaginationModel;
 use App\Repository\GardeRepository;
@@ -47,7 +48,7 @@ class GardeController extends ApiController
     public function one(int $id): JsonResponse
     {
         $garde = $this->gardeService->findOrFail($id);
-        return $this->response($garde);
+        return $this->response(new GardeResponse($garde));
     }
 
     #[Route('/{id}', name: 'api_garde_update', methods: 'PUT')]

@@ -7,9 +7,9 @@ use App\Entity\Garde;
 class GardeResponse
 {
     public ?int $id;
-    public ?\DateTime $start_date;
-    public ?\DateTime $end_date;
-    public ?array $personnel;
+    public ?\DateTime $startDate;
+    public ?\DateTime $endDate;
+    public ?array $personnel_garde;
     public ?int $status;
     public ?array $created_by;
     public ?array $updated_by;
@@ -19,9 +19,9 @@ class GardeResponse
     public function __construct(Garde $garde)
     {
         $this->id = $garde->getId();
-        $this->start_date = $garde->getStartDate();
-        $this->end_date = $garde->getEndDate();
-        $this->status = $garde->getStatus();
+        $this->startDate = $garde->getStartDate();
+        $this->endDate = $garde->getEndDate();
+        $this->status = (int) $garde->getStatus();
         $this->created_by = $garde->getCreatedBy()?->getData();
         $this->updated_by = $garde->getUpdatedBy()?->getData();
         $this->created_at = $garde->getCreatedAt();
@@ -30,6 +30,6 @@ class GardeResponse
         foreach ($garde->getPersonnelGardes() as $personnelGarde){
             $personnel[] = $personnelGarde->getData();
         }
-        $this->personnel = $personnel;
+        $this->personnel_garde = $personnel;
     }
 }

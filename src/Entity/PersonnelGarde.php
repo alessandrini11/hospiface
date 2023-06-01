@@ -98,10 +98,10 @@ class PersonnelGarde implements EntityInterface
     {
         return [
             "id" => $this->id,
-            "personnel" => $this->personnel->getData(),
-            "service" => $this->service->getData(),
-            "start_date" => $this->startDate,
-            "end_date" => $this->endDate
+            "personnel" => $this->personnel?->getData(),
+            "service" => $this->service?->getData(),
+            "startDate" => $this->startDate,
+            "endDate" => $this->endDate
         ];
     }
 }
