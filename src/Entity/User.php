@@ -50,7 +50,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 180, unique: true)]
+    #[ORM\Column(length: 180, unique: true, nullable: true)]
     private ?string $email = null;
 
     #[ORM\Column]
@@ -62,19 +62,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $firstname = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $lastname = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $phonenumber = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $status = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $sex = null;
 
     #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Personnel::class, fetch: 'EAGER')]
@@ -349,7 +349,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             "phoneNumber" => $this->phonenumber,
             "email" => $this->email,
             "roles" => $this->roles,
-            "status" => (int)$this->status
+            "status" => (int)$this->status,
+            "created_at" => $this->createdAt,
+            "updated_at" => $this->updatedAt,
         ];
     }
 

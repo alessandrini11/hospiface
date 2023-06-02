@@ -14,6 +14,7 @@ use App\DTO\PersonnelMedicalServiceResponse;
 use App\DTO\PersonnelResponse;
 use App\DTO\RoomResponse;
 use App\DTO\SpecialityResponse;
+use App\DTO\UserResponse;
 use App\Entity\Appointment;
 use App\Entity\Consultation;
 use App\Entity\Drug;
@@ -25,6 +26,7 @@ use App\Entity\PersonnelService;
 use App\Entity\Room;
 use App\Entity\Service;
 use App\Entity\Speciality;
+use App\Entity\User;
 use App\model\PaginationModel;
 
 class PaginationService
@@ -92,6 +94,8 @@ class PaginationService
                 break;
             case Appointment::class:
                 return new AppointmentResponse($entity);
+            case User::class:
+                return new UserResponse($entity);
             default:
                 break;
         }

@@ -4,7 +4,10 @@ namespace App\Controller\API;
 
 use App\DTO\UserRequest;
 use App\DTO\UserResponse;
+use App\Entity\User;
+use App\model\PaginationModel;
 use App\Repository\UserRepository;
+use App\Service\PaginationService;
 use App\Service\UserService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,10 +19,12 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class UserController extends ApiController
 {
     private UserService $userService;
+    private PaginationService $paginationService;
 
-    public function __construct(UserService $userService)
+    public function __construct(UserService $userService, PaginationService $paginationService)
     {
         $this->userService = $userService;
+        $this->paginationService = $paginationService;
     }
     #[Route('', name: 'api_user_create', methods: 'POST')]
     public function create(
@@ -31,17 +36,13 @@ class UserController extends ApiController
         $validationError = $validator->validate($userRequest);
         $this->checkValidationError($validationError);
         $userResponse = $this->userService->create($userRequest);
-        return $this->response($userResponse);
+        return $this->response($userResponse, Response::HTTP_CREATED);
     }
     #[Route('', name: 'api_user_index', methods: 'GET')]
-    public function index(UserRepository $userRepository): JsonResponse
+    public function index(Request $request, UserRepository $userRepository): JsonResponse
     {
-        $users = $userRepository->findAll();
-        $array = [];
-        foreach ($users as $user){
-            $array[] = $user->getData();
-        }
-
+        $paginationModel = new PaginationModel($request);
+        $array = $this->paginationService->getPaginatedItems($paginationModel, $userRepository, User::class);
         return $this->response($array);
     }
     #[Route('/profile', name: 'api_user_profile', methods: 'GET')]

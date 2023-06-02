@@ -35,9 +35,9 @@ class UserRequest
     #[Assert\NotBlank(allowNull: true)]
     public ?string $phonenumber;
 
-    #[Assert\Type(type: 'array')]
+    #[Assert\Type(type: 'string')]
     #[Assert\NotBlank(allowNull: true)]
-    public ?array $roles;
+    public ?string $role;
 
     #[Assert\Type(type: 'integer')]
     #[Assert\NotBlank(allowNull: true)]
@@ -50,7 +50,7 @@ class UserRequest
         $this->phonenumber = $request->get('phonenumber');
         $this->sex = $request->get('sex');
         $this->password = $request->get('password');
-        $this->roles = $request->get('roles');
+        $this->role = $request->get('role');
         $this->status = (int)$request->get('status');
     }
 }

@@ -100,8 +100,8 @@ class UserService implements EntityServiceInterface
         if($entityRequest->status){
             $entity->setStatus($entityRequest->status);
         }
-        if($entityRequest->roles){
-            $entity->setRoles($entityRequest->roles);
+        if($entityRequest->role){
+            $entity->setRoles([$entityRequest->role]);
         }
         return $entity;
     }
