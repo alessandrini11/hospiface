@@ -89,4 +89,34 @@ class PatientService implements EntityServiceInterface
         }
         return $entity;
     }
+    public function getPatientEachMonth(): array
+    {
+        $patients = $this->patientRepository->getPatientEachMonth();
+        return $this->sortArray($patients);
+    }
+    public function getPatientTargetYear(string $targetYear): array
+    {
+        $patients = $this->patientRepository->getPatientByYears($targetYear);
+        return $this->sortArray($patients);
+    }
+
+    private function sortArray(array $entityArray): array
+    {
+        $groupedMonth = [];
+        foreach ($entityArray as $entity ) {
+            $month = $entity->getCreatedAt()->format('F');
+            $groupedMonth[$month][] = $entity;
+        }
+        $labelArray = [];
+        $dataArray = [];
+        foreach ($groupedMonth as $month => $entities) {
+            $labelArray[] = $month;
+            $dataArray[] = count($entities);
+        }
+        return [
+            'labels' => $labelArray,
+            'datas' => $dataArray,
+            'name' => 'patients '
+        ];
+    }
 }

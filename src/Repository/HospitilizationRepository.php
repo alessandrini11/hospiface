@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Hospitilization;
+use App\Interface\EntityRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -14,7 +15,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Hospitilization[]    findAll()
  * @method Hospitilization[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class HospitilizationRepository extends ServiceEntityRepository
+class HospitilizationRepository extends ServiceEntityRepository implements EntityRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -38,29 +39,13 @@ class HospitilizationRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-
-//    /**
-//     * @return Hospitilization[] Returns an array of Hospitilization objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('h')
-//            ->andWhere('h.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('h.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Hospitilization
-//    {
-//        return $this->createQueryBuilder('h')
-//            ->andWhere('h.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function searchByName(string $query)
+    {
+        $qb = $this->createQueryBuilder('h');
+        $qb->leftJoin('h.patient', 'p')
+            ->where('p.firstname LIKE :query')
+            ->orWhere('p.lastname LIKE :query')
+            ->setParameter('query', "%{$query}%");
+        return $qb->getQuery()->getResult();
+    }
 }

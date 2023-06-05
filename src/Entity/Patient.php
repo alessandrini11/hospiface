@@ -225,8 +225,8 @@ class Patient implements EntityInterface
     {
         return [
             'id' => $this->id,
-            'first_name' => $this->firstname,
-            'last_name' => $this->lastname,
+            'firstName' => $this->firstname,
+            'lastName' => $this->lastname,
             'email' => $this->email,
             'sex' => $this->sex,
             'status' => $this->status,

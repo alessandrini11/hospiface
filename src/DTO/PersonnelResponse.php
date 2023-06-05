@@ -40,6 +40,7 @@ class PersonnelResponse
         $this->phoneNumber = $personnel->getPhonenumber();
         $this->email = $personnel->getEmail();
         $this->status = $personnel->getStatus();
+        $this->bloodGroup = $personnel->getBloodGroup();
         $this->positionHeld = $personnel->getPositionHeld();
         $this->created_by = $personnel->getCreatedBy()?->getData();
         $this->updated_by = $personnel->getUpdatedBy()?->getData();

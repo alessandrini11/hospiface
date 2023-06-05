@@ -9,31 +9,24 @@ use Symfony\Component\Validator\Constraints as Assert;
 class HospitalisationRequest
 {
     #[Assert\Type('integer')]
-    #[Assert\NotBlank(allowNull: true)]
     #[Assert\Choice(choices: [Hospitilization::PROGRAMMED, Hospitilization::STARTED, Hospitilization::ENDED])]
     public ?int $status;
 
     #[Assert\Type('string')]
-    #[Assert\NotBlank(allowNull: true)]
     #[Assert\Choice(choices: Hospitilization::TYPES, message: 'the type you selected is not valid')]
     public ?string $type;
 
-    #[Assert\NotBlank(allowNull: true)]
     public ?\DateTime $startDate;
 
-    #[Assert\NotBlank(allowNull: true)]
     public ?\DateTime $endDate;
 
     #[Assert\Type('integer')]
-    #[Assert\NotBlank(allowNull: true)]
     public ?int $patient;
 
     #[Assert\Type('integer')]
-    #[Assert\NotBlank(allowNull: true)]
     public ?int $room;
 
     #[Assert\Type('string')]
-    #[Assert\NotBlank(allowNull: true)]
     public ?string $description;
 
     public function __construct(Request $request)

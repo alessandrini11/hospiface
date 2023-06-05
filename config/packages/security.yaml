@@ -29,10 +29,10 @@ security:
                 check_path: api_login_check
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
-        # api:
-        #     pattern:   ^/api
-        #     stateless: true
-        #     jwt: ~
+#        api:
+#            pattern:   ^/api
+#            stateless: true
+#            jwt: ~
 
         main:
             lazy: true
@@ -51,25 +51,25 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/api/auth/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/auth/login, roles: PUBLIC_ACCESS }
         - { path: ^/api/auth/token/refresh, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        # - { path: ^/api/users/profile, roles: ROLE_USER }
-        # - { path: ^/api/users, roles: ROLE_ADMIN }
-        # - { path: ^/api/patients, roles: ROLE_USER}
-        # - { path: ^/api/medical_services, roles: ROLE_USER}
-        # - { path: ^/api/specialities, roles: ROLE_USER}
-        # - { path: ^/api/consultations, roles: ROLE_USER}
-        # - { path: ^/api/personnels, roles: ROLE_USER}
-        # - { path: ^/api/personnel_services, roles: ROLE_USER}
-        # - { path: ^/api/results, roles: ROLE_USER}
-        # - { path: ^/api/medical_exams, roles: ROLE_USER}
-        # - { path: ^/api/parameters, roles: ROLE_USER}
-        # - { path: ^/api/results, roles: ROLE_USER}
-        # - { path: ^/api/drugs, roles: ROLE_USER}
-        # - { path: ^/api/gardes, roles: ROLE_USER}
-        # - { path: ^/api/hospitalizations, roles: ROLE_USER}
-        # - { path: ^/api/rooms, roles: ROLE_USER}
-        # - { path: ^/parameters, roles: ROLE_USER }
+#        - { path: ^/api/users/profile, roles: ROLE_USER }
+#        - { path: ^/api/users, roles: ROLE_ADMIN }
+#        - { path: ^/api/patients, roles: ROLE_USER}
+#        - { path: ^/api/medical_services, roles: ROLE_USER}
+#        - { path: ^/api/specialities, roles: ROLE_USER}
+#        - { path: ^/api/consultations, roles: ROLE_USER}
+#        - { path: ^/api/personnels, roles: ROLE_USER}
+#        - { path: ^/api/personnel_services, roles: ROLE_USER}
+#        - { path: ^/api/results, roles: ROLE_USER}
+#        - { path: ^/api/medical_exams, roles: ROLE_USER}
+#        - { path: ^/api/parameters, roles: ROLE_USER}
+#        - { path: ^/api/results, roles: ROLE_USER}
+#        - { path: ^/api/drugs, roles: ROLE_USER}
+#        - { path: ^/api/gardes, roles: ROLE_USER}
+#        - { path: ^/api/hospitalizations, roles: ROLE_USER}
+#        - { path: ^/api/rooms, roles: ROLE_USER}
+#        - { path: ^/parameters, roles: ROLE_USER }
 
 when@test:
     security:

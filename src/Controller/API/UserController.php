@@ -48,7 +48,7 @@ class UserController extends ApiController
     #[Route('/profile', name: 'api_user_profile', methods: 'GET')]
     public function profile(): JsonResponse
     {
-        return $this->response($this->getUser()->getData());
+        return $this->response($this->getUser()?->getData());
     }
     #[Route('/{id}', name: 'api_user_edit', methods: 'PUT')]
     public function edit(

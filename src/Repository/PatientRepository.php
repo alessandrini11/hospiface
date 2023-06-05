@@ -52,29 +52,29 @@ class PatientRepository extends ServiceEntityRepository implements EntityReposit
             ->getResult()
            ;
     }
-
-//    /**
-//     * @return Patient[] Returns an array of Patient objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Patient
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function getPatientByYears(string $targetYear)
+    {
+        $startDate = new \DateTime("$targetYear-01-01 00:00:00");
+        $endDate = new \DateTime("$targetYear-12-31 23:59:59");
+        return $this->getQueryBuilderSorted($startDate, $endDate);
+    }
+    public function getPatientEachMonth()
+    {
+        $currentYear = date('Y');
+        $currentMonth = date('m');
+        $currentDay = date('d');
+        $startDate = new \DateTime("$currentYear-01-01 00:00:00");
+        $endDate = new \DateTime("$currentYear-$currentMonth-$currentDay 23:59:59");
+        return $this->getQueryBuilderSorted($startDate, $endDate);
+    }
+    private function getQueryBuilderSorted(\DateTime $startDate, \DateTime $endDate): array
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.createdAt BETWEEN :start AND :end')
+            ->setParameter('start', $startDate)
+            ->setParameter('end', $endDate)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }

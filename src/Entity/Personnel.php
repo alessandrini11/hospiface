@@ -364,7 +364,7 @@ class Personnel implements EntityInterface
             "title" => $this->title,
             "sex" => $this->sex,
             "type" => $this->type,
-            "sub_typ" => $this->subType,
+            "subType" => $this->subType,
             "speciality" => $this->speciality?->getData(),
             "phoneNumber" => $this->phonenumber,
             "email" => $this->email,

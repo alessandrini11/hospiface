@@ -94,4 +94,35 @@ class ConsultationService implements EntityServiceInterface
         }
         return $entity;
     }
+
+    public function getConsultationEachMonth(): array
+    {
+        $consultations = $this->consultationRepository->getConsultationEachMonth();
+        return $this->sortArray($consultations);
+    }
+    public function getConsultationTargetYear(string $targetYear): array
+    {
+        $consultations = $this->consultationRepository->getConsultationByYears($targetYear);
+        return $this->sortArray($consultations);
+    }
+
+    private function sortArray(array $consultations): array
+    {
+        $groupedMonth = [];
+        foreach ($consultations as $consultation ) {
+            $month = $consultation->getCreatedAt()->format('F');
+            $groupedMonth[$month][] = $consultation;
+        }
+        $labelArray = [];
+        $dataArray = [];
+        foreach ($groupedMonth as $month => $consultations) {
+            $labelArray[] = $month;
+            $dataArray[] = count($consultations);
+        }
+        return [
+            'labels' => $labelArray,
+            'datas' => $dataArray,
+            'name' => 'consultations '
+        ];
+    }
 }
