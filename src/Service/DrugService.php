@@ -55,6 +55,9 @@ class DrugService implements EntityServiceInterface
         if ($entityRequest->name){
             $entity->setName($entityRequest->name);
         }
+        if ($entityRequest->days){
+            $entity->setDays($entityRequest->days);
+        }
         if ($entityRequest->dosage){
             $entity->setDosage($entityRequest->dosage);
         }

@@ -22,11 +22,16 @@ class DrugRequest
     #[Assert\NotBlank(allowNull: true)]
     public ?int $medicalOrder;
 
+    #[Assert\Type('integer')]
+    #[Assert\NotBlank(allowNull: true)]
+    public ?int $days;
+
     public function __construct(Request $request)
     {
         $this->alternative = (bool) $request->get('alternative');
         $this->dosage = $request->get('dosage');
         $this->name = $request->get('name');
         $this->medicalOrder = (int) $request->get('medicalOrder');
+        $this->days = (int) $request->get('days');
     }
 }

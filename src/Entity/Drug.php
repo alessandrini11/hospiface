@@ -36,6 +36,9 @@ class Drug implements EntityInterface
     #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'updatedDrugs')]
     private ?User $updatedBy = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $days = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -118,8 +121,21 @@ class Drug implements EntityInterface
         return [
             "id" => $this->id,
             "name" => $this->name,
+            "days" => $this->days,
             "dosage" => $this->dosage,
             "is_alternative" => $this->alternative
         ];
+    }
+
+    public function getDays(): ?int
+    {
+        return $this->days;
+    }
+
+    public function setDays(?int $days): self
+    {
+        $this->days = $days;
+
+        return $this;
     }
 }

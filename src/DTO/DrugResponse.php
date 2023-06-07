@@ -9,6 +9,7 @@ class DrugResponse
     public ?int $id;
     public ?string $name;
     public ?string $dosage;
+    public ?int $days;
     public ?bool $is_alternative;
     public function __construct(Drug $drug)
     {
@@ -16,5 +17,6 @@ class DrugResponse
         $this->name = $drug->getName();
         $this->dosage = $drug->getDosage();
         $this->is_alternative = $drug->isAlternative();
+        $this->days = $drug->getDays();
     }
 }
