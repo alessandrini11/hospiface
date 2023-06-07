@@ -37,12 +37,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     const STATUS_DISABLED = 0;
     const STATUS_ENABLED = 1;
-    const STATUS_DELETED = 2;
 
     const STATUSES = [
         self::STATUS_DISABLED => 'Disabled',
         self::STATUS_ENABLED => 'Enabled',
-        self::STATUS_DELETED => 'Deleted',
     ];
 
     #[ORM\Id]

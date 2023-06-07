@@ -13,7 +13,8 @@ use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 #[HasLifecycleCallbacks]
 class Consultation implements EntityInterface
 {
-    const CHECKUP = 'checkup';
+    const CHECKUP = 'check-up';
+    const NORMAL = 'normal';
     CONST TYPES = [self::CHECKUP];
     const STARTED = 0;
     const ENDED = 1;

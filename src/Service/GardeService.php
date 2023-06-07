@@ -53,7 +53,7 @@ class GardeService implements EntityServiceInterface
             $this->dateService->compareDates($entityRequest->endDate, $entityRequest->startDate);
             $entity->setEndDate($entityRequest->endDate);
         }
-        if($entityRequest->status){
+        if($entityRequest->status !== null){
             $entity->setStatus($entityRequest->status);
         }
         return $entity;

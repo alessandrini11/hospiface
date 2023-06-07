@@ -11,6 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\HasLifecycleCallbacks]
 class Appointment
 {
+    const STARTED = 0;
+    const ENDED = 1;
     use DateTrait;
     #[ORM\Id]
     #[ORM\GeneratedValue]

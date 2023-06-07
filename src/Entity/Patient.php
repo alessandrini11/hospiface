@@ -22,14 +22,9 @@ class Patient implements EntityInterface
     use DateTrait;
     const MAN = 'man';
     const WOMAN = 'woman';
-    const FREE = 0;
+    const FREE = 2;
     const HOSPITALIZED = 1;
-    const DEATH = 2;
-    const STATUS = [
-        self::FREE => 'free',
-        self::HOSPITALIZED => 'hospitalized',
-        self::DEATH => 'death'
-    ];
+    const DEATH = 0;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

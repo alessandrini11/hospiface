@@ -89,7 +89,7 @@ class ConsultationService implements EntityServiceInterface
         if($entityRequest->type){
             $entity->setType($entityRequest->type);
         }
-        if($entityRequest->status){
+        if($entityRequest->status !== null){
             $entity->setStatus($entityRequest->status);
         }
         return $entity;

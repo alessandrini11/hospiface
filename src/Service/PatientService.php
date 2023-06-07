@@ -65,7 +65,7 @@ class PatientService implements EntityServiceInterface
         if($entityRequest->sex){
             $entity->setSex($entityRequest->sex);
         }
-        if($entityRequest->status){
+        if($entityRequest->status !== null){
             $entity->setStatus($entityRequest->status);
         }
         if($entityRequest->phoneNumber){

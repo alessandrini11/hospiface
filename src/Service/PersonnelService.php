@@ -92,7 +92,7 @@ class PersonnelService implements EntityServiceInterface
         if ($entityRequest->positionHeld){
             $entity->setPositionHeld($entityRequest->positionHeld);
         }
-        if ($entityRequest->status){
+        if ($entityRequest->status !== null){
             $entity->setStatus($entityRequest->status);
         }
         return $entity;

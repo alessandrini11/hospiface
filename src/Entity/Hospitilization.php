@@ -20,11 +20,6 @@ class Hospitilization implements EntityInterface
     const PROGRAMMED = 0;
     const STARTED = 1;
     const ENDED = 2;
-    const STATUS = [
-        self::PROGRAMMED => 'programmed',
-        self::STARTED => 'started',
-        self::ENDED => 'ended'
-    ];
     const OBSERVATION = 'observation';
     const MEDICALCARE = 'medical care';
     const INTENSIVECARE = 'intensive care';

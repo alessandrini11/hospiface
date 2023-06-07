@@ -97,7 +97,7 @@ class UserService implements EntityServiceInterface
         if($entityRequest->phonenumber){
             $entity->setPhonenumber($entityRequest->phonenumber);
         }
-        if($entityRequest->status){
+        if($entityRequest->status !== null){
             $entity->setStatus($entityRequest->status);
         }
         if($entityRequest->role){

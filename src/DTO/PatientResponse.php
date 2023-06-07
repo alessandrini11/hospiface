@@ -31,7 +31,7 @@ class PatientResponse
         $this->lastName = $patient->getLastname();
         $this->email = $patient->getEmail();
         $this->sex = $patient->getSex();
-        $this->status = $patient->getStatus();
+        $this->status = (int) $patient->getStatus();
         $this->emergencyContact = $patient->getEmergencyContact();
         $this->emergencyPerson = $patient->getEmergencyPersonne();
         $this->bloodGroup = $patient->getBloodGroup();

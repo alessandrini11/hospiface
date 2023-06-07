@@ -40,7 +40,6 @@ class UserRequest
     public ?string $role;
 
     #[Assert\Type(type: 'integer')]
-    #[Assert\NotBlank(allowNull: true)]
     public ?int $status;
     public function __construct(Request $request)
     {

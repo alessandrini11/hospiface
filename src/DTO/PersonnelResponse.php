@@ -30,18 +30,18 @@ class PersonnelResponse
     public function __construct(Personnel $personnel)
     {
         $this->id = $personnel->getId();
-        $this->title = $personnel->getTitle();
+        $this->title = $personnel->getTitle() !== "none" ? $personnel->getTitle() : "";
         $this->firstName = $personnel->getFirstname();
         $this->lastName = $personnel->getLastname();
         $this->sex = $personnel->getSex();
         $this->type = $personnel->getType();
         $this->subType = $personnel->getSubType();
-        $this->speciality = $personnel->getSpeciality()?->getData();
+        $this->speciality = $personnel->getSpeciality()?->getName() !== "aucune" ? $personnel->getSpeciality()?->getData() : null;
         $this->phoneNumber = $personnel->getPhonenumber();
         $this->email = $personnel->getEmail();
         $this->status = $personnel->getStatus();
         $this->bloodGroup = $personnel->getBloodGroup();
-        $this->positionHeld = $personnel->getPositionHeld();
+        $this->positionHeld = $personnel->getPositionHeld() !== "none" ? $personnel->getPositionHeld() : "";
         $this->created_by = $personnel->getCreatedBy()?->getData();
         $this->updated_by = $personnel->getUpdatedBy()?->getData();
         $this->created_at = $personnel->getCreatedAt();

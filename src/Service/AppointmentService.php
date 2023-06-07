@@ -55,7 +55,7 @@ class AppointmentService implements EntityServiceInterface
             $doctor = $this->personnelService->findOrFail($entityRequest->doctor);
             $entity->setDoctor($doctor);
         }
-        if($entityRequest->status){
+        if($entityRequest->status !== null){
             $entity->setStatus(intval($entityRequest->status));
         }
         if($entityRequest->date){
