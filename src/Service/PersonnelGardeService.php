@@ -54,7 +54,6 @@ class PersonnelGardeService implements EntityServiceInterface
         }
         if($entityRequest->startDate){
             $garde = $this->gardeService->findOrFail($entityRequest->garde);
-            $this->dateService->compareDates($garde->getEndDate(), $entityRequest->startDate);
             $entity->setStartDate($entityRequest->startDate);
         }
         if($entityRequest->endDate){
