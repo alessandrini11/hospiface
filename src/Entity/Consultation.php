@@ -40,10 +40,10 @@ class Consultation implements EntityInterface
     #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'consultations')]
     private ?Patient $patient = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'], fetch: 'EAGER')]
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?Parametre $parameter = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'], fetch: 'EAGER')]
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?Result $result = null;
 
     #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'createdConsultations')]

@@ -24,13 +24,13 @@ class MedicalExams implements EntityInterface
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
-    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'medicalExam')]
+    #[ORM\ManyToOne(inversedBy: 'medicalExam')]
     private ?Result $result = null;
 
-    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'createdMedicalExams')]
+    #[ORM\ManyToOne(inversedBy: 'createdMedicalExams')]
     private ?User $createdBy = null;
 
-    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'updatedMedicalExams')]
+    #[ORM\ManyToOne(inversedBy: 'updatedMedicalExams')]
     private ?User $updatedBy = null;
 
     public function getId(): ?int

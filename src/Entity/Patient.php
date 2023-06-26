@@ -51,10 +51,10 @@ class Patient implements EntityInterface
     #[ORM\ManyToOne(inversedBy: 'updatedPatients')]
     private ?User $updatedBy = null;
 
-    #[ORM\OneToMany(mappedBy: 'patient', targetEntity: Consultation::class, fetch: 'EAGER')]
+    #[ORM\OneToMany(mappedBy: 'patient', targetEntity: Consultation::class)]
     private Collection $consultations;
 
-    #[ORM\OneToMany(mappedBy: 'patient', targetEntity: Hospitilization::class, fetch: 'EAGER')]
+    #[ORM\OneToMany(mappedBy: 'patient', targetEntity: Hospitilization::class)]
     private Collection $hospitilizations;
 
     #[ORM\OneToMany(mappedBy: 'patient', targetEntity: Appointment::class)]

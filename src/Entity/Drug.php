@@ -27,13 +27,13 @@ class Drug implements EntityInterface
     #[ORM\Column(nullable: true)]
     private ?bool $alternative = null;
 
-    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'drugs')]
+    #[ORM\ManyToOne(inversedBy: 'drugs')]
     private ?MedicalOrder $medicalOrder = null;
 
-    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'createdDrugs')]
+    #[ORM\ManyToOne(inversedBy: 'createdDrugs')]
     private ?User $createdBy = null;
 
-    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'updatedDrugs')]
+    #[ORM\ManyToOne(inversedBy: 'updatedDrugs')]
     private ?User $updatedBy = null;
 
     #[ORM\Column(nullable: true)]

@@ -47,13 +47,13 @@ class Hospitilization implements EntityInterface
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $endDate = null;
 
-    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'hospitilizations')]
+    #[ORM\ManyToOne(inversedBy: 'hospitilizations')]
     private ?Patient $patient = null;
 
-    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'createdHospitilizations')]
+    #[ORM\ManyToOne(inversedBy: 'createdHospitilizations')]
     private ?User $createdBy = null;
 
-    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'updatedHospitilizations')]
+    #[ORM\ManyToOne(inversedBy: 'updatedHospitilizations')]
     private ?User $updatedBy = null;
 
     #[ORM\OneToOne(inversedBy: 'hospitilization', cascade: ['persist', 'remove'], fetch: 'EAGER')]

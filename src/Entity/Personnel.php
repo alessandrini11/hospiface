@@ -105,22 +105,22 @@ class Personnel implements EntityInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $status = null;
 
-    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'createdPersonnels')]
+    #[ORM\ManyToOne(inversedBy: 'createdPersonnels')]
     private ?User $createdBy = null;
 
-    #[ORM\ManyToOne(fetch: 'EAGER',inversedBy: 'updatedPersonnels')]
+    #[ORM\ManyToOne(inversedBy: 'updatedPersonnels')]
     private ?User $updatedBy = null;
 
-    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'personnels')]
+    #[ORM\ManyToOne(inversedBy: 'personnels')]
     private ?Speciality $speciality = null;
 
-    #[ORM\OneToMany(mappedBy: 'personnel', targetEntity: PersonnelService::class, fetch: 'EAGER', orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'personnel', targetEntity: PersonnelService::class, orphanRemoval: true)]
     private Collection $personnelServices;
 
-    #[ORM\OneToMany(mappedBy: 'personnel', targetEntity: PersonnelGarde::class, fetch: 'EAGER', orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'personnel', targetEntity: PersonnelGarde::class, orphanRemoval: true)]
     private Collection $personnelGardes;
 
-    #[ORM\OneToMany(mappedBy: 'doctor', targetEntity: Consultation::class, fetch: 'EAGER')]
+    #[ORM\OneToMany(mappedBy: 'doctor', targetEntity: Consultation::class)]
     private Collection $consultations;
 
     #[ORM\Column(length: 255, nullable: true)]

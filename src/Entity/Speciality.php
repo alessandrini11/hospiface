@@ -23,7 +23,7 @@ class Speciality implements EntityInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $name = null;
 
-    #[ORM\OneToMany(mappedBy: 'speciality', targetEntity: Personnel::class, fetch: 'EAGER')]
+    #[ORM\OneToMany(mappedBy: 'speciality', targetEntity: Personnel::class)]
     private Collection $personnels;
 
     #[ORM\ManyToOne(inversedBy: 'createdSpecialities')]

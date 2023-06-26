@@ -29,13 +29,13 @@ class Garde
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
     private ?int $status = null;
 
-    #[ORM\OneToMany(mappedBy: 'garde', targetEntity: PersonnelGarde::class, fetch: 'EAGER', cascade: ['remove'])]
+    #[ORM\OneToMany(mappedBy: 'garde', targetEntity: PersonnelGarde::class, cascade: ['remove'])]
     private Collection $personnelGardes;
 
-    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'createdGardes')]
+    #[ORM\ManyToOne( inversedBy: 'createdGardes')]
     private ?User $createdBy = null;
 
-    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'updatedGardes')]
+    #[ORM\ManyToOne(inversedBy: 'updatedGardes')]
     private ?User $updatedBy = null;
 
     public function __construct()

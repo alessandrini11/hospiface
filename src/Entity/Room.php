@@ -31,7 +31,7 @@ class Room implements EntityInterface
     #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'updatedRooms')]
     private ?User $updatedBy = null;
 
-    #[ORM\OneToMany(mappedBy: 'room', targetEntity: HospitalizationRoom::class, fetch: 'EAGER')]
+    #[ORM\OneToMany(mappedBy: 'room', targetEntity: HospitalizationRoom::class)]
     private Collection $hospitalizationRooms;
 
     public function __construct()
