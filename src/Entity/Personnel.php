@@ -52,7 +52,8 @@ class Personnel implements EntityInterface
     const TITLES = [
         'Pr.',
         'Dr.',
-        'Ing.'
+        'Ing.',
+        ''
     ];
     const TYPES = [
         self::MEDICAL => [
