@@ -29,24 +29,8 @@ class TestController extends ApiController
     }
 
     #[Route('/api/test', name: 'app_test', methods: 'GET')]
-    public function index(
-        EntityManagerInterface $entityManager,
-        PersonnelRepository $personnelRepository,
-        PatientRepository $patientRepository
-    ): JsonResponse
+    public function index(): JsonResponse
     {
-        $patients = $patientRepository->findBy(["status" => !Patient::DEATH]);
-        $doctors = $personnelRepository->findBy(["subType" => Personnel::DOCTOR]);
-        for ($i = 9; $i < 30; $i++){
-            $room = new Room();
-            $room->setNumber($i)
-                ->setBeds($this->faker->randomNumber(1, 10))
-            ;
-            $entityManager->persist($room);
-        }
-        $entityManager->flush();
-
-
         return $this->response(
             [
                 'message' => 'it works'

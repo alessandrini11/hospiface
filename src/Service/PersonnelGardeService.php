@@ -6,6 +6,7 @@ use App\DTO\PersonnelGardeRequest;
 use App\Entity\PersonnelGarde;
 use App\Exceptions\NotFoundException;
 use App\Interface\EntityServiceInterface;
+use App\model\ReceiverModel;
 use App\Repository\PersonnelGardeRepository;
 
 class PersonnelGardeService implements EntityServiceInterface
@@ -15,7 +16,8 @@ class PersonnelGardeService implements EntityServiceInterface
         private readonly MedicalServiceService $medicalServiceService,
         private readonly PersonnelGardeRepository $personnelGardeRepository,
         private readonly DateService $dateService,
-        private readonly GardeService $gardeService
+        private readonly GardeService $gardeService,
+        private readonly SmsService $smsService
     )
     {
     }
@@ -68,6 +70,8 @@ class PersonnelGardeService implements EntityServiceInterface
             $medicalService = $this->medicalServiceService->findOrFail($entityRequest->service);
             $entity->setService($medicalService);
         }
+        $receiverModel = new ReceiverModel($entity);
+        $this->smsService->sendSms($receiverModel);
         return $entity;
     }
 

@@ -69,7 +69,7 @@ class HospitalizationService implements EntityServiceInterface
         }
         if ($entityRequest->room){
             $room = $this->roomService->findOrFail($entityRequest->room);
-            $this->roomService->isFull($room);
+            // $this->roomService->isFull($room);
             $hospitalRoom =  $this->hospitalizationRoomService->createOrUpdate($entity, $room);
             $entity->setHospitalizationRoom($hospitalRoom);
         }
